@@ -1,21 +1,22 @@
 # PRD — Website PARTI 2026
 **Product Requirements Document**
-*HIMATIF UMS — Vanguard of Tech*
+HIMATIF UMS — Vanguard of Tech
 
 ---
 
 ## 1. Ringkasan Produk
 
-Website PARTI 2026 adalah platform informasi & manajemen acara tahunan HIMATIF, dengan
-arsitektur yang dirancang **reusable per tahun** (theme/data separation). Selain sebagai
-landing page publik, website ini punya panel admin internal untuk mengelola konten sub
-acara, timeline, dan tautan pendaftaran (Google Form), dengan pembagian akses berjenjang
-antara **Admin** dan **Kesekretariatan**.
+Website PARTI 2026 adalah platform informasi dan manajemen acara tahunan HIMATIF,
+dengan arsitektur yang dirancang reusable per tahun (theme/data separation). Selain
+berfungsi sebagai landing page publik, sistem ini memiliki panel admin internal untuk
+mengelola konten sub acara, timeline, dokumen pendukung, dan tautan pendaftaran
+(Google Form), dengan pembagian akses berjenjang antara Admin dan Kesekretariatan.
 
-**Tujuan utama:**
-- Publik bisa melihat info acara & mendaftar dengan mudah
-- Panitia (kesekretariatan) bisa update link pendaftaran tanpa harus minta bantuan developer
-- Admin punya kontrol penuh atas konten & struktur acara, tanpa perlu edit kode setiap tahun
+**Tujuan produk:**
+- Publik dapat melihat informasi acara dan mendaftar dengan mudah
+- Panitia kesekretariatan dapat memperbarui tautan pendaftaran tanpa bergantung pada developer
+- Admin memiliki kendali penuh atas konten dan struktur acara, tanpa perlu mengubah kode setiap tahun
+- Peserta yang membutuhkan dokumen persyaratan dapat mengunduhnya langsung dari halaman sub acara sebelum mendaftar
 
 ---
 
@@ -23,9 +24,9 @@ antara **Admin** dan **Kesekretariatan**.
 
 | Role | Deskripsi | Dibuat oleh |
 |---|---|---|
-| **Superadmin (Admin)** | Pemegang kendali penuh sistem. Biasanya PJ IT/Web PARTI. | Seed awal (satu-satunya cara buat akun ini, tidak lewat UI publik) |
-| **Kesekretariatan** | Panitia sie kesekretariatan. Akses terbatas: hanya boleh update link Google Form pendaftaran per sub acara. | Dibuat oleh Superadmin lewat panel admin |
-| **Publik / Pengunjung** | Tidak login. Melihat landing page, klik daftar → diarahkan ke Google Form sub acara terkait. | — |
+| Superadmin (Admin) | Pemegang kendali penuh sistem. | Seed awal sistem, tidak dapat dibuat lewat UI publik |
+| Kesekretariatan | Panitia sie kesekretariatan. Akses terbatas pada pembaruan tautan Google Form pendaftaran per sub acara. | Dibuat oleh Superadmin melalui panel admin |
+| Publik / Pengunjung | Tidak melakukan login. Mengakses landing page, mengunduh dokumen template (jika tersedia), lalu diarahkan ke Google Form sub acara terkait. | — |
 
 ### Matriks Hak Akses
 
@@ -33,76 +34,97 @@ antara **Admin** dan **Kesekretariatan**.
 |---|:---:|:---:|:---:|
 | Login ke panel admin | ✅ | ✅ | ❌ |
 | Membuat akun kesekretariatan baru | ✅ | ❌ | ❌ |
-| Menonaktifkan/menghapus akun kesekretariatan | ✅ | ❌ | ❌ |
+| Menonaktifkan akun kesekretariatan | ✅ | ❌ | ❌ |
 | Membuat sub acara baru | ✅ | ❌ | ❌ |
-| Mengedit detail sub acara (nama, tanggal, deskripsi, HTM, PJ, dll) | ✅ | ❌ | ❌ |
+| Mengedit detail sub acara | ✅ | ❌ | ❌ |
 | Menghapus sub acara | ✅ | ❌ | ❌ |
-| **Mengubah link Google Form pendaftaran per sub acara** | ✅ | ✅ | ❌ |
+| Mengubah tautan Google Form pendaftaran per sub acara | ✅ | ✅ | ❌ |
 | Mengubah status sub acara (draft/published/ditutup) | ✅ | ❌ | ❌ |
-| Membuat/mengedit timeline acara | ✅ | ❌ | ❌ |
+| Mengelola timeline acara | ✅ | ❌ | ❌ |
+| Mengunggah/mengelola dokumen template per sub acara | ✅ | ❌ | ❌ |
 | Melihat landing page publik | ✅ | ✅ | ✅ |
-| Klik "Daftar" → redirect ke Google Form | ✅ | ✅ | ✅ |
+| Mengunduh dokumen template | ✅ | ✅ | ✅ |
+| Mengakses tautan pendaftaran | ✅ | ✅ | ✅ |
 
-> **Prinsip:** Kesekretariatan itu role sempit dan spesifik — cuma bisa sentuh field
-> `gformLink` di sub acara yang sudah dibuat Admin. Ini disengaja supaya struktur acara
-> (nama, tanggal, deskripsi) tetap terkontrol satu pintu di Admin, sementara update link
-> pendaftaran (yang sering berubah-ubah menjelang hari-H) bisa didelegasikan tanpa risiko.
+Role Kesekretariatan dirancang sempit dan spesifik, hanya memiliki akses pada field
+tautan pendaftaran di sub acara yang telah dibuat Admin. Struktur acara (nama, tanggal,
+deskripsi, dokumen) tetap dikendalikan satu pintu oleh Admin, sementara pembaruan
+tautan pendaftaran—yang cenderung berubah menjelang hari pelaksanaan—dapat
+didelegasikan tanpa mengubah struktur data inti.
 
 ---
 
 ## 3. Fitur Utama
 
-### 3.1 Autentikasi & Manajemen User (Admin only)
-- Login dengan email + password (role-based)
-- Admin dapat membuat akun baru dengan role `KESEKRETARIATAN` (input: nama, email, password sementara)
-- Admin dapat menonaktifkan (bukan hard delete, demi audit trail) akun kesekretariatan
-- Kesekretariatan wajib ganti password saat login pertama kali
-- Forgot password flow (reset via email)
+### 3.1 Autentikasi & Manajemen User (Admin)
+- Login dengan email dan password berbasis role
+- Admin membuat akun baru dengan role Kesekretariatan (input: nama, email, password sementara)
+- Admin menonaktifkan akun kesekretariatan melalui soft-delete, bukan penghapusan permanen
+- Kesekretariatan diwajibkan mengganti password pada login pertama
+- Tersedia alur reset password melalui email
 
-**Acceptance criteria:**
-- User dengan role `KESEKRETARIATAN` yang login tidak bisa mengakses menu "Buat Sub Acara", "Edit Timeline", atau "Manajemen User" — baik dari UI maupun langsung lewat URL (proteksi di level middleware/API, bukan cuma disembunyikan di UI)
+Kriteria penerimaan: user dengan role Kesekretariatan tidak dapat mengakses menu
+"Buat Sub Acara", "Edit Timeline", "Kelola Dokumen", atau "Manajemen User"—baik dari
+UI maupun melalui akses langsung ke URL. Proteksi diterapkan di level middleware/API,
+bukan hanya disembunyikan pada tampilan.
 
-### 3.2 Manajemen Sub Acara (Admin only, kecuali field link)
-- CRUD sub acara: nama, tagline, tanggal mulai/selesai, deskripsi, PJ, HTM (bisa multi-tier), status
-- Field `gformLink` tetap ada di form yang sama, tapi **hanya bisa disave oleh Admin atau Kesekretariatan** — role lain tidak relevan karena tidak ada role lain
-- Status sub acara: `Draft` (belum tayang) → `Published` (tayang, pendaftaran buka) → `Ditutup` (tayang tapi tombol daftar nonaktif)
-- Reorder sub acara (drag-and-drop atau input `order`) untuk urutan tampil di landing page
+### 3.2 Manajemen Sub Acara (Admin)
+- CRUD sub acara: nama, tagline, tanggal mulai/selesai, deskripsi, PJ, HTM (multi-tier), status
+- Status sub acara terdiri dari tiga tahap: Draft (belum tayang), Published (tayang, pendaftaran terbuka), dan Ditutup (tayang, tombol pendaftaran nonaktif)
+- Sub acara dapat diurutkan ulang untuk menentukan urutan tampil di landing page
 
-### 3.3 Manajemen Link Pendaftaran (Admin + Kesekretariatan)
-- Kesekretariatan login → lihat daftar sub acara yang sudah dibuat Admin → klik salah satu → update field link Google Form saja
-- Validasi format URL (harus domain `docs.google.com/forms` atau `forms.gle`) sebelum tersimpan, supaya tidak salah paste link
-- Setiap perubahan tercatat di log aktivitas (siapa, kapan, link lama → link baru)
+### 3.3 Manajemen Tautan Pendaftaran (Admin & Kesekretariatan)
+- Kesekretariatan melihat daftar sub acara yang telah dibuat Admin, memilih salah satu, lalu memperbarui field tautan Google Form
+- Format tautan divalidasi (domain `docs.google.com/forms` atau `forms.gle`) sebelum disimpan
+- Setiap perubahan tautan tercatat pada log aktivitas: pelaku, waktu, nilai lama, dan nilai baru
 
-### 3.4 Manajemen Timeline (Admin only)
-- CRUD item timeline: tanggal, judul, deskripsi, dan opsional dikaitkan ke sub acara tertentu
-- Reorder timeline
-- Timeline otomatis tampil di landing page sesuai urutan tanggal
+### 3.4 Manajemen Timeline (Admin)
+- CRUD item timeline: tanggal, judul, deskripsi, dan opsi keterkaitan dengan sub acara tertentu
+- Item timeline dapat diurutkan ulang
+- Timeline tampil di landing page sesuai urutan tanggal
 
-### 3.5 Pendaftaran (Publik)
-- Tombol "Daftar" di tiap kartu sub acara → redirect (`target="_blank"`) ke `gformLink` milik sub acara tersebut
-- Kalau status sub acara = `Draft` → kartu tidak tampil di publik sama sekali
-- Kalau status = `Ditutup` → kartu tetap tampil, tapi tombol daftar berubah jadi non-aktif/disabled dengan label "Pendaftaran Ditutup"
-- Kalau `gformLink` masih kosong (Admin belum sempat isi) → tombol daftar otomatis disabled dengan label "Segera Dibuka", supaya tidak ada broken link ke publik
+### 3.5 Manajemen Dokumen Template Sub Acara (Admin)
+Sejumlah sub acara mengharuskan peserta mengisi dokumen tertentu (misalnya surat
+pernyataan orisinalitas, formulir tim, atau TOR) sebelum mendaftar. Dokumen ini
+disediakan oleh Admin dan ditampilkan pada halaman detail sub acara agar dapat
+diunduh peserta sebelum menekan tombol pendaftaran.
+
+- Admin dapat mengunggah satu atau lebih dokumen per sub acara, masing-masing dengan nama label (contoh: "Formulir Pendaftaran Tim", "Surat Pernyataan Orisinalitas")
+- Format file yang didukung: PDF dan DOCX, dengan batas ukuran file yang ditentukan pada tahap desain teknis
+- Admin dapat mengganti atau menghapus dokumen yang telah diunggah
+- Dokumen bersifat opsional per sub acara—sub acara tanpa dokumen tidak menampilkan bagian ini di halaman detail
+- Setiap dokumen memiliki urutan tampil yang dapat diatur ulang oleh Admin
+
+Kriteria penerimaan: pada halaman detail sub acara yang memiliki dokumen template,
+bagian unduhan dokumen ditampilkan di atas atau berdekatan dengan tombol pendaftaran,
+sehingga peserta memperoleh dokumen yang diperlukan sebelum mengakses Google Form.
+
+### 3.6 Pendaftaran (Publik)
+- Tombol "Daftar" pada tiap kartu sub acara mengarahkan (pada tab baru) ke tautan Google Form milik sub acara terkait
+- Sub acara berstatus Draft tidak ditampilkan pada halaman publik
+- Sub acara berstatus Ditutup tetap ditampilkan, namun tombol pendaftaran dinonaktifkan dengan label "Pendaftaran Ditutup"
+- Sub acara dengan tautan pendaftaran kosong menampilkan tombol nonaktif berlabel "Segera Dibuka", untuk mencegah tautan rusak yang diakses publik
 
 ---
 
-## 4. Alur Pengguna (User Flow)
+## 4. Alur Pengguna
 
-**Admin — Setup awal tahun acara:**
-1. Login → buat sub acara baru (status default: Draft)
-2. Isi detail lengkap → set status jadi Published saat siap tayang
-3. Buat akun kesekretariatan untuk panitia terkait
-4. Susun/edit timeline global
+**Admin — Persiapan awal tahun acara:**
+1. Login, membuat sub acara baru dengan status default Draft
+2. Mengisi detail lengkap, mengunggah dokumen template bila diperlukan, kemudian mengubah status menjadi Published saat siap tayang
+3. Membuat akun kesekretariatan untuk panitia terkait
+4. Menyusun dan mengelola timeline global
 
-**Kesekretariatan — Update link pendaftaran:**
-1. Login → lihat daftar sub acara (read-only untuk semua field kecuali link)
-2. Pilih sub acara → paste link Google Form → simpan
-3. Sistem validasi format link → tersimpan → log tercatat
+**Kesekretariatan — Pembaruan tautan pendaftaran:**
+1. Login, melihat daftar sub acara (hanya field tautan yang dapat diubah)
+2. Memilih sub acara, memperbarui tautan Google Form, menyimpan perubahan
+3. Sistem memvalidasi format tautan dan mencatat perubahan pada log aktivitas
 
 **Publik — Mendaftar acara:**
-1. Buka landing page → lihat sub acara yang tayang
-2. Klik "Daftar" pada sub acara yang diminati
-3. Diarahkan ke Google Form terkait di tab baru
+1. Membuka landing page, melihat sub acara yang tayang
+2. Membuka detail sub acara yang diminati
+3. Mengunduh dokumen template bila tersedia
+4. Menekan tombol "Daftar", diarahkan ke Google Form terkait pada tab baru
 
 ---
 
@@ -119,6 +141,10 @@ SubEvent
   gformLink, gformUpdatedBy, gformUpdatedAt,
   status [DRAFT | PUBLISHED | CLOSED], order, createdAt, updatedAt
 
+SubEventDocument
+  id, subEventId, label, fileUrl, fileType, fileSizeBytes,
+  order, uploadedBy, uploadedAt
+
 TimelineItem
   id, year, subEventId (nullable), date, title, description, order
 
@@ -127,70 +153,59 @@ AuditLog
   fieldChanged, oldValue, newValue, timestamp
 ```
 
-> Struktur ini tetap mempertahankan prinsip **theme/data separation** dari plan
-> sebelumnya — `year` di tiap entity memungkinkan data 2026, 2027, dst hidup
-> berdampingan tanpa saling tabrak, dan tema visual tetap terpisah dari data ini.
+Struktur ini mempertahankan prinsip theme/data separation dari perencanaan awal.
+Field `year` pada tiap entity memungkinkan data antar tahun (2026, 2027, dst.) hidup
+berdampingan tanpa saling menimpa, sementara tema visual tetap terpisah dari data.
 
 ---
 
 ## 6. Non-Functional Requirements
 
-- **Keamanan:** Password di-hash (bcrypt/argon2), proteksi route admin via middleware (bukan cuma UI), rate limiting di endpoint login, CSRF protection di form
-- **Performa:** Landing page publik idealnya di-render statis/ISR (jarang berubah, banyak diakses) — panel admin boleh full dynamic/SSR
-- **Audit trail:** Semua perubahan sensitif (link gform, status sub acara, manajemen user) tercatat di `AuditLog`
-- **Responsif:** Panel admin tetap harus nyaman diakses dari HP, karena kesekretariatan kemungkinan besar update link dari HP saat di lapangan
-- **Reusability:** Struktur data & komponen harus bisa dipakai ulang tahun depan cukup dengan ganti data tahun aktif, bukan re-develop dari nol
+- **Keamanan:** password di-hash (bcrypt/argon2), proteksi route admin melalui middleware, rate limiting pada endpoint login, validasi tipe dan ukuran file pada fitur unggah dokumen untuk mencegah unggahan berbahaya
+- **Performa:** landing page publik idealnya di-render statis/ISR; panel admin dapat sepenuhnya dinamis (SSR)
+- **Audit trail:** seluruh perubahan sensitif (tautan pendaftaran, status sub acara, manajemen user, unggah/hapus dokumen) tercatat pada AuditLog
+- **Responsif:** panel admin harus dapat diakses dengan nyaman melalui perangkat mobile, mengingat pembaruan tautan sering dilakukan langsung dari lokasi acara
+- **Reusability:** struktur data dan komponen dapat dipakai ulang pada tahun berikutnya cukup dengan mengganti data tahun aktif
 
 ---
 
-## 7. Rekomendasi Tambahan (Supaya Use Case-nya Kena Semua)
+## 7. Rekomendasi Tambahan
 
-Beberapa hal ini tidak eksplisit kamu minta, tapi penting supaya sistem tidak punya
-celah use case yang kelupaan:
+Sejumlah hal berikut tidak diminta secara eksplisit, namun relevan untuk menutup
+celah use case yang berpotensi terlewat:
 
-1. **Preview mode sebelum publish** — Admin bisa lihat tampilan sub acara di publik
-   sebelum ubah status ke Published, biar tidak ada typo/salah tanggal yang keburu tayang
-2. **Validasi & disabled state untuk link kosong/status closed** — sudah dijelaskan di
-   3.5, ini penting supaya publik tidak pernah ketemu broken link
-3. **Log aktivitas khusus untuk link gform** — karena field ini "dipegang bersama" dua
-   role, histori perubahan penting untuk audit kalau ada salah link menjelang hari-H
-4. **Reset password & akun nonaktif (bukan delete)** — supaya kalau ganti panitia
-   kesekretariatan tahun depan, histori tetap ada dan tidak perlu hapus data
-5. **Multi-tahun switcher di admin panel** — dropdown pilih "tahun aktif" (2026, 2027...)
-   supaya data lama tidak tertimpa dan tetap bisa diarsipkan/dilihat kembali
-6. **Notifikasi sederhana (opsional, bisa fase 2)** — Admin dapat notifikasi in-app
-   kalau kesekretariatan baru saja mengubah link, sebagai lapisan kontrol tambahan
-7. **SEO & Open Graph per sub acara** — biar pas di-share ke WhatsApp/Instagram,
-   preview link-nya menampilkan gambar & judul sub acara yang benar
-8. **Konfirmasi sebelum hapus sub acara** — mengingat sub acara terhubung ke timeline
-   & log, hapus harus soft-delete dulu (bisa di-restore) bukan langsung hilang permanen
-9. **Empty state yang jelas** — kalau belum ada sub acara sama sekali di tahun aktif,
-   landing page publik menampilkan pesan yang jelas, bukan halaman kosong/error
+1. **Preview mode sebelum publish** — Admin dapat melihat tampilan sub acara di sisi publik sebelum status diubah menjadi Published
+2. **Validasi dan status nonaktif untuk tautan kosong atau sub acara ditutup** — mencegah publik mengakses tautan rusak
+3. **Log aktivitas khusus untuk tautan pendaftaran dan dokumen** — field ini dikelola oleh lebih dari satu pihak (dokumen oleh Admin, tautan oleh Admin dan Kesekretariatan), sehingga histori perubahan penting untuk audit
+4. **Reset password dan status akun nonaktif (bukan hapus permanen)** — memudahkan pergantian panitia kesekretariatan antar tahun tanpa kehilangan histori
+5. **Multi-tahun switcher pada panel admin** — memilih tahun aktif agar data antar tahun tidak saling tertimpa
+6. **Notifikasi in-app (fase lanjutan)** — Admin menerima notifikasi saat Kesekretariatan mengubah tautan pendaftaran, sebagai lapisan kontrol tambahan
+7. **SEO dan Open Graph per sub acara** — memastikan tautan yang dibagikan ke media sosial menampilkan judul dan gambar yang sesuai
+8. **Soft-delete untuk sub acara** — mengingat sub acara terkait dengan timeline, dokumen, dan log, penghapusan sebaiknya dapat dipulihkan
+9. **Empty state yang jelas** — bila belum ada sub acara pada tahun aktif, landing page publik menampilkan pesan informatif, bukan halaman kosong
+10. **Penamaan dan versi dokumen template** — bila Admin mengganti dokumen template setelah beberapa peserta sudah mengunduh versi sebelumnya, sistem sebaiknya menampilkan indikator "Diperbarui pada [tanggal]" agar peserta mengetahui adanya perubahan
 
 ---
 
 ## 8. Rekomendasi Tech Stack
 
-Menyesuaikan stack yang sudah kamu pakai (Next.js 15 + Tailwind):
-
 | Kebutuhan | Rekomendasi |
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | Styling | Tailwind CSS |
-| Database | PostgreSQL (Neon/Supabase — kompatibel baik dengan Vercel) |
+| Database | PostgreSQL (Neon/Supabase) |
 | ORM | Prisma |
-| Autentikasi & RBAC | NextAuth.js (Credentials provider) + middleware untuk proteksi route `/admin/*` berdasarkan role |
-| Deployment | Vercel (kamu sudah punya koneksi Vercel — bisa langsung dipakai untuk deploy & cek build/runtime logs) |
-| Validasi form | Zod (dipakai bareng React Hook Form) |
+| Autentikasi & RBAC | NextAuth.js (Credentials provider) dengan middleware proteksi route `/admin/*` berdasarkan role |
+| Penyimpanan dokumen | Vercel Blob atau layanan object storage kompatibel (untuk file PDF/DOCX yang diunggah Admin) |
+| Deployment | Vercel |
+| Validasi form | Zod dengan React Hook Form |
 
 ---
 
 ## 9. Out of Scope (Fase Ini)
 
-Supaya scope tetap jelas dan tidak melebar, hal berikut **sengaja tidak** masuk PRD ini:
-- Pendaftaran in-house (tanpa Google Form) — masih pakai redirect ke Gform
+- Pendaftaran in-house tanpa Google Form
 - Sistem pembayaran online terintegrasi
-- Multi-admin dengan hak akses granular per sub acara (baru ada 2 role: Admin & Kesekretariatan)
+- Hak akses granular per sub acara dengan lebih dari dua role
 - Notifikasi email otomatis ke peserta
-
-Kalau ke depan mau dikembangkan ke arah itu, bisa jadi PRD fase 2 tersendiri.
+- Fitur unggah dokumen oleh peserta (dokumen pada fase ini bersifat satu arah: disediakan Admin untuk diunduh, bukan diunggah balik oleh peserta)
