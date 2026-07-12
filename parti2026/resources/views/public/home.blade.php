@@ -53,24 +53,6 @@
     </div>
 </section>
 
-<!-- FILOSOFI SECTION -->
-<section class="bg-paper-warm border-t border-b border-line py-20" id="filosofi">
-    <div class="max-w-[840px] mx-auto px-8 text-left">
-        <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark">
-            Filosofi Tema
-        </span>
-        <blockquote class="font-display text-[22px] md:text-[32px] leading-normal font-semibold text-ink mt-[22px]">
-            <span class="text-ember">“</span>Teknologi bukan sekadar hasil ciptaan, melainkan representasi
-            dari daya pikir, keberanian, dan ketekunan manusia dalam menghadapi tantangan zaman.
-            Ia tumbuh melalui pencarian dan pembelajaran berkelanjutan — sebagaimana perjalanan
-            seorang ksatria menuju pencerahan.<span class="text-ember">”</span>
-        </blockquote>
-        <div class="mt-7 flex items-center gap-3.5 font-mono text-[12px] text-ink-soft tracking-[0.08em]">
-            <span class="w-[34px] h-[1px] bg-gold block"></span>
-            KESATRIA · KEBIJAKSANAAN · PERUBAHAN · MISTERI
-        </div>
-    </div>
-</section>
 
 <!-- MASKOT SECTION -->
 <section class="py-24 bg-paper" id="maskot">

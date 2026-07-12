@@ -26,7 +26,6 @@
             </div>
             
             <div class="hidden md:flex gap-[34px] text-[14px] font-medium text-ink-soft">
-                <a href="#filosofi" class="hover:text-ember-dark transition-colors relative py-1">Filosofi</a>
                 <a href="#maskot" class="hover:text-ember-dark transition-colors relative py-1">Maskot</a>
                 <a href="#sub-acara" class="hover:text-ember-dark transition-colors relative py-1">Sub Acara</a>
                 <a href="#timeline" class="hover:text-ember-dark transition-colors relative py-1">Timeline</a>
@@ -61,7 +60,6 @@
                     </div>
                     <div class="text-left">
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Jelajah</h5>
-                        <a href="#filosofi" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Filosofi</a>
                         <a href="#maskot" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Maskot</a>
                         <a href="#timeline" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Timeline</a>
                     </div>
