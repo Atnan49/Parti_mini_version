@@ -7,3 +7,48 @@
         stroke-dashoffset: 0;
     }
 }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 8s ease-in-out infinite;
+}
+
+.transition-premium {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* ponytail: utility to hide scrollbars for clean horizontal carousels */
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;  /* Firefox */
+}

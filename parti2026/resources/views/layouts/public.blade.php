@@ -8,6 +8,23 @@
     <title>@yield('title', 'PARTI 2026 — Vanguard of Tech')</title>
     <meta name="description" content="@yield('meta_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
 
+    <!-- Open Graph / Facebook SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
+    <meta property="og:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
+    <meta property="og:image" content="@yield('og_image', asset('logo.png'))">
+
+    <!-- Twitter SEO -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request()->url() }}">
+    <meta property="twitter:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
+    <meta property="twitter:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
+    <meta property="twitter:image" content="@yield('og_image', asset('logo.png'))">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,24 +35,55 @@
 </head>
 <body class="bg-paper text-ink font-body antialiased overflow-x-hidden">
     <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/86 backdrop-blur-md border-bottom border-line border-b">
-        <div class="max-w-[1180px] mx-auto px-8 py-[18px] flex items-center justify-between">
-            <div class="font-display-decorative font-bold text-[19px] text-ink flex items-center gap-2.5">
-                <span class="w-2 hash-dot h-2 bg-ember rounded-full inline-block"></span>
+    <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-line/60 shadow-[0_2px_20px_-10px_rgba(28,20,11,0.05)] transition-all duration-300">
+        <div class="max-w-[1180px] mx-auto px-6 md:px-8 py-4 md:py-6 flex items-center justify-between">
+            <a href="{{ route('home') }}" class="font-display-decorative font-bold text-[18px] sm:text-[21px] text-ink flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+                {{-- ponytail: replaced pulsing dot with brand logo --}}
+                <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-7 sm:h-8 w-auto">
                 PARTI {{ config('parti.active_year', 2026) }}
-            </div>
+            </a>
             
-            <div class="hidden md:flex gap-[34px] text-[14px] font-medium text-ink-soft">
-                <a href="#maskot" class="hover:text-ember-dark transition-colors relative py-1">Maskot</a>
-                <a href="#sub-acara" class="hover:text-ember-dark transition-colors relative py-1">Sub Acara</a>
-                <a href="#timeline" class="hover:text-ember-dark transition-colors relative py-1">Timeline</a>
+            <div class="hidden md:flex gap-[38px] text-[15px] font-medium text-ink-soft">
+                <a href="{{ route('home') }}#tentang" class="hover:text-ember transition-colors relative py-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-ember after:transition-all after:duration-300 hover:after:w-full">Tentang</a>
+                <a href="{{ route('home') }}#sub-acara" class="hover:text-ember transition-colors relative py-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-ember after:transition-all after:duration-300 hover:after:w-full">Sub Acara</a>
+                <a href="{{ route('home') }}#timeline" class="hover:text-ember transition-colors relative py-1.5 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-ember after:transition-all after:duration-300 hover:after:w-full">Timeline</a>
             </div>
 
-            <a class="font-mono text-[12px] tracking-[0.05em] border border-ink px-[18px] py-[9px] rounded-[2px] transition-all duration-200 hover:bg-ink hover:text-white" href="#sub-acara">
+            <a class="hidden md:inline-block font-mono text-[12px] tracking-[0.05em] uppercase border border-ink/80 px-[20px] py-[10px] rounded-[2px] transition-all duration-300 hover:bg-ink hover:text-white" href="{{ route('home') }}#sub-acara">
                 Lihat Acara
             </a>
+
+            <!-- Hamburger Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-ink focus:outline-none p-1.5 hover:text-ember transition-colors animate-fade-in" aria-label="Toggle Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <path x-show="mobileMenuOpen" x-cloak stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div x-show="mobileMenuOpen" 
+             x-cloak
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="md:hidden bg-white/95 backdrop-blur-lg border-b border-line/60 py-4 px-6 shadow-inner animate-fade-in">
+            <div class="flex flex-col gap-4 text-[15px] font-medium text-ink-soft">
+                <a href="{{ route('home') }}#tentang" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
+                <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
+                <a href="{{ route('home') }}#timeline" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Timeline</a>
+                <a class="font-mono text-[12px] tracking-[0.05em] uppercase border border-ink/80 px-[20px] py-[10px] rounded-[2px] text-center mt-2 hover:bg-ink hover:text-white transition-all duration-300" href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false">
+                    Lihat Acara
+                </a>
+            </div>
         </div>
     </nav>
+
+
 
     <!-- Main Content -->
     <main>
@@ -44,10 +92,14 @@
 
     <!-- Footer -->
     <footer class="bg-ink text-[#F4EBDB] pt-16 pb-[34px]">
-        <div class="max-w-[1180px] mx-auto px-8">
+        <div class="max-w-[1180px] mx-auto px-6 md:px-8">
             <div class="flex flex-col md:flex-row justify-between items-start pb-11 border-b border-[#F4EBDB]/14 gap-8">
                 <div>
-                    <div class="font-display-decorative text-[22px] font-bold">PARTI <span class="text-ember">{{ config('parti.active_year', 2026) }}</span></div>
+                    <div class="font-display-decorative text-[22px] font-bold flex items-center gap-2.5">
+                        {{-- ponytail: added brand logo in the footer --}}
+                        <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-8 w-auto">
+                        PARTI <span class="text-ember">{{ config('parti.active_year', 2026) }}</span>
+                    </div>
                     <p class="text-[13px] text-[#B8A98D] mt-2.5 max-w-[32ch]">Vanguard of Tech — HIMATIF Universitas Muhammadiyah Surakarta.</p>
                 </div>
                 <div class="flex gap-16 md:gap-16">
@@ -60,12 +112,12 @@
                     </div>
                     <div class="text-left">
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Jelajah</h5>
-                        <a href="#maskot" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Maskot</a>
+                        <a href="#tentang" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Tentang</a>
                         <a href="#timeline" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Timeline</a>
                     </div>
                 </div>
             </div>
-            <div class="pt-7 flex flex-col md:flex-row justify-between text-[12px] text-[#8A7A62] gap-2.5">
+            <div class="pt-7 flex flex-col md:flex-row justify-between text-[12px] text-[#A29377] gap-2.5">
                 <span>© {{ config('parti.active_year', 2026) }} HIMATIF UMS. Seluruh hak cipta dilindungi.</span>
                 <span>Golden Heritage Edition</span>
             </div>

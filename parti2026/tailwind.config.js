@@ -22,12 +22,12 @@ export default {
                 paper:       '#FFFFFF',
                 'paper-warm':'#FDF9F1',
                 ink:         '#1C140B',
-                'ink-soft':  '#5E4F3E',
+                'ink-soft':  '#423525', // ponytail: darkened for better WCAG readability contrast
                 ember:       '#E2650B',
-                'ember-dark':'#B84D06',
-                gold:        '#B0801E',
+                'ember-dark':'#A03F02', // ponytail: darkened for better contrast
+                gold:        '#94660F', // ponytail: darkened for WCAG AA readability compliance
                 'gold-soft': '#E9CE93',
-                line:        '#EDE3D0',
+                line:        '#E4D8C1', // ponytail: darkened for crisper borders
             },
         },
     },
