@@ -9,43 +9,43 @@ Update status dengan mengganti `[ ]` menjadi `[x]` seiring progres pengerjaan.
 
 ## Setup & Struktur Proyek
 
-- [ ] Inisialisasi proyek Laravel 11 (`composer create-project laravel/laravel parti2026`)
-- [ ] Install Laravel Breeze (`php artisan breeze:install blade`)
-- [ ] Setup Tailwind CSS + Alpine.js + SortableJS via Vite
-- [ ] Konfigurasi koneksi MySQL (`.env`)
-- [ ] Buat `config/parti.php` (year aktif, batas upload, tipe file, domain gform)
-- [ ] Setup environment variables (`.env`) untuk DB, mail, app URL
-- [ ] Setup repository & branching workflow
+- [x] Inisialisasi proyek Laravel 11 (`composer create-project laravel/laravel parti2026`)
+- [x] Install Laravel Breeze (`php artisan breeze:install blade`)
+- [x] Setup Tailwind CSS + Alpine.js + SortableJS via Vite
+- [x] Konfigurasi koneksi MySQL (`.env`)
+- [x] Buat `config/parti.php` (year aktif, batas upload, tipe file, domain gform)
+- [x] Setup environment variables (`.env`) untuk DB, mail, app URL
+- [x] Setup repository & branching workflow
 
 ---
 
 ## Database & Schema (Eloquent)
 
-- [ ] Migration `users` (id, name, email, password, role, is_active, must_change_password, created_by)
-- [ ] Migration `sub_events` (id, year, name, slug, tagline, description, date_start, date_end, pj_names, htm_tiers, gform_link, gform_updated_by, gform_updated_at, status, order, is_deleted)
-- [ ] Migration `sub_event_documents` (id, sub_event_id, label, file_path, file_type, file_size_bytes, order, uploaded_by, uploaded_at)
-- [ ] Migration `timeline_items` (id, year, sub_event_id, date, title, description, order)
-- [ ] Migration `audit_logs` (id, user_id, action, entity_type, entity_id, field_changed, old_value, new_value, created_at)
-- [ ] Eloquent Model `User` (scopes, relationships, disable self-registration)
-- [ ] Eloquent Model `SubEvent` (JSON casts, scopes, relationships, slug auto-generate)
-- [ ] Eloquent Model `SubEventDocument` (relationships, file delete on model delete)
-- [ ] Eloquent Model `TimelineItem` (relationships, scopes)
-- [ ] Eloquent Model `AuditLog` (relationships, scopes)
-- [ ] Migrasi awal & seed data (`AdminSeeder` + `SubEventSeeder`)
-- [ ] Relasi antar model (SubEvent ↔ SubEventDocument, SubEvent ↔ TimelineItem)
+- [x] Migration `users` (id, name, email, password, role, is_active, must_change_password, created_by)
+- [x] Migration `sub_events` (id, year, name, slug, tagline, description, date_start, date_end, pj_names, htm_tiers, gform_link, gform_updated_by, gform_updated_at, status, order, is_deleted)
+- [x] Migration `sub_event_documents` (id, sub_event_id, label, file_path, file_type, file_size_bytes, order, uploaded_by, uploaded_at)
+- [x] Migration `timeline_items` (id, year, sub_event_id, date, title, description, order)
+- [x] Migration `audit_logs` (id, user_id, action, entity_type, entity_id, field_changed, old_value, new_value, created_at)
+- [x] Eloquent Model `User` (scopes, relationships, disable self-registration)
+- [x] Eloquent Model `SubEvent` (JSON casts, scopes, relationships, slug auto-generate)
+- [x] Eloquent Model `SubEventDocument` (relationships, file delete on model delete)
+- [x] Eloquent Model `TimelineItem` (relationships, scopes)
+- [x] Eloquent Model `AuditLog` (relationships, scopes)
+- [x] Migrasi awal & seed data (`AdminSeeder` + `SubEventSeeder`)
+- [x] Relasi antar model (SubEvent ↔ SubEventDocument, SubEvent ↔ TimelineItem)
 
 ---
 
 ## Backend — Controllers & Routes
 
 ### Autentikasi & User
-- [ ] Login via Laravel Breeze (email + password)
-- [ ] Disable registrasi publik (hapus route register)
-- [ ] Reset password / forgot password via email (Breeze built-in + SMTP Hostinger)
-- [ ] `ForcePasswordChange` middleware — redirect saat login pertama Kesekretariatan
+- [x] Login via Laravel Breeze (email + password)
+- [x] Disable registrasi publik (hapus route register)
+- [x] Disable reset password / forgot password via email (digantikan manual reset & force password change)
+- [x] `ForcePasswordChange` middleware — redirect saat login pertama Kesekretariatan
 - [ ] `Admin\UserController` — create user Kesekretariatan, hanya Admin
 - [ ] `Admin\UserController` — deactivate/activate user (soft-toggle), hanya Admin
-- [ ] `RoleMiddleware` — proteksi route berdasarkan role (`role:SUPERADMIN`)
+- [x] `RoleMiddleware` — proteksi route berdasarkan role (`role:SUPERADMIN`)
 
 ### Sub Acara
 - [ ] `Admin\SubEventController` — CRUD sub acara (hanya Admin)
@@ -73,21 +73,20 @@ Update status dengan mengganti `[ ]` menjadi `[x]` seiring progres pengerjaan.
 
 ## Frontend — Halaman Publik (Blade)
 
-- [ ] Layout publik (`layouts/public.blade.php`) — fonts, Vite assets, SEO defaults
-- [ ] Landing page `home.blade.php` (hero, filosofi, maskot, sub acara, timeline, footer)
-- [ ] Blade component `navbar` (sticky nav, hamburger menu via Alpine.js)
-- [ ] Blade component `hero` (eyebrow, heading, tagline, CTA, crest SVG animasi)
-- [ ] Blade component `philosophy` (blockquote, attrib bar)
-- [ ] Blade component `mascot` (grid 2 kolom, frame SVG, deskripsi)
-- [ ] Blade component `sub-event-cards` (grid kartu, status badge: tersedia/ditutup/segera dibuka)
-- [ ] Blade component `timeline` (track horizontal desktop / vertikal mobile)
-- [ ] Blade component `footer` (brand, kolom link, copyright)
-- [ ] Halaman detail per sub acara (`sub-event-detail.blade.php`)
-- [ ] Bagian unduh dokumen template di halaman detail (tampil kondisional jika ada dokumen)
-- [ ] Tombol "Daftar" dengan state disabled untuk status Ditutup / tautan kosong
-- [ ] Empty state saat belum ada sub acara di tahun aktif (`@forelse` / `@empty`)
-- [ ] Responsive di seluruh breakpoint (mobile, tablet, desktop)
-- [ ] Metadata SEO & Open Graph per sub acara (`@section('title')`, `@section('og-*')`)
+- [x] Layout publik (`layouts/public.blade.php`) — fonts, Vite assets, SEO defaults
+- [x] Landing page `home.blade.php` (hero, maskot, sponsors, sub acara, timeline, footer - Filosofi tema dihapus)
+- [x] Blade component `navbar` (tersemat langsung di layout publik)
+- [x] Blade component `hero` (tersemat langsung di beranda)
+- [x] Blade component `mascot` (tersemat langsung di beranda)
+- [x] Blade component `sub-event-cards` (tersemat langsung di beranda)
+- [x] Blade component `timeline` (tersemat langsung di beranda)
+- [x] Blade component `footer` (tersemat langsung di layout publik)
+- [x] Halaman detail per sub acara (`sub-event-detail.blade.php`)
+- [x] Bagian unduh dokumen template di halaman detail (tampil kondisional jika ada dokumen)
+- [x] Tombol "Daftar" dengan state disabled untuk status Ditutup / tautan kosong
+- [x] Empty state saat belum ada sub acara di tahun aktif (`@forelse` / `@empty`)
+- [x] Responsive di seluruh breakpoint (mobile, tablet, desktop)
+- [x] Metadata SEO & Open Graph per sub acara (`@section('title')`, `@section('og-*')`)
 
 ---
 
@@ -112,13 +111,13 @@ Update status dengan mengganti `[ ]` menjadi `[x]` seiring progres pengerjaan.
 
 ## Keamanan
 
-- [ ] Hashing password (`Hash::make()` — bcrypt, built-in Laravel)
+- [x] Hashing password (`Hash::make()` — bcrypt, built-in Laravel)
 - [ ] Rate limiting pada login (`RateLimiter::for('login', ...)`)
-- [ ] CSRF protection pada form (`@csrf` — built-in Laravel)
+- [x] CSRF protection pada form (`@csrf` — built-in Laravel)
 - [ ] Validasi & sanitasi input di semua form (Laravel FormRequest)
 - [ ] Validasi file upload (tipe MIME, ukuran, `mimes:pdf,docx|max:10240`)
-- [ ] Proteksi route berbasis role di level middleware (`RoleMiddleware`), bukan hanya UI
-- [ ] Storage symlink (`php artisan storage:link`)
+- [x] Proteksi route berbasis role di level middleware (`RoleMiddleware`), bukan hanya UI
+- [x] Storage symlink (`php artisan storage:link`)
 
 ---
 
@@ -132,8 +131,8 @@ Update status dengan mengganti `[ ]` menjadi `[x]` seiring progres pengerjaan.
 - [ ] Uji tampilan di berbagai ukuran layar
 - [ ] Uji alur lupa password (email reset)
 - [ ] Uji rate limiting (6x login gagal → 429)
-- [ ] `php artisan test` — jalankan feature & unit tests
-- [ ] `php artisan route:list` — verifikasi semua route terdaftar
+- [x] `php artisan test` — jalankan feature & unit tests
+- [x] `php artisan route:list` — verifikasi semua route terdaftar
 
 ---
 
