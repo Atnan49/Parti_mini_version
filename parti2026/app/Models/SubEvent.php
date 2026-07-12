@@ -1,0 +1,147 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+
+class SubEvent extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'year',
+        'name',
+        'slug',
+        'tagline',
+        'description',
+        'date_start',
+        'date_end',
+        'pj_names',
+        'htm_tiers',
+        'gform_link',
+        'gform_updated_by',
+        'gform_updated_at',
+        'status',
+        'order',
+        'is_deleted',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     */
+    protected function casts(): array
+    {
+        return [
+            'year' => 'integer',
+            'date_start' => 'date',
+            'date_end' => 'date',
+            'pj_names' => 'array',
+            'htm_tiers' => 'array',
+            'gform_updated_at' => 'datetime',
+            'order' => 'integer',
+            'is_deleted' => 'boolean',
+        ];
+    }
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Automatically generate slug on create
+        static::creating(function ($subEvent) {
+            if (empty($subEvent->slug)) {
+                $subEvent->slug = static::generateUniqueSlug($subEvent->name);
+            }
+        });
+    }
+
+    /**
+     * Helper to generate unique slug.
+     */
+    public static function generateUniqueSlug(string $name): string
+    {
+        $slug = Str::slug($name);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = "{$originalSlug}-{$count}";
+            $count++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Scope a query to only include active/not deleted sub events.
+     */
+    public function scopeNotDeleted(Builder $query): Builder
+    {
+        return $query->where('is_deleted', false);
+    }
+
+    /**
+     * Scope a query to only include published sub events.
+     */
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', 'PUBLISHED');
+    }
+
+    /**
+     * Scope a query to only include sub events for a specific year.
+     */
+    public function scopeForYear(Builder $query, int $year): Builder
+    {
+        return $query->where('year', $year);
+    }
+
+    /**
+     * Get the documents for the sub event.
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(SubEventDocument::class)->orderBy('order');
+    }
+
+    /**
+     * Get the timeline items for the sub event.
+     */
+    public function timelineItems(): HasMany
+    {
+        return $this->hasMany(TimelineItem::class)->orderBy('order');
+    }
+
+    /**
+     * Get the user who updated the Google Form link.
+     */
+    public function gformUpdatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'gform_updated_by');
+    }
+
+    /**
+     * Accessor for registration button state.
+     * Returns: 'open' (daftar), 'closed' (ditutup), 'coming_soon' (segera dibuka)
+     */
+    public function getRegistrationButtonStateAttribute(): string
+    {
+        if ($this->status === 'CLOSED') {
+            return 'closed';
+        }
+
+        if ($this->status === 'PUBLISHED' && !empty($this->gform_link)) {
+            return 'open';
+        }
+
+        return 'coming_soon';
+    }
+}

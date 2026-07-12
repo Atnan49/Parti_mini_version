@@ -187,18 +187,19 @@ celah use case yang berpotensi terlewat:
 
 ---
 
-## 8. Rekomendasi Tech Stack
+## 8. Tech Stack
 
-| Kebutuhan | Rekomendasi |
+| Kebutuhan | Pilihan |
 |---|---|
-| Framework | Next.js 15 (App Router) |
-| Styling | Tailwind CSS |
-| Database | PostgreSQL (Neon/Supabase) |
-| ORM | Prisma |
-| Autentikasi & RBAC | NextAuth.js (Credentials provider) dengan middleware proteksi route `/admin/*` berdasarkan role |
-| Penyimpanan dokumen | Vercel Blob atau layanan object storage kompatibel (untuk file PDF/DOCX yang diunggah Admin) |
-| Deployment | Vercel |
-| Validasi form | Zod dengan React Hook Form |
+| Framework | Laravel 11 (PHP 8.2+) |
+| Frontend | Blade Templates + Alpine.js |
+| Styling | Tailwind CSS (via Vite) |
+| Database | MySQL (bawaan Hostinger) |
+| ORM | Eloquent |
+| Autentikasi & RBAC | Laravel Breeze (Credentials) + custom RoleMiddleware untuk proteksi route `/admin/*` berdasarkan role |
+| Penyimpanan dokumen | Local filesystem (`storage/app/public/documents/`) — file PDF/DOCX yang diunggah Admin disimpan di disk server |
+| Deployment | Hostinger Shared Hosting |
+| Validasi form | Laravel FormRequest (server-side) + HTML5 validation (client-side) |
 
 ---
 
