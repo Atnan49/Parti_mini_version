@@ -161,3 +161,54 @@ Update status dengan mengganti `[ ]` menjadi `[x]` seiring progres pengerjaan.
 - [ ] Pendaftaran in-house tanpa Google Form
 - [ ] Sistem pembayaran online terintegrasi
 - [ ] Role granular tambahan per sub acara
+
+---
+
+## Panduan Docker (Reproducible Dev Environment)
+
+Agar sesama developer dapat menjalankan project ini dengan versi PHP/MySQL yang 100% identik secara instan, Anda dapat menggunakan Docker Compose yang telah dikonfigurasi:
+
+### Prasyarat
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (termasuk Docker Compose) terpasang di komputer Anda.
+
+### Cara Menjalankan
+1. Masuk ke folder Laravel:
+   ```bash
+   cd parti2026
+   ```
+2. Buat file `.env` dengan menyalin `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+3. Sesuaikan konfigurasi database di `.env` agar terhubung ke container MySQL:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=db
+   DB_PORT=3306
+   DB_DATABASE=parti2026
+   DB_USERNAME=parti_user
+   DB_PASSWORD=parti_password
+   ```
+4. Jalankan container Docker:
+   ```bash
+   docker compose up -d
+   ```
+5. Install dependensi composer di dalam container:
+   ```bash
+   docker compose exec web composer install
+   ```
+6. Jalankan generator app key:
+   ```bash
+   docker compose exec web php artisan key:generate
+   ```
+7. Jalankan migrasi dan seeding database:
+   ```bash
+   docker compose exec web php artisan migrate --seed
+   ```
+8. Buat symlink storage:
+   ```bash
+   docker compose exec web php artisan storage:link
+   ```
+
+Aplikasi web sekarang dapat diakses secara lokal di **`http://localhost:8000`** dengan database MySQL yang berjalan di background port `3306`.
+
