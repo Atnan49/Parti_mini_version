@@ -32,6 +32,7 @@ Route::middleware(['auth', 'force.password.change'])
 
         // Dashboard (Bisa diakses SUPERADMIN & KESEKRETARIATAN)
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::post('/change-year', [DashboardController::class, 'changeYear'])->name('change-year');
 
         // Ganti Password (Khusus First Login / Manual)
         Route::get('/change-password', [ChangePasswordController::class, 'edit'])->name('change-password');

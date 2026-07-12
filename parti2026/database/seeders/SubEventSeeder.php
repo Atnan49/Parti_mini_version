@@ -31,6 +31,8 @@ class SubEventSeeder extends Seeder
                 ],
                 'status' => 'PUBLISHED',
                 'order' => 1,
+                'type' => 'ONLINE',
+                'location' => 'Zoom Meeting',
             ]
         );
 
@@ -49,6 +51,8 @@ class SubEventSeeder extends Seeder
                 ],
                 'status' => 'PUBLISHED',
                 'order' => 2,
+                'type' => 'ONLINE',
+                'location' => 'Discord & Zoom',
             ]
         );
 
@@ -67,6 +71,8 @@ class SubEventSeeder extends Seeder
                 ],
                 'status' => 'PUBLISHED',
                 'order' => 3,
+                'type' => 'OFFLINE',
+                'location' => 'Gor UMS',
             ]
         );
 
@@ -85,6 +91,8 @@ class SubEventSeeder extends Seeder
                 ],
                 'status' => 'PUBLISHED',
                 'order' => 4,
+                'type' => 'OFFLINE',
+                'location' => 'Panti Asuhan Yatim',
             ]
         );
 

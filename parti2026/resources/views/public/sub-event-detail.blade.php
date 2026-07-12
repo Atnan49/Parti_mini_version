@@ -151,14 +151,22 @@
                     </div>
                 @endif
 
-                @if($subEvent->pj_names)
+                <div class="space-y-4">
                     <div>
-                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5">Penanggung Jawab</h5>
+                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Pelaksanaan Acara</h5>
                         <p class="font-semibold text-[14.5px] text-ink">
-                            {{ implode(' & ', $subEvent->pj_names) }}
+                            {{ $subEvent->type }}
                         </p>
                     </div>
-                @endif
+                    @if($subEvent->location)
+                        <div>
+                            <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Lokasi Tempat Acara</h5>
+                            <p class="font-semibold text-[14.5px] text-ink">
+                                {{ $subEvent->location }}
+                            </p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

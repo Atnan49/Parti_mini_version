@@ -29,6 +29,8 @@ class SubEvent extends Model
         'status',
         'order',
         'is_deleted',
+        'type',
+        'location',
     ];
 
     /**

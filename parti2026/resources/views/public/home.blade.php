@@ -184,11 +184,16 @@
                     <h3 class="font-display text-[19px] sm:text-[22px] mb-2.5 leading-[1.3] text-ink group-hover:text-ember transition-colors duration-300 uppercase font-bold">{{ $subEvent->name }}</h3>
                     <p class="text-[14px] sm:text-[14.5px] text-ink-soft leading-[1.65] mb-[22px]">{{ Str::limit($subEvent->description, 140) }}</p>
                     
-                    @if($subEvent->pj_names)
-                        <div class="font-mono text-[11px] tracking-wide text-ink-soft/80 border-t border-dashed border-line pt-4 mt-auto flex items-center gap-1.5">
-                            <span class="text-gold font-bold">PJ</span> · {{ implode(' & ', $subEvent->pj_names) }}
+                    <div class="font-mono text-[11px] tracking-wide text-ink-soft/80 border-t border-dashed border-line pt-4 mt-auto flex flex-col gap-1">
+                        <div>
+                            <span class="text-gold font-bold">DILAKSANAKAN</span> · {{ $subEvent->type }}
                         </div>
-                    @endif
+                        @if($subEvent->location)
+                            <div>
+                                <span class="text-gold font-bold">LOKASI</span> · {{ $subEvent->location }}
+                            </div>
+                        @endif
+                    </div>
                 </a>
             @empty
                 <div class="col-span-2 py-16 text-center border border-dashed border-line rounded-[6px] bg-paper">
