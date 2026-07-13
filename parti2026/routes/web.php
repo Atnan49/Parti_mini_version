@@ -45,20 +45,17 @@ Route::middleware(['auth', 'force.password.change'])
         // === Fitur Khusus SUPERADMIN ===
         Route::middleware('role:SUPERADMIN')->group(function () {
             // Sub Acara
-            Route::resource('sub-events', SubEventController::class);
+            Route::resource('sub-events', SubEventController::class)->except(['show']);
             Route::put('sub-events/{subEvent}/status', [SubEventController::class, 'updateStatus'])->name('sub-events.status');
-            Route::post('sub-events/reorder', [SubEventController::class, 'reorder'])->name('sub-events.reorder');
 
             // Dokumen per Sub Acara
             Route::get('sub-events/{subEvent}/documents', [DocumentController::class, 'index'])->name('documents.index');
             Route::post('sub-events/{subEvent}/documents', [DocumentController::class, 'store'])->name('documents.store');
             Route::put('documents/{document}', [DocumentController::class, 'update'])->name('documents.update');
             Route::delete('documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
-            Route::post('sub-events/{subEvent}/documents/reorder', [DocumentController::class, 'reorder'])->name('documents.reorder');
 
             // Timeline
             Route::resource('timeline', TimelineController::class)->except(['show']);
-            Route::post('timeline/reorder', [TimelineController::class, 'reorder'])->name('timeline.reorder');
 
             // User Management (Kesekretariatan)
             Route::resource('users', UserController::class)->only(['index', 'create', 'store']);
@@ -68,7 +65,6 @@ Route::middleware(['auth', 'force.password.change'])
 
             // Sponsor Management
             Route::resource('sponsors', SponsorController::class)->except(['show']);
-            Route::post('sponsors/reorder', [SponsorController::class, 'reorder'])->name('sponsors.reorder');
 
             // Audit Logs
             Route::get('audit-log', [AuditLogController::class, 'index'])->name('audit-log.index');

@@ -32,11 +32,24 @@ class SubEventController extends Controller
             'date_start' => ['nullable', 'date'],
             'date_end' => ['nullable', 'date', 'after_or_equal:date_start'],
             'pj_names' => ['nullable', 'string'],
-            'htm_tiers' => ['nullable', 'string'],
+            'htm_tiers' => [
+                'nullable',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $value))));
+                    foreach ($lines as $line) {
+                        $parts = explode(':', $line, 2);
+                        if (count($parts) < 2 || trim($parts[0]) === '' || !is_numeric(trim($parts[1]))) {
+                            $fail('Format HTM Tiket harus berupa "NamaKategori:Harga" per baris (contoh: Presale:20000).');
+                            return;
+                        }
+                    }
+                }
+            ],
             'order' => ['required', 'integer', 'min:0'],
             'type' => ['required', 'in:ONLINE,OFFLINE,HYBRID'],
             'location' => ['nullable', 'string', 'max:255'],
-            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
         $year = session('active_year', config('parti.active_year', 2026));
@@ -121,11 +134,24 @@ class SubEventController extends Controller
             'date_start' => ['nullable', 'date'],
             'date_end' => ['nullable', 'date', 'after_or_equal:date_start'],
             'pj_names' => ['nullable', 'string'],
-            'htm_tiers' => ['nullable', 'string'],
+            'htm_tiers' => [
+                'nullable',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $value))));
+                    foreach ($lines as $line) {
+                        $parts = explode(':', $line, 2);
+                        if (count($parts) < 2 || trim($parts[0]) === '' || !is_numeric(trim($parts[1]))) {
+                            $fail('Format HTM Tiket harus berupa "NamaKategori:Harga" per baris (contoh: Presale:20000).');
+                            return;
+                        }
+                    }
+                }
+            ],
             'order' => ['required', 'integer', 'min:0'],
             'type' => ['required', 'in:ONLINE,OFFLINE,HYBRID'],
             'location' => ['nullable', 'string', 'max:255'],
-            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
         // Parse PJ Names (comma separated)
@@ -187,12 +213,27 @@ class SubEventController extends Controller
 
     public function destroy(SubEvent $subEvent)
     {
-        $subEvent->update(['is_deleted' => true]);
+        // Delete poster file if exists
+        if ($subEvent->poster_path && Storage::disk('public')->exists($subEvent->poster_path)) {
+            Storage::disk('public')->delete($subEvent->poster_path);
+            $subEvent->poster_path = null;
+        }
+
+        // Also delete all associated document files and delete the document records
+        foreach ($subEvent->documents as $document) {
+            if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+            $document->delete();
+        }
+
+        $subEvent->is_deleted = true;
+        $subEvent->save();
 
         // Audit Log
         AuditLog::create([
             'user_id' => \Illuminate\Support\Facades\Auth::id(),
-            'action' => 'Menghapus sub acara (soft-delete): ' . $subEvent->name,
+            'action' => 'Menghapus sub acara (soft-delete) beserta poster & berkasnya: ' . $subEvent->name,
             'entity_type' => 'SubEvent',
             'entity_id' => $subEvent->id,
         ]);
@@ -220,9 +261,6 @@ class SubEventController extends Controller
         return redirect()->route('admin.sub-events.index')->with('success', 'Status sub acara ' . $subEvent->name . ' berhasil diperbarui.');
     }
 
-    public function reorder(Request $request)
-    {
-        return redirect()->route('admin.sub-events.index');
-    }
+
 }
 

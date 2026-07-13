@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dokumen Template — ' . $subEvent->name)
+@section('title', 'Dokumen Template | ' . $subEvent->name)
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6 text-left" x-data="{ editingDocId: null }">
@@ -144,3 +144,4 @@
     </div>
 </div>
 @endsection
+

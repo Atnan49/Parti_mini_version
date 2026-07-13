@@ -27,7 +27,7 @@ class SponsorController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['required', 'image', 'max:2048'], // max 2MB logo
+            'logo' => ['required', 'image', 'max:1024'], // max 1MB logo
             'website_url' => ['nullable', 'url', 'max:255'],
             'tier' => ['required', 'in:PLATINUM,GOLD,SILVER,BRONZE'],
             'order' => ['required', 'integer', 'min:0'],
@@ -66,7 +66,7 @@ class SponsorController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['nullable', 'image', 'max:2048'],
+            'logo' => ['nullable', 'image', 'max:1024'],
             'website_url' => ['nullable', 'url', 'max:255'],
             'tier' => ['required', 'in:PLATINUM,GOLD,SILVER,BRONZE'],
             'order' => ['required', 'integer', 'min:0'],
@@ -121,9 +121,6 @@ class SponsorController extends Controller
         return redirect()->route('admin.sponsors.index')->with('success', 'Sponsor berhasil dihapus.');
     }
 
-    public function reorder(Request $request)
-    {
-        return back();
-    }
+
 }
 

@@ -84,6 +84,12 @@ Dokumen ini berisi panduan teknis pengembangan (handover) serta panduan pengguna
 3. Di panel kiri, masukkan nama label dokumen (misal: *Guidebook Lomba Web*) dan pilih file PDF/DOCX (maksimal 10MB).
 4. Klik **Unggah Dokumen**. Berkas ini akan langsung muncul di halaman detail sub-acara publik sehingga bisa diunduh oleh peserta.
 
+#### 6. Cara Mengelola Sponsor Pendukung
+1. Buka menu **Sponsor** di sidebar kiri.
+2. Klik tombol **+ Tambah Sponsor Baru**.
+3. Isi Nama Perusahaan, URL Website (jika ada), tingkat tier sponsor (Platinum, Gold, Silver, Bronze), urutan tampil, dan unggah berkas logo sponsor.
+4. Klik **Tambah Sponsor**. Status default adalah langsung tampil, Anda bisa menyembunyikannya dari publik dengan mengedit opsi status keaktifan sponsor.
+
 ---
 
 ### B. Panduan untuk Peran: KESEKRETARIATAN
@@ -100,6 +106,25 @@ Dokumen ini berisi panduan teknis pengembangan (handover) serta panduan pengguna
 3. Salin link Google Form pendaftaran acara Anda, dan tempelkan di kolom input sub-acara terkait.
    * *Catatan*: Sistem hanya menerima URL valid dari Google Form (`docs.google.com/forms` atau `forms.gle`).
 4. Klik **Simpan Tautan**. Tombol "Daftar" di halaman depan publik untuk sub-acara tersebut akan otomatis aktif dan mengarah ke link Google Form tersebut.
+
+---
+
+### C. Pemulihan Sandi Superadmin (Password Recovery)
+
+Karena rute pengaturan lupa password email dinonaktifkan secara sengaja demi keamanan, jika akun **Superadmin** mengalami lupa sandi, pemulihan dapat dilakukan secara langsung di server menggunakan **Artisan Tinker**:
+
+1. Masuk ke terminal SSH server Anda atau buka terminal di direktori proyek lokal.
+2. Jalankan perintah Tinker:
+   ```bash
+   php artisan tinker
+   ```
+3. Cari akun Superadmin dan ganti passwordnya:
+   ```php
+   $user = App\Models\User::where('role', 'SUPERADMIN')->first();
+   $user->password = Hash::make('SandiBaruAnda123');
+   $user->save();
+   ```
+4. Ketik `exit` untuk keluar. Sekarang Anda dapat login menggunakan password baru tersebut.
 
 ---
 

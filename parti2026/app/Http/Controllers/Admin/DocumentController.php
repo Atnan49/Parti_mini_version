@@ -116,9 +116,6 @@ class DocumentController extends Controller
         return back()->with('success', 'Dokumen template berhasil dihapus.');
     }
 
-    public function reorder(Request $request, SubEvent $subEvent)
-    {
-        return back();
-    }
+
 }
 

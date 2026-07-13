@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'PARTI 2026 — Vanguard of Tech')</title>
-    <meta name="description" content="@yield('meta_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
+    <title>@yield('title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')</title>
+    <meta name="description" content="@yield('meta_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
 
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
     <meta property="og:site_name" content="PARTI {{ config('parti.active_year', 2026) }} UMS">
-    <meta property="og:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
-    <meta property="og:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
+    <meta property="og:title" content="@yield('og_title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')">
+    <meta property="og:description" content="@yield('og_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
     <meta property="og:image" content="@yield('og_image', asset('logo.png'))">
 
     <!-- Twitter SEO -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ request()->url() }}">
-    <meta property="twitter:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
-    <meta property="twitter:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
+    <meta property="twitter:title" content="@yield('og_title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')">
+    <meta property="twitter:description" content="@yield('og_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
     <meta property="twitter:image" content="@yield('og_image', asset('logo.png'))">
     @if(config('parti.seo.twitter_handle'))
     <meta property="twitter:site" content="{{ config('parti.seo.twitter_handle') }}">
@@ -105,15 +105,16 @@
                         <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-8 w-auto">
                         PARTI <span class="text-ember">{{ config('parti.active_year', 2026) }}</span>
                     </div>
-                    <p class="text-[13px] text-[#B8A98D] mt-2.5 max-w-[32ch]">Vanguard of Tech — HIMATIF Universitas Muhammadiyah Surakarta.</p>
+                    <p class="text-[13px] text-[#B8A98D] mt-2.5 max-w-[32ch]">Vanguard of Tech | HIMATIF Universitas Muhammadiyah Surakarta.</p>
                 </div>
                 <div class="flex flex-wrap gap-12 sm:gap-16">
                     <div class="text-left">
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Acara</h5>
-                        <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Webinar Nasional</a>
-                        <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Web Programming</a>
-                        <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Lomba Futsal</a>
-                        <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Bakti Sosial</a>
+                        @forelse($footerSubEvents as $sub)
+                            <a href="{{ route('sub-event.show', $sub->slug) }}" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">{{ $sub->name }}</a>
+                        @empty
+                            <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Lihat Semua Acara</a>
+                        @endforelse
                     </div>
                     <div class="text-left">
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Jelajah</h5>
@@ -164,3 +165,4 @@
     </footer>
 </body>
 </html>
+

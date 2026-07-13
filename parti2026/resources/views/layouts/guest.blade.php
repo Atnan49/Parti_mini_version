@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'PARTI 2026') }} — Panel Admin</title>
+        <title>{{ config('app.name', 'PARTI 2026') }} | Panel Admin</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,4 +33,5 @@
         </div>
     </body>
 </html>
+
 

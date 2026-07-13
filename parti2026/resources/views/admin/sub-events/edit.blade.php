@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Sub Acara — PARTI Admin')
+@section('title', 'Edit Sub Acara | PARTI Admin')
 
 @section('content')
 <div class="max-w-3xl mx-auto space-y-6 text-left">
@@ -130,3 +130,4 @@
     </div>
 </div>
 @endsection
+

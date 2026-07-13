@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen User Kesekretariatan — PARTI Admin')
+@section('title', 'Manajemen User Kesekretariatan | PARTI Admin')
 
 @section('content')
 <div class="space-y-6 text-left">
@@ -113,3 +113,4 @@
     </div>
 </div>
 @endsection
+

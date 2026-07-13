@@ -26,14 +26,17 @@ class GformLinkRequest extends FormRequest
                 'nullable',
                 'url',
                 function ($attribute, $value, $fail) {
-                    $allowedDomains = config('parti.gform_domains', ['docs.google.com/forms', 'forms.gle']);
+                    $parsed = parse_url($value);
+                    $host = isset($parsed['host']) ? preg_replace('/^www\./', '', strtolower($parsed['host'])) : '';
+                    $path = isset($parsed['path']) ? $parsed['path'] : '';
+
                     $isValid = false;
-                    foreach ($allowedDomains as $domain) {
-                        if (str_contains($value, $domain)) {
-                            $isValid = true;
-                            break;
-                        }
+                    if ($host === 'forms.gle') {
+                        $isValid = true;
+                    } elseif ($host === 'docs.google.com' && str_starts_with($path, '/forms')) {
+                        $isValid = true;
                     }
+
                     if (!$isValid) {
                         $fail('Tautan pendaftaran harus merupakan domain Google Form yang valid (docs.google.com/forms atau forms.gle).');
                     }

@@ -62,7 +62,7 @@ class SubEvent extends Model
         // Automatically generate slug on create
         static::creating(function ($subEvent) {
             if (empty($subEvent->slug)) {
-                $subEvent->slug = static::generateUniqueSlug($subEvent->name);
+                $subEvent->slug = static::generateUniqueSlug($subEvent->name, $subEvent->year);
             }
         });
 
@@ -75,15 +75,15 @@ class SubEvent extends Model
     }
 
     /**
-     * Helper to generate unique slug.
+     * Helper to generate unique slug per year.
      */
-    public static function generateUniqueSlug(string $name): string
+    public static function generateUniqueSlug(string $name, int $year): string
     {
         $slug = Str::slug($name);
         $originalSlug = $slug;
         $count = 1;
 
-        while (static::where('slug', $slug)->exists()) {
+        while (static::where('year', $year)->where('slug', $slug)->exists()) {
             $slug = "{$originalSlug}-{$count}";
             $count++;
         }

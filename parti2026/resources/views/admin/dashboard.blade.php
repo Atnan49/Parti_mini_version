@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard — PARTI ' . $year)
+@section('title', 'Dashboard | PARTI ' . $year)
 
 @section('content')
 <div class="space-y-8">
@@ -104,3 +104,4 @@
     @endif
 </div>
 @endsection
+

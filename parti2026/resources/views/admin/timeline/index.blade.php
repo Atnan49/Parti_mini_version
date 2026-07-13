@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Timeline — PARTI ' . $year)
+@section('title', 'Kelola Timeline | PARTI ' . $year)
 
 @section('content')
 <div class="space-y-6 text-left">
@@ -80,3 +80,4 @@
     </div>
 </div>
 @endsection
+

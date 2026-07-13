@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Sponsor Baru — PARTI Admin')
+@section('title', 'Tambah Sponsor Baru | PARTI Admin')
 
 @section('content')
 <div class="max-w-2xl mx-auto space-y-6 text-left">
@@ -86,3 +86,4 @@
     </div>
 </div>
 @endsection
+

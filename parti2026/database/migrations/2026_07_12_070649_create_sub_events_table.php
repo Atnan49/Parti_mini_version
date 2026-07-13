@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedSmallInteger('year');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->string('tagline')->nullable();
             $table->text('description')->nullable();
             $table->date('date_start')->nullable();
@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
 
+            $table->unique(['year', 'slug']);
             $table->index(['year', 'status']);
         });
     }

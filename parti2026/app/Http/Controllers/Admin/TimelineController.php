@@ -114,9 +114,6 @@ class TimelineController extends Controller
         return redirect()->route('admin.timeline.index')->with('success', 'Agenda timeline berhasil dihapus.');
     }
 
-    public function reorder(Request $request)
-    {
-        return back();
-    }
+
 }
 

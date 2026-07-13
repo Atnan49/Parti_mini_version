@@ -11,8 +11,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // ponytail: simple direct query to database instead of complex repository wrappers
-        $year = config('parti.active_year', 2026);
+        // ponytail: check session active_year for admin previews, fallback to config
+        $year = session('active_year', config('parti.active_year', 2026));
 
         $subEvents = SubEvent::forYear($year)->published()->notDeleted()->orderBy('order')->get();
         $timeline = TimelineItem::forYear($year)->orderBy('date')->orderBy('order')->get();

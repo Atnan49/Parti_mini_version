@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Ganti Password — PARTI Admin')
+@section('title', 'Ganti Password | PARTI Admin')
 
 @section('content')
 <div class="max-w-2xl mx-auto space-y-6 text-left">
@@ -62,3 +62,4 @@
     </div>
 </div>
 @endsection
+

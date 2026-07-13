@@ -1,8 +1,8 @@
 @extends('layouts.public')
 
-@section('title', $subEvent->name . ' — PARTI ' . config('parti.active_year', 2026))
+@section('title', $subEvent->name . ' | PARTI ' . config('parti.active_year', 2026))
 @section('meta_description', $subEvent->tagline ?? $subEvent->name)
-@section('og_title', $subEvent->name . ' — PARTI ' . config('parti.active_year', 2026))
+@section('og_title', $subEvent->name . ' | PARTI ' . config('parti.active_year', 2026))
 @section('og_description', $subEvent->tagline ?? Str::limit($subEvent->description, 150))
 @section('og_image', $subEvent->poster_url ?? asset('logo.png'))
 
@@ -62,7 +62,7 @@
         <div>
             @if($subEvent->poster_path)
                 <div class="mb-8 overflow-hidden rounded-[6px] border border-line/60 shadow-[0_12px_36px_-12px_rgba(28,20,11,0.08)] transition-transform duration-500 hover:scale-[1.01]">
-                    <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="w-full h-auto object-cover max-h-[500px]" />
+                    <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="w-full h-auto object-contain" />
                 </div>
             @endif
 
@@ -129,7 +129,7 @@
                 </p>
                 <div class="flex flex-wrap gap-2.5">
                     <!-- WhatsApp -->
-                    <a href="https://api.whatsapp.com/send?text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026) . ': ' . request()->url()) }}" 
+                    <a href="https://api.whatsapp.com/send?text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026) . ': ' . request()->url()) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-emerald-500 hover:bg-emerald-50 text-ink-soft hover:text-emerald-600 transition-colors"
                        title="Bagikan ke WhatsApp">
@@ -138,7 +138,7 @@
                         </svg>
                     </a>
                     <!-- Twitter / X -->
-                    <a href="https://twitter.com/intent/tweet?text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026)) }}&url={{ rawurlencode(request()->url()) }}" 
+                    <a href="https://twitter.com/intent/tweet?text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026)) }}&url={{ rawurlencode(request()->url()) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-sky-500 hover:bg-sky-50 text-ink-soft hover:text-sky-600 transition-colors"
                        title="Bagikan ke X">
@@ -147,7 +147,7 @@
                         </svg>
                     </a>
                     <!-- Telegram -->
-                    <a href="https://t.me/share/url?url={{ rawurlencode(request()->url()) }}&text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026)) }}" 
+                    <a href="https://t.me/share/url?url={{ rawurlencode(request()->url()) }}&text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026)) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-blue-400 hover:bg-blue-50 text-ink-soft hover:text-blue-500 transition-colors"
                        title="Bagikan ke Telegram">
@@ -194,7 +194,7 @@
 
                 @if($subEvent->htm_tiers)
                     <div>
-                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5">Harga Tiket masuk</h5>
+                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Harga Tiket Masuk</h5>
                         <div class="space-y-1.5">
                             @foreach($subEvent->htm_tiers as $tier)
                                 <div class="flex justify-between items-center text-[14px]">
@@ -214,14 +214,14 @@
 
                 <div class="space-y-4">
                     <div>
-                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Pelaksanaan Acara</h5>
+                        <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Format Acara</h5>
                         <p class="font-semibold text-[14.5px] text-ink">
                             {{ $subEvent->type }}
                         </p>
                     </div>
                     @if($subEvent->location)
                         <div>
-                            <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Lokasi Tempat Acara</h5>
+                            <h5 class="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-soft mb-1.5 font-bold">Lokasi Acara</h5>
                             <p class="font-semibold text-[14.5px] text-ink">
                                 {{ $subEvent->location }}
                             </p>
@@ -235,21 +235,21 @@
 {{-- ponytail: Structured Data for Google Event Rich Snippets --}}
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Event",
+  "@@context": "https://schema.org",
+  "@@type": "Event",
   "name": "{{ $subEvent->name }}",
   "startDate": "{{ $subEvent->date_start ? $subEvent->date_start->toIso8601String() : '' }}",
   "endDate": "{{ $subEvent->date_end ? $subEvent->date_end->toIso8601String() : ($subEvent->date_start ? $subEvent->date_start->toIso8601String() : '') }}",
   "eventAttendanceMode": "https://schema.org/{{ $subEvent->type === 'ONLINE' ? 'OnlineEventAttendanceMode' : ($subEvent->type === 'OFFLINE' ? 'OfflineEventAttendanceMode' : 'MixedEventAttendanceMode') }}",
   "eventStatus": "https://schema.org/EventScheduled",
   "location": {
-    "@type": "{{ $subEvent->type === 'ONLINE' ? 'VirtualLocation' : 'Place' }}",
+    "@@type": "{{ $subEvent->type === 'ONLINE' ? 'VirtualLocation' : 'Place' }}",
     @if($subEvent->type === 'ONLINE')
     "url": "{{ $subEvent->gform_link ?? request()->url() }}"
     @else
     "name": "{{ $subEvent->location ?? 'Universitas Muhammadiyah Surakarta' }}",
     "address": {
-      "@type": "PostalAddress",
+      "@@type": "PostalAddress",
       "addressLocality": "Surakarta",
       "addressRegion": "Jawa Tengah",
       "addressCountry": "ID"
@@ -261,11 +261,12 @@
   ],
   "description": "{{ Str::limit(strip_tags($subEvent->description), 160) }}",
   "organizer": {
-    "@type": "Organization",
+    "@@type": "Organization",
     "name": "HIMATIF UMS",
     "url": "https://www.instagram.com/himatifums/"
   }
 }
 </script>
 @endsection
+
 

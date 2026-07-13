@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Log Audit Aktivitas — PARTI Admin')
+@section('title', 'Log Audit Aktivitas | PARTI Admin')
 
 @section('content')
 <div class="space-y-6 text-left">
@@ -97,3 +97,4 @@
     </div>
 </div>
 @endsection
+
