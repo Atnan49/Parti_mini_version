@@ -6,7 +6,7 @@
 {{-- ponytail: all sections are placed directly here to avoid the overhead of multiple Blade component files --}}
 
 <!-- HERO SECTION -->
-<section class="relative py-12 md:py-24 overflow-hidden bg-gradient-to-br from-paper via-paper-warm/30 to-paper">
+<section class="relative py-12 md:py-24 overflow-hidden" style="background-color: #FDF9F1; background-image: radial-gradient(circle at 80% 20%, rgba(233, 206, 147, 0.25), transparent 50%), radial-gradient(circle at 10% 80%, rgba(226, 101, 11, 0.06), transparent 45%), url(&quot;data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0 L40 80 M0 40 L80 40 M0 0 L80 80 M80 0 L0 80' stroke='rgba(148,102,15,0.035)' stroke-width='0.7' fill='none'/%3E%3Ccircle cx='40' cy='40' r='2' fill='rgba(226,101,11,0.12)'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='rgba(148,102,15,0.1)'/%3E%3C/svg%3E&quot;);">
     <!-- Ambient Background Glows -->
     <div class="absolute top-0 right-0 w-[45%] h-[60%] bg-gradient-to-bl from-gold-soft/14 via-ember/5 to-transparent blur-[120px] rounded-full pointer-events-none animate-pulse-glow"></div>
     <div class="absolute -bottom-10 -left-10 w-[350px] h-[350px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
@@ -56,6 +56,8 @@
             </svg>
         </div>
     </div>
+    <!-- Subtle fade-out bottom overlay -->
+    <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-paper to-transparent pointer-events-none"></div>
 </section>
 
 <!-- TENTANG SECTION -->
