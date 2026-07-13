@@ -19,7 +19,7 @@
 
     <!-- Form Card -->
     <div class="bg-white border border-line rounded-[6px] p-6 md:p-8 shadow-sm">
-        <form method="POST" action="{{ route('admin.sub-events.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.sub-events.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -82,6 +82,14 @@
                     <textarea id="htm_tiers" name="htm_tiers" rows="3" class="block w-full border border-line rounded-[2px] px-3.5 py-2.5 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" placeholder="Format: NamaKategori:Harga (satu per baris)&#10;Contoh:&#10;Umum:50000&#10;VIP:100000">{{ old('htm_tiers') }}</textarea>
                     <p class="text-[10px] text-ink-soft/60 mt-1">Kosongkan jika acara gratis. Gunakan format yang tepat agar harga tampil di halaman detail publik.</p>
                     <x-input-error :messages="$errors->get('htm_tiers')" class="mt-2 text-rose-600 text-xs" />
+                </div>
+
+                <!-- Poster -->
+                <div class="md:col-span-2">
+                    <label for="poster" class="block font-mono text-[11px] tracking-wider uppercase text-ink-soft mb-1.5 font-bold">Poster / Banner Acara</label>
+                    <input id="poster" name="poster" type="file" accept="image/*" class="block w-full border border-line rounded-[2px] px-3.5 py-2 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" />
+                    <p class="text-[10px] text-ink-soft/60 mt-1">Format gambar (JPEG, PNG, JPG, WEBP). Maksimal 5MB. Gambar ini akan digunakan untuk pratinjau sharing di media sosial.</p>
+                    <x-input-error :messages="$errors->get('poster')" class="mt-2 text-rose-600 text-xs" />
                 </div>
 
                 <!-- Description -->

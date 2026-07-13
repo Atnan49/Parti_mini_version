@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SubEvent extends Model
@@ -31,6 +32,7 @@ class SubEvent extends Model
         'is_deleted',
         'type',
         'location',
+        'poster_path',
     ];
 
     /**
@@ -61,6 +63,13 @@ class SubEvent extends Model
         static::creating(function ($subEvent) {
             if (empty($subEvent->slug)) {
                 $subEvent->slug = static::generateUniqueSlug($subEvent->name);
+            }
+        });
+
+        // Delete poster file when the model is permanently deleted
+        static::deleting(function ($subEvent) {
+            if ($subEvent->poster_path && Storage::disk('public')->exists($subEvent->poster_path)) {
+                Storage::disk('public')->delete($subEvent->poster_path);
             }
         });
     }
@@ -145,5 +154,13 @@ class SubEvent extends Model
         }
 
         return 'coming_soon';
+    }
+
+    /**
+     * Accessor for full poster URL.
+     */
+    public function getPosterUrlAttribute(): ?string
+    {
+        return $this->poster_path ? Storage::url($this->poster_path) : null;
     }
 }

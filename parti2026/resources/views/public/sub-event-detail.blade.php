@@ -4,6 +4,7 @@
 @section('meta_description', $subEvent->tagline ?? $subEvent->name)
 @section('og_title', $subEvent->name . ' — PARTI ' . config('parti.active_year', 2026))
 @section('og_description', $subEvent->tagline ?? Str::limit($subEvent->description, 150))
+@section('og_image', $subEvent->poster_url ?? asset('logo.png'))
 
 @section('content')
 <!-- DETAIL PAGE HEADER -->
@@ -59,6 +60,12 @@
     <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.25fr_0.75fr] gap-12 md:gap-16">
         <!-- Left Column: Details -->
         <div>
+            @if($subEvent->poster_path)
+                <div class="mb-8 overflow-hidden rounded-[6px] border border-line/60 shadow-[0_12px_36px_-12px_rgba(28,20,11,0.08)] transition-transform duration-500 hover:scale-[1.01]">
+                    <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="w-full h-auto object-cover max-h-[500px]" />
+                </div>
+            @endif
+
             <h3 class="font-mono text-[12px] tracking-[0.15em] uppercase text-ember mb-5 block">Deskripsi Acara</h3>
             <div class="text-ink-soft leading-[1.8] text-[15px] sm:text-[16px] space-y-6">
                 {!! nl2br(e($subEvent->description)) !!}

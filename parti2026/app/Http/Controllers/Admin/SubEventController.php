@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SubEvent;
 use App\Models\AuditLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SubEventController extends Controller
 {
@@ -35,6 +36,7 @@ class SubEventController extends Controller
             'order' => ['required', 'integer', 'min:0'],
             'type' => ['required', 'in:ONLINE,OFFLINE,HYBRID'],
             'location' => ['nullable', 'string', 'max:255'],
+            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ]);
 
         $year = session('active_year', config('parti.active_year', 2026));
@@ -60,6 +62,11 @@ class SubEventController extends Controller
             }
         }
 
+        $posterPath = null;
+        if ($request->hasFile('poster')) {
+            $posterPath = $request->file('poster')->store('posters', 'public');
+        }
+
         $subEvent = SubEvent::create([
             'year' => $year,
             'name' => $validated['name'],
@@ -74,6 +81,7 @@ class SubEventController extends Controller
             'is_deleted' => false,
             'type' => $validated['type'],
             'location' => $validated['location'],
+            'poster_path' => $posterPath,
         ]);
 
         // Audit Log
@@ -117,6 +125,7 @@ class SubEventController extends Controller
             'order' => ['required', 'integer', 'min:0'],
             'type' => ['required', 'in:ONLINE,OFFLINE,HYBRID'],
             'location' => ['nullable', 'string', 'max:255'],
+            'poster' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ]);
 
         // Parse PJ Names (comma separated)
@@ -140,7 +149,7 @@ class SubEventController extends Controller
             }
         }
 
-        $subEvent->update([
+        $data = [
             'name' => $validated['name'],
             'tagline' => $validated['tagline'],
             'description' => $validated['description'],
@@ -151,7 +160,19 @@ class SubEventController extends Controller
             'order' => $validated['order'],
             'type' => $validated['type'],
             'location' => $validated['location'],
-        ]);
+        ];
+
+        if ($request->hasFile('poster')) {
+            // Delete old file
+            if ($subEvent->poster_path && Storage::disk('public')->exists($subEvent->poster_path)) {
+                Storage::disk('public')->delete($subEvent->poster_path);
+            }
+
+            // Save new file
+            $data['poster_path'] = $request->file('poster')->store('posters', 'public');
+        }
+
+        $subEvent->update($data);
 
         // Audit Log
         AuditLog::create([

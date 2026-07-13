@@ -19,7 +19,7 @@
 
     <!-- Form Card -->
     <div class="bg-white border border-line rounded-[6px] p-6 md:p-8 shadow-sm">
-        <form method="POST" action="{{ route('admin.sub-events.update', $subEvent->id) }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.sub-events.update', $subEvent->id) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
@@ -83,6 +83,23 @@
                     <textarea id="htm_tiers" name="htm_tiers" rows="3" class="block w-full border border-line rounded-[2px] px-3.5 py-2.5 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" placeholder="Format: NamaKategori:Harga (satu per baris)&#10;Contoh:&#10;Umum:50000&#10;VIP:100000">{{ old('htm_tiers', $htmTiersString) }}</textarea>
                     <p class="text-[10px] text-ink-soft/60 mt-1">Kosongkan jika acara gratis. Gunakan format yang tepat agar harga tampil di halaman detail publik.</p>
                     <x-input-error :messages="$errors->get('htm_tiers')" class="mt-2 text-rose-600 text-xs" />
+                </div>
+
+                <!-- Poster -->
+                <div class="md:col-span-2 space-y-2">
+                    <label for="poster" class="block font-mono text-[11px] tracking-wider uppercase text-ink-soft mb-1.5 font-bold">Poster / Banner Acara</label>
+                    @if($subEvent->poster_path)
+                        <div class="mb-3 flex items-center gap-4 p-3 border border-line rounded-[2px] bg-paper-warm/20 w-max">
+                            <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="h-20 w-auto object-contain border border-line" />
+                            <div class="text-xs">
+                                <span class="text-ink-soft font-bold block">Poster Terunggah:</span>
+                                <span class="text-ink-soft/70">{{ basename($subEvent->poster_path) }}</span>
+                            </div>
+                        </div>
+                    @endif
+                    <input id="poster" name="poster" type="file" accept="image/*" class="block w-full border border-line rounded-[2px] px-3.5 py-2 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" />
+                    <p class="text-[10px] text-ink-soft/60 mt-1">Biarkan kosong jika tidak ingin mengubah poster. Format JPEG, PNG, JPG, WEBP. Maksimal 5MB.</p>
+                    <x-input-error :messages="$errors->get('poster')" class="mt-2 text-rose-600 text-xs" />
                 </div>
 
                 <!-- Description -->
