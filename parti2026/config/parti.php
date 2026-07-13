@@ -9,4 +9,18 @@ return [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ],
     'gform_domains' => ['docs.google.com/forms', 'forms.gle'],
+
+    // ponytail: simple configuration array for social media channels and SEO settings
+    'socials' => [
+        'parti' => [
+            'instagram' => env('SOCIAL_PARTI_INSTAGRAM', 'https://www.instagram.com/parti.ums/'),
+            'tiktok' => env('SOCIAL_PARTI_TIKTOK', 'https://www.tiktok.com/@parti.ums?is_from_webapp=1&sender_device=pc'),
+        ],
+        'himatif' => [
+            'instagram' => env('SOCIAL_HIMATIF_INSTAGRAM', 'https://www.instagram.com/himatifums/'),
+        ],
+    ],
+    'seo' => [
+        'twitter_handle' => env('SEO_TWITTER_HANDLE', '@himatif_ums'),
+    ],
 ];

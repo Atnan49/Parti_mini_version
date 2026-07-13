@@ -114,6 +114,60 @@
                 @endif
             </div>
 
+            <!-- Share Event Card -->
+            <div class="bg-paper border border-line rounded-[4px] p-6 sm:p-8 space-y-4">
+                <h5 class="font-mono text-[11px] tracking-[0.1em] uppercase text-ember font-bold">Bagikan Acara</h5>
+                <p class="text-[13px] text-ink-soft leading-relaxed">
+                    Ajak rekan-rekanmu untuk bergabung dengan membagikan informasi acara ini!
+                </p>
+                <div class="flex flex-wrap gap-2.5">
+                    <!-- WhatsApp -->
+                    <a href="https://api.whatsapp.com/send?text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026) . ': ' . request()->url()) }}" 
+                       target="_blank" rel="noopener noreferrer" 
+                       class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-emerald-500 hover:bg-emerald-50 text-ink-soft hover:text-emerald-600 transition-colors"
+                       title="Bagikan ke WhatsApp">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.335 4.992L2 22l5.163-1.355a9.95 9.95 0 004.847 1.256h.004c5.507 0 9.99-4.478 9.99-9.986 0-2.67-1.037-5.178-2.924-7.065A9.92 9.92 0 0012.012 2zm5.836 14.16c-.32.9-1.859 1.76-2.548 1.83-.58.06-1.34.1-3.83-.93-3.19-1.32-5.25-4.57-5.41-4.79-.16-.22-1.28-1.71-1.28-3.26 0-1.55.81-2.31 1.1-2.61.29-.3.63-.38.84-.38.21 0 .42 0 .61.01.2.01.47-.08.73.56.27.65.91 2.24.99 2.4.08.16.13.35.03.55-.1.2-.15.3-.3.48-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.3.79 1.3 1.69 2.1 1.16 1.03 2.13 1.35 2.43 1.5.3.15.48.13.66-.08.18-.22.79-.92 1.01-1.23.21-.32.43-.27.73-.16.3.11 1.91.9 2.24 1.06.33.16.55.24.63.38.08.14.08.82-.24 1.72z"/>
+                        </svg>
+                    </a>
+                    <!-- Twitter / X -->
+                    <a href="https://twitter.com/intent/tweet?text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026)) }}&url={{ rawurlencode(request()->url()) }}" 
+                       target="_blank" rel="noopener noreferrer" 
+                       class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-sky-500 hover:bg-sky-50 text-ink-soft hover:text-sky-600 transition-colors"
+                       title="Bagikan ke X">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <!-- Telegram -->
+                    <a href="https://t.me/share/url?url={{ rawurlencode(request()->url()) }}&text={{ rawurlencode($subEvent->name . ' — PARTI ' . config('parti.active_year', 2026)) }}" 
+                       target="_blank" rel="noopener noreferrer" 
+                       class="flex items-center justify-center w-10 h-10 rounded-full border border-line hover:border-blue-400 hover:bg-blue-50 text-ink-soft hover:text-blue-500 transition-colors"
+                       title="Bagikan ke Telegram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.24-5.54 3.65-.52.36-.99.53-1.41.52-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.89.03-.25.38-.51 1.07-.78 4.2-1.83 7-3.04 8.4-3.63 4-.16 4.83.69 4.84.81z"/>
+                        </svg>
+                    </a>
+                    <!-- Copy Link Button -->
+                    <div x-data="{ copied: false }">
+                        <button @click="navigator.clipboard.writeText('{{ request()->url() }}').then(() => { copied = true; setTimeout(() => copied = false, 2000) })"
+                                class="flex items-center justify-center w-10 h-10 rounded-full border border-line text-ink-soft hover:bg-paper-warm transition-all"
+                                :class="copied ? 'border-emerald-500 text-emerald-600 bg-emerald-50' : 'hover:border-ember hover:text-ember'"
+                                :title="copied ? 'Tautan disalin!' : 'Salin Tautan'">
+                            <!-- Copy icon -->
+                            <svg x-show="!copied" class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+                            </svg>
+                            <!-- Success Check icon -->
+                            <svg x-show="copied" x-cloak class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Event Details -->
             <div class="bg-paper border border-line rounded-[4px] p-6 sm:p-8 space-y-6">
                 <div>
@@ -168,7 +222,43 @@
                     @endif
                 </div>
             </div>
-        </div>
     </div>
 </section>
+
+{{-- ponytail: Structured Data for Google Event Rich Snippets --}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "{{ $subEvent->name }}",
+  "startDate": "{{ $subEvent->date_start ? $subEvent->date_start->toIso8601String() : '' }}",
+  "endDate": "{{ $subEvent->date_end ? $subEvent->date_end->toIso8601String() : ($subEvent->date_start ? $subEvent->date_start->toIso8601String() : '') }}",
+  "eventAttendanceMode": "https://schema.org/{{ $subEvent->type === 'ONLINE' ? 'OnlineEventAttendanceMode' : ($subEvent->type === 'OFFLINE' ? 'OfflineEventAttendanceMode' : 'MixedEventAttendanceMode') }}",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "{{ $subEvent->type === 'ONLINE' ? 'VirtualLocation' : 'Place' }}",
+    @if($subEvent->type === 'ONLINE')
+    "url": "{{ $subEvent->gform_link ?? request()->url() }}"
+    @else
+    "name": "{{ $subEvent->location ?? 'Universitas Muhammadiyah Surakarta' }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Surakarta",
+      "addressRegion": "Jawa Tengah",
+      "addressCountry": "ID"
+    }
+    @endif
+  },
+  "image": [
+    "{{ asset('logo.png') }}"
+  ],
+  "description": "{{ Str::limit(strip_tags($subEvent->description), 160) }}",
+  "organizer": {
+    "@type": "Organization",
+    "name": "HIMATIF UMS",
+    "url": "https://www.instagram.com/himatifums/"
+  }
+}
+</script>
 @endsection
+

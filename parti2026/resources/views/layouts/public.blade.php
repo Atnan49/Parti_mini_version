@@ -11,6 +11,7 @@
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:site_name" content="PARTI {{ config('parti.active_year', 2026) }} UMS">
     <meta property="og:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
     <meta property="og:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
     <meta property="og:image" content="@yield('og_image', asset('logo.png'))">
@@ -21,6 +22,10 @@
     <meta property="twitter:title" content="@yield('og_title', 'PARTI 2026 — Vanguard of Tech')">
     <meta property="twitter:description" content="@yield('og_description', 'Website PARTI 2026 UMS — Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara Himatif UMS.')">
     <meta property="twitter:image" content="@yield('og_image', asset('logo.png'))">
+    @if(config('parti.seo.twitter_handle'))
+    <meta property="twitter:site" content="{{ config('parti.seo.twitter_handle') }}">
+    <meta property="twitter:creator" content="{{ config('parti.seo.twitter_handle') }}">
+    @endif
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
@@ -102,7 +107,7 @@
                     </div>
                     <p class="text-[13px] text-[#B8A98D] mt-2.5 max-w-[32ch]">Vanguard of Tech — HIMATIF Universitas Muhammadiyah Surakarta.</p>
                 </div>
-                <div class="flex gap-16 md:gap-16">
+                <div class="flex flex-wrap gap-12 sm:gap-16">
                     <div class="text-left">
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Acara</h5>
                         <a href="#sub-acara" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Webinar Nasional</a>
@@ -114,6 +119,40 @@
                         <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Jelajah</h5>
                         <a href="#tentang" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Tentang</a>
                         <a href="#timeline" class="block text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">Timeline</a>
+                    </div>
+                    <div class="text-left font-sans">
+                        <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Media Sosial PARTI</h5>
+                        @if(config('parti.socials.parti.instagram'))
+                            <a href="{{ config('parti.socials.parti.instagram') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                                </svg>
+                                Instagram
+                            </a>
+                        @endif
+                        @if(config('parti.socials.parti.tiktok'))
+                            <a href="{{ config('parti.socials.parti.tiktok') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                                </svg>
+                                TikTok
+                            </a>
+                        @endif
+                    </div>
+                    <div class="text-left font-sans">
+                        <h5 class="font-mono text-[11px] tracking-[0.12em] uppercase text-ember mb-3.5">Media Sosial HIMATIF</h5>
+                        @if(config('parti.socials.himatif.instagram'))
+                            <a href="{{ config('parti.socials.himatif.instagram') }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-[13.5px] text-[#D8CAB2] mb-2.5 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                                </svg>
+                                Instagram
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
