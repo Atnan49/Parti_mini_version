@@ -11,18 +11,18 @@
     <div class="absolute top-0 right-0 w-[45%] h-[60%] bg-gradient-to-bl from-gold-soft/14 via-ember/5 to-transparent blur-[120px] rounded-full pointer-events-none animate-pulse-glow"></div>
     <div class="absolute -bottom-10 -left-10 w-[350px] h-[350px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-12 items-center text-center md:text-left relative z-10">
+    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-12 items-center text-center md:text-left relative z-10">
         <div>
             <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark animate-fade-in">
                 PARTI - HIMATIF UMS
             </span>
-            <h1 class="font-display font-bold leading-[1.1] md:leading-[0.98] text-[36px] sm:text-[48px] md:text-[80px] lg:text-[84px] mt-5 mb-6 text-ink uppercase tracking-tight">
+            <h1 class="font-display font-bold leading-[1.1] md:leading-[0.98] text-[36px] sm:text-[48px] md:text-[80px] lg:text-[84px] xl:text-[96px] 2xl:text-[108px] 3xl:text-[120px] mt-5 mb-6 text-ink uppercase tracking-tight">
                 VANGUARD<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ember to-gold">OF TECH</span>
             </h1>
             <p class="font-display text-[17px] sm:text-[19px] italic text-ink-soft mb-6 border-l-0 md:border-l-2 border-gold pl-0 md:pl-4 max-w-[46ch] mx-auto md:mx-0">
                 Memimpin perubahan menuju Digital Renaissance
             </p>
-            <p class="text-[15px] sm:text-[16px] leading-[1.75] text-ink-soft max-w-[52ch] mb-8 mx-auto md:mx-0">
+            <p class="text-[15px] sm:text-[16px] xl:text-[18px] leading-[1.75] text-ink-soft max-w-[52ch] mb-8 mx-auto md:mx-0">
                 Dari benteng batu dan lembaran naskah, peradaban bermula. PARTI {{ config('parti.active_year', 2026) }} mengangkat
                 semangat ksatria abad pertengahan sebagai metafora perjalanan teknologi masa kini —
                 pencarian, keberanian, dan ketekunan dalam menghadapi tantangan zaman.
@@ -37,10 +37,10 @@
             </div>
         </div>
 
-        <div class="relative flex items-center justify-center order-first md:order-none max-w-[150px] sm:max-w-[200px] md:max-w-none mx-auto w-full animate-float">
+        <div class="relative flex items-center justify-center order-first md:order-none max-w-[150px] sm:max-w-[200px] md:max-w-none xl:max-w-[400px] 2xl:max-w-[450px] mx-auto w-full animate-float">
             <div class="absolute w-[120%] h-[120%] border border-dashed border-gold-soft/60 rounded-full animate-[spin_60s_linear_infinite] opacity-60"></div>
             <div class="absolute w-[105%] h-[105%] border border-dashed border-ember/20 rounded-full animate-[spin_30s_linear_infinite_reverse] opacity-40"></div>
-            <svg class="w-full h-auto max-h-[340px] drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)]" width="300" height="340" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-full h-auto max-h-[340px] xl:max-h-[440px] 2xl:max-h-[500px] drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)]" width="300" height="340" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M150 20 L260 55 V150 C260 230 210 290 150 320 C90 290 40 230 40 150 V55 L150 20Z" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="2"/>
                 <path d="M150 50 L235 78 V148 C235 212 195 260 150 285 C105 260 65 212 65 148 V78 L150 50Z" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="1.5"/>
                 <line x1="150" y1="90" x2="150" y2="240" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="2"/>
@@ -63,7 +63,7 @@
     <!-- Subtle Background Gold Glow -->
     <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[300px] h-[300px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-12 md:gap-16 items-center text-center md:text-left relative z-10">
+    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-12 md:gap-16 items-center text-center md:text-left relative z-10">
         <div class="max-w-[140px] sm:max-w-[180px] md:max-w-[280px] mx-auto md:mx-0 w-full flex items-center justify-center animate-float">
             {{-- ponytail: removed background card, border, and outlines to show only the logo on transparent background --}}
             <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="w-full h-auto drop-shadow-[0_16px_32px_rgba(28,20,11,0.08)] hover:scale-105 transition-transform duration-500">
@@ -92,7 +92,7 @@
 <!-- SPONSORS SECTION -->
 @if($sponsors->isNotEmpty())
 <section class="py-10 md:py-14 bg-paper border-t border-line">
-    <div class="max-w-[1180px] mx-auto px-8 text-center">
+    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-8 text-center">
         <span class="font-mono text-[11px] tracking-[0.15em] uppercase text-ember-dark mb-8 block">Didukung Oleh</span>
         
         @foreach(['PLATINUM', 'GOLD', 'SILVER', 'BRONZE'] as $tier)
@@ -131,7 +131,7 @@
 
 <!-- SUB ACARA SECTION -->
 <section class="bg-gradient-to-b from-paper-warm via-paper-warm/40 to-paper border-t border-line/60 py-14 md:py-20" id="sub-acara">
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8">
+    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-[52px] gap-4 md:gap-5 text-center md:text-left">
             <div>
                 <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark">
@@ -144,8 +144,8 @@
             </p>
         </div>
 
-        {{-- ponytail: responsive flex carousel on mobile, standard grid on desktop --}}
-        <div class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:pb-0 md:px-0 md:mx-0">
+        {{-- ponytail: responsive flex carousel on mobile, standard grid on desktop, 3 cols on xl, 4 cols on 3xl --}}
+        <div class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none md:grid md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 md:gap-8 md:overflow-visible md:pb-0 md:px-0 md:mx-0">
             @forelse($subEvents as $subEvent)
                 <a href="{{ route('sub-event.show', $subEvent->slug) }}" class="w-[280px] sm:w-[320px] md:w-auto flex-shrink-0 snap-start snap-always group card flex flex-col bg-paper border border-line rounded-[6px] p-5 sm:p-7 md:p-8 relative transition-premium hover:-translate-y-1.5 hover:border-ember/50 hover:shadow-[0_24px_48px_-16px_rgba(28,20,11,0.14)] overflow-hidden text-left">
 
@@ -209,7 +209,7 @@
     <!-- Ambient Background Glow -->
     <div class="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8 text-center md:text-left relative z-10">
+    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 text-center md:text-left relative z-10">
         <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark">
             Alur Waktu
         </span>

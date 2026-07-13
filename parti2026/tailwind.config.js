@@ -29,6 +29,9 @@ export default {
                 'gold-soft': '#E9CE93',
                 line:        '#E4D8C1', // ponytail: darkened for crisper borders
             },
+            screens: {
+                '3xl': '1920px',
+            },
         },
     },
 
