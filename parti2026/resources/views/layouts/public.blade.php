@@ -38,9 +38,30 @@
     <!-- Styles and Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-paper text-ink font-body antialiased overflow-x-hidden">
+<body x-data="{ isPageLoaded: false, showSplash: true }" 
+      x-init="window.addEventListener('load', () => {
+          setTimeout(() => { isPageLoaded = true; }, 100);
+          setTimeout(() => { showSplash = false; }, 1500);
+      })"
+      class="bg-paper text-ink font-body antialiased overflow-x-hidden">
+
+    <!-- Splash Screen Loader -->
+    <!-- ponytail: elegant page load animation with logo sliding to top-left -->
+    <div x-show="showSplash" 
+         x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center bg-[#FDF9F1] transition-opacity duration-[1000ms] ease-premium"
+         :class="isPageLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'">
+        <div class="flex flex-col items-center gap-4 transition-all duration-[1200ms] ease-premium"
+             :class="isPageLoaded ? '-translate-x-[calc(50vw-120px)] -translate-y-[calc(50vh-50px)] scale-[0.25] opacity-0' : 'scale-100 opacity-100'">
+            <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-24 w-auto drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)] animate-pulse-glow">
+            <span class="font-display font-semibold text-[26px] tracking-[0.2em] text-ink uppercase">PARTI {{ config('parti.active_year', 2026) }}</span>
+        </div>
+    </div>
+
     <!-- Navbar -->
-    <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-line/60 shadow-[0_2px_20px_-10px_rgba(28,20,11,0.05)] transition-all duration-300">
+    <nav x-data="{ mobileMenuOpen: false }" 
+         class="sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-line/60 shadow-[0_2px_20px_-10px_rgba(28,20,11,0.05)] transition-all duration-[1000ms] ease-premium transform"
+         :class="isPageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'">
         <div class="w-full mx-auto px-6 md:px-12 xl:px-20 py-4 md:py-6 flex items-center justify-between">
             <a href="{{ route('home') }}" class="font-display-decorative font-bold text-[18px] sm:text-[21px] text-ink flex items-center gap-2.5 hover:opacity-90 transition-opacity">
                 {{-- ponytail: replaced pulsing dot with brand logo --}}
@@ -91,12 +112,14 @@
 
 
     <!-- Main Content -->
-    <main>
+    <main class="transition-all duration-[1000ms] ease-premium transform delay-[300ms]"
+          :class="isPageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-ink text-[#F4EBDB] pt-16 pb-[34px]">
+    <footer class="bg-ink text-[#F4EBDB] pt-16 pb-[34px] transition-opacity duration-[1000ms] ease-premium delay-[500ms]"
+            :class="isPageLoaded ? 'opacity-100' : 'opacity-0'">
         <div class="w-full mx-auto px-6 md:px-12 xl:px-20">
             <div class="flex flex-col md:flex-row justify-between items-start pb-11 border-b border-[#F4EBDB]/14 gap-8">
                 <div>

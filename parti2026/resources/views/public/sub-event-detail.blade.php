@@ -73,7 +73,10 @@
 
             <!-- Downloadable Documents Section -->
             @if($subEvent->documents->isNotEmpty())
-                <div class="mt-14 border border-line rounded-[4px] p-6 sm:p-8 bg-[#FAF6EE] text-left">
+                <div class="mt-14 border border-white/60 rounded-[8px] p-6 sm:p-8 bg-white/40 backdrop-blur-md text-left relative shadow-[0_8px_32px_rgba(28,20,11,0.03)]">
+                    <!-- Tech brackets -->
+                    <div class="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-ember/60"></div>
+                    <div class="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-ember/60"></div>
                     <h4 class="font-display font-semibold text-[18px] text-ink mb-4 flex items-center gap-2">
                         📄 Unduh Dokumen Template
                     </h4>
@@ -100,10 +103,12 @@
             @endif
         </div>
 
-        <!-- Right Column: Metadata & Action -->
         <div class="space-y-8 text-left">
             <!-- Registration Action Card -->
-            <div class="bg-gradient-to-br from-[#FFFBF4] to-paper border border-line/80 rounded-[6px] p-6 sm:p-8 shadow-[0_4px_20px_-10px_rgba(28,20,11,0.06)]">
+            <div class="bg-white/50 backdrop-blur-md border border-white/70 rounded-[8px] p-6 sm:p-8 shadow-[0_12px_36px_-12px_rgba(28,20,11,0.06)] relative">
+                <!-- Tech brackets -->
+                <div class="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-ember/60"></div>
+                <div class="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-ember/60"></div>
                 <h4 class="font-display font-bold text-[18px] text-ink uppercase tracking-wider mb-5">Pendaftaran</h4>
                 
                 @if($subEvent->registration_button_state === 'open')
@@ -122,7 +127,7 @@
             </div>
 
             <!-- Share Event Card -->
-            <div class="bg-paper border border-line rounded-[4px] p-6 sm:p-8 space-y-4">
+            <div class="bg-white/40 backdrop-blur-md border border-white/60 rounded-[8px] p-6 sm:p-8 space-y-4 shadow-[0_8px_32px_rgba(28,20,11,0.02)]">
                 <h5 class="font-mono text-[11px] tracking-[0.1em] uppercase text-ember font-bold">Bagikan Acara</h5>
                 <p class="text-[13px] text-ink-soft leading-relaxed">
                     Ajak rekan-rekanmu untuk bergabung dengan membagikan informasi acara ini!

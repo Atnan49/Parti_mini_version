@@ -6,12 +6,13 @@
 {{-- ponytail: all sections are placed directly here to avoid the overhead of multiple Blade component files --}}
 
 <!-- HERO SECTION -->
+<!-- ponytail: split Hero layout into 2 sides (text on left, moment photo on right with seamless blending) -->
 <section class="relative py-12 md:py-24 overflow-hidden hero-pattern-bg">
     <!-- Ambient Background Glows -->
     <div class="absolute top-0 right-0 w-[45%] h-[60%] bg-gradient-to-bl from-gold-soft/14 via-ember/5 to-transparent blur-[120px] rounded-full pointer-events-none animate-pulse-glow"></div>
     <div class="absolute -bottom-10 -left-10 w-[350px] h-[350px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-12 items-center text-center md:text-left relative z-10">
+    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left relative z-10">
         <div>
             <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark animate-fade-in">
                 PARTI - HIMATIF UMS
@@ -37,23 +38,16 @@
             </div>
         </div>
 
-        <div class="relative flex items-center justify-center order-first md:order-none max-w-[150px] sm:max-w-[200px] md:max-w-none mx-auto w-full animate-float">
-            <div class="absolute w-[120%] h-[120%] border border-dashed border-gold-soft/60 rounded-full animate-[spin_60s_linear_infinite] opacity-60"></div>
-            <div class="absolute w-[105%] h-[105%] border border-dashed border-ember/20 rounded-full animate-[spin_30s_linear_infinite_reverse] opacity-40"></div>
-            <svg class="w-full h-auto max-h-[340px] drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)]" width="300" height="340" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M150 20 L260 55 V150 C260 230 210 290 150 320 C90 290 40 230 40 150 V55 L150 20Z" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="2" />
-                <path d="M150 50 L235 78 V148 C235 212 195 260 150 285 C105 260 65 212 65 148 V78 L150 50Z" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="1.5" />
-                <line x1="150" y1="90" x2="150" y2="240" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="2" />
-                <line x1="112" y1="105" x2="188" y2="105" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <line x1="105" y1="140" x2="150" y2="120" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <line x1="195" y1="140" x2="150" y2="120" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <circle cx="150" cy="90" r="6" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="2" />
-                <circle cx="112" cy="105" r="3" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <circle cx="188" cy="105" r="3" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <circle cx="105" cy="140" r="3" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <circle cx="195" cy="140" r="3" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#B0801E" stroke-width="1.5" />
-                <path d="M150 175 L165 210 L150 240 L135 210 Z" class="animate-[draw_2.2s_ease_forwards] [stroke-dasharray:1400] [stroke-dashoffset:1400]" stroke="#E2650B" stroke-width="2" />
-            </svg>
+        <!-- ponytail: moment photo column with seamless fade overlay -->
+        <div class="relative w-full h-[320px] sm:h-[400px] md:h-[450px] rounded-[10px] overflow-hidden shadow-[0_20px_50px_-15px_rgba(28,20,11,0.12)] border border-white/60 hover:scale-[1.02] transition-transform duration-700 ease-premium animate-fade-in group">
+            <img src="{{ asset('hero_moment.png') }}" alt="Momen PARTI Tahun Lalu" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+            <!-- Left fade overlay - blending into text background -->
+            <div class="hidden md:block absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#FDF9F1] via-[#FDF9F1]/80 to-transparent pointer-events-none"></div>
+            <!-- Bottom fade overlay for mobile transition or desktop integration -->
+            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#FDF9F1] via-[#FDF9F1]/70 to-transparent pointer-events-none"></div>
+            <!-- Tech-bracket accents on image corners -->
+            <div class="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-ember/60"></div>
+            <div class="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-ember/60"></div>
         </div>
     </div>
     <!-- Subtle fade-out bottom overlay -->
@@ -66,9 +60,11 @@
     <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[300px] h-[300px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-12 md:gap-16 items-center text-center md:text-left relative z-10">
-        <div class="max-w-[140px] sm:max-w-[180px] md:max-w-[280px] mx-auto md:mx-0 w-full flex items-center justify-center animate-float">
-            {{-- ponytail: removed background card, border, and outlines to show only the logo on transparent background --}}
-            <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="w-full h-auto drop-shadow-[0_16px_32px_rgba(28,20,11,0.08)] hover:scale-105 transition-transform duration-500">
+        <div class="relative max-w-[180px] md:max-w-[300px] mx-auto md:mx-0 w-full flex items-center justify-center p-8 bg-white/40 backdrop-blur-md border border-white/60 rounded-[12px] shadow-[0_16px_36px_-12px_rgba(28,20,11,0.05)] animate-float">
+            <!-- Tech brackets -->
+            <div class="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-ember/60"></div>
+            <div class="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-ember/60"></div>
+            <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="w-full h-auto drop-shadow-[0_10px_20px_rgba(28,20,11,0.06)] hover:scale-105 transition-transform duration-500">
         </div>
         <div>
             <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark">
@@ -149,7 +145,13 @@
         {{-- ponytail: responsive flex carousel on mobile, standard grid on desktop, 3 cols on xl, 4 cols on 3xl --}}
         <div class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 -mx-6 px-6 scrollbar-none md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:pb-0 md:px-0 md:mx-0">
             @forelse($subEvents as $subEvent)
-            <a href="{{ route('sub-event.show', $subEvent->slug) }}" class="w-[280px] sm:w-[320px] md:w-auto flex-shrink-0 snap-start snap-always group card flex flex-col bg-paper border border-line rounded-[6px] p-5 sm:p-7 md:p-8 relative transition-premium hover:-translate-y-1.5 hover:border-ember/50 hover:shadow-[0_24px_48px_-16px_rgba(28,20,11,0.14)] overflow-hidden text-left">
+            <a href="{{ route('sub-event.show', $subEvent->slug) }}" class="w-[280px] sm:w-[320px] md:w-auto flex-shrink-0 snap-start snap-always group card flex flex-col bg-white/40 backdrop-blur-md border border-white/60 rounded-[8px] p-5 sm:p-7 md:p-8 relative transition-all duration-500 ease-premium hover:-translate-y-2 overflow-hidden text-left
+                @if($subEvent->registration_button_state === 'open') hover:border-emerald-300 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.15)]
+                @elseif($subEvent->registration_button_state === 'closed') hover:border-rose-300 hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.15)]
+                @else hover:border-amber-300 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.15)] @endif">
+                <!-- Tech brackets on card hover -->
+                <div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-transparent group-hover:border-ember/60 transition-colors duration-500"></div>
+                <div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-transparent group-hover:border-ember/60 transition-colors duration-500"></div>
 
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3 sm:gap-4">
                     <span class="font-mono text-[11px] text-ember-dark bg-[#FFF3E5] border border-ember/10 px-2.5 py-1 rounded-[3px] font-semibold whitespace-nowrap">
@@ -219,14 +221,14 @@
 
         <div class="relative grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-0 pl-4 md:pl-0">
             <!-- Line across desktop nodes -->
-            <div class="hidden md:block absolute top-[9px] left-0 right-0 h-[2px] bg-gradient-to-r from-ember via-gold to-line/60 z-0"></div>
+            <div class="hidden md:block absolute top-[9px] left-0 right-0 h-[3px] bg-gradient-to-r from-ember via-gold to-gold-soft/40 shadow-[0_0_8px_rgba(226,101,11,0.2)] z-0"></div>
             <!-- Line down mobile nodes -->
-            <div class="block md:hidden absolute top-[10px] bottom-[10px] left-[9px] w-[2px] bg-gradient-to-b from-ember via-gold to-line/60 z-0"></div>
+            <div class="block md:hidden absolute top-[10px] bottom-[10px] left-[9px] w-[3px] bg-gradient-to-b from-ember via-gold to-gold-soft/40 shadow-[0_0_8px_rgba(226,101,11,0.2)] z-0"></div>
 
             @forelse($timeline as $item)
             <div class="group relative pl-8 md:pl-0 pr-5 z-10 flex flex-col items-start text-left">
                 <!-- Bullet Node -->
-                <div class="absolute left-0 top-[2px] md:relative md:top-auto md:left-auto w-5 h-5 rounded-full bg-paper border-2 border-ember md:mb-6 z-20 transition-all duration-300 group-hover:scale-125 group-hover:bg-ember group-hover:shadow-[0_0_12px_rgba(226,101,11,0.5)]"></div>
+                <div class="absolute left-0 top-[2.5px] md:relative md:top-auto md:left-auto w-5 h-5 rounded-full bg-paper border-2 border-ember md:mb-6 z-20 transition-all duration-300 glowing-beacon group-hover:scale-110 group-hover:bg-ember-dark group-hover:border-ember"></div>
 
                 <span class="font-mono text-[11px] text-ember-dark bg-[#FFF3E5] border border-ember/10 px-2.5 py-0.5 rounded-[3px] font-bold tracking-wider mb-3.5 inline-block">
                     {{ $item->date ? $item->date->translatedFormat('d M') : 'TBD' }}
