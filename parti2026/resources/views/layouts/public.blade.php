@@ -41,7 +41,7 @@
 <body class="bg-paper text-ink font-body antialiased overflow-x-hidden">
     <!-- Navbar -->
     <nav x-data="{ mobileMenuOpen: false }" class="sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-line/60 shadow-[0_2px_20px_-10px_rgba(28,20,11,0.05)] transition-all duration-300">
-        <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 py-4 md:py-6 flex items-center justify-between">
+        <div class="w-full mx-auto px-6 md:px-12 xl:px-20 py-4 md:py-6 flex items-center justify-between">
             <a href="{{ route('home') }}" class="font-display-decorative font-bold text-[18px] sm:text-[21px] text-ink flex items-center gap-2.5 hover:opacity-90 transition-opacity">
                 {{-- ponytail: replaced pulsing dot with brand logo --}}
                 <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-7 sm:h-8 w-auto">
@@ -97,7 +97,7 @@
 
     <!-- Footer -->
     <footer class="bg-ink text-[#F4EBDB] pt-16 pb-[34px]">
-        <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8">
+        <div class="w-full mx-auto px-6 md:px-12 xl:px-20">
             <div class="flex flex-col md:flex-row justify-between items-start pb-11 border-b border-[#F4EBDB]/14 gap-8">
                 <div>
                     <div class="font-display-decorative text-[22px] font-bold flex items-center gap-2.5">

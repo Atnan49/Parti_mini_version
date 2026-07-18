@@ -13,7 +13,7 @@
     <div class="absolute top-0 right-0 w-[350px] h-[350px] bg-gold-soft/10 blur-[100px] rounded-full pointer-events-none animate-pulse-glow"></div>
     <div class="absolute bottom-0 left-0 w-[250px] h-[250px] bg-ember/5 blur-[80px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 relative z-10">
+    <div class="max-w-[1180px] mx-auto px-6 md:px-8 relative z-10">
         <div class="flex items-center gap-3.5 mb-6">
             <a href="{{ route('home') }}" class="font-mono text-[12px] text-ink-soft hover:text-ember transition-colors flex items-center gap-2 font-bold uppercase tracking-wider">
                 ← Kembali ke Beranda
@@ -57,7 +57,7 @@
 
 <!-- DETAIL CONTENT -->
 <section class="py-20 bg-paper">
-    <div class="max-w-[1180px] lg:max-w-[1240px] xl:max-w-[1440px] 2xl:max-w-[1620px] 3xl:max-w-[1800px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.25fr_0.75fr] gap-12 md:gap-16">
+    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.25fr_0.75fr] gap-12 md:gap-16">
         <!-- Left Column: Details -->
         <div>
             @if($subEvent->poster_path)
