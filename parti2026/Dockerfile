@@ -1,7 +1,8 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # ponytail: keep dependencies minimal and package cleanups to reduce image size
 RUN apt-get update && apt-get install -y \
+    build-essential \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -12,6 +13,11 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js (for building Vite assets)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure Apache Document Root to /var/www/html/public
@@ -28,4 +34,21 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-EXPOSE 80
+# Copy project files
+COPY . /var/www/html
+
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Install npm dependencies and build Vite assets
+RUN npm install --no-audit && npm run build
+
+# Set permissions for storage and bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]

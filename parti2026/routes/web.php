@@ -88,3 +88,17 @@ Route::get('/create-symlink', function () {
     }
 });
 
+// Route pemicu migrasi & seeding database untuk shared hosting (InfinityFree) tanpa SSH
+Route::get('/run-migration', function () {
+    try {
+        // Jalankan migrasi dan seeding secara otomatis
+        \Illuminate\Support\Facades\Artisan::call('migrate', [
+            '--force' => true // Diperlukan di environment production
+        ]);
+        return 'Migrasi database berhasil dijalankan!';
+    } catch (\Exception $e) {
+        return 'Gagal menjalankan migrasi: ' . $e->getMessage();
+    }
+});
+
+
