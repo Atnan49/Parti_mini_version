@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS in production to prevent mixed content issues (CSS/JS blocking)
+        if ($this->app->environment('production')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Share sub-events for the active year dynamically to the public layout footer
         \Illuminate\Support\Facades\View::composer('layouts.public', function ($view) {
             $year = session('active_year', config('parti.active_year', 2026));
