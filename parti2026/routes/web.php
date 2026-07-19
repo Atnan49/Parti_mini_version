@@ -101,4 +101,17 @@ Route::get('/run-migration', function () {
     }
 });
 
+// Route pemicu seeding database untuk memasukkan data awal/default (Admin, Sub-Events, dll)
+Route::get('/run-seed', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--force' => true
+        ]);
+        return 'Seeding database berhasil dijalankan! Silakan coba login.';
+    } catch (\Exception $e) {
+        return 'Gagal menjalankan seeding: ' . $e->getMessage();
+    }
+});
+
+
 
