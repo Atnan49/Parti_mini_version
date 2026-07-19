@@ -70,3 +70,21 @@ Route::middleware(['auth', 'force.password.change'])
             Route::get('audit-log', [AuditLogController::class, 'index'])->name('audit-log.index');
         });
     });
+
+// Route pemicu symlink storage untuk shared hosting (InfinityFree) tanpa SSH
+Route::get('/create-symlink', function () {
+    $target = storage_path('app/public');
+    $shortcut = public_path('storage');
+    
+    if (file_exists($shortcut)) {
+        return 'Tautan storage (symlink) sudah ada sebelumnya.';
+    }
+    
+    try {
+        symlink($target, $shortcut);
+        return 'Tautan storage (symlink) berhasil dibuat!';
+    } catch (\Exception $e) {
+        return 'Gagal membuat symlink: ' . $e->getMessage() . '. Coba buat folder manual jika hosting membatasi fungsi symlink.';
+    }
+});
+
