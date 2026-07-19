@@ -4,14 +4,33 @@
 
 @section('content')
 @php
-    $menuItems = $subEvents->map(function($event) {
-        return [
-            'image' => $event->poster_url ?: asset('hero_moment.png'),
-            'link' => route('sub-event.show', $event->slug),
-            'title' => $event->name,
-            'description' => $event->tagline ?: ''
-        ];
-    });
+    // ponytail: static moments from last year's PARTI to prevent blank canvas when database is empty
+    $menuItems = collect([
+        [
+            'image' => asset('image/moment/moment1.jpg'),
+            'link' => '#',
+            'title' => 'Momen 1',
+            'description' => 'Kilas Balik PARTI'
+        ],
+        [
+            'image' => asset('image/moment/moment2.jpg'),
+            'link' => '#',
+            'title' => 'Momen 2',
+            'description' => 'Kilas Balik PARTI'
+        ],
+        [
+            'image' => asset('image/moment/moment3.jpg'),
+            'link' => '#',
+            'title' => 'Momen 3',
+            'description' => 'Kilas Balik PARTI'
+        ],
+        [
+            'image' => asset('image/moment/moment4.jpg'),
+            'link' => '#',
+            'title' => 'Momen 4',
+            'description' => 'Kilas Balik PARTI'
+        ]
+    ]);
 @endphp
 {{-- ponytail: all sections are placed directly here to avoid the overhead of multiple Blade component files --}}
 
