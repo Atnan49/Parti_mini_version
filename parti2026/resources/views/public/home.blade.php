@@ -7,25 +7,25 @@
     // ponytail: static moments from last year's PARTI to prevent blank canvas when database is empty
     $menuItems = collect([
         [
-            'image' => asset('image/moment/moment1.jpg'),
+            'image' => asset('image/moment/hero_moment.png'),
             'link' => '#',
             'title' => 'Momen 1',
             'description' => 'Kilas Balik PARTI'
         ],
         [
-            'image' => asset('image/moment/moment2.jpg'),
+            'image' => asset('image/moment/moment2.png'),
             'link' => '#',
             'title' => 'Momen 2',
             'description' => 'Kilas Balik PARTI'
         ],
         [
-            'image' => asset('image/moment/moment3.jpg'),
+            'image' => asset('image/moment/moment3.png'),
             'link' => '#',
             'title' => 'Momen 3',
             'description' => 'Kilas Balik PARTI'
         ],
         [
-            'image' => asset('image/moment/moment4.jpg'),
+            'image' => asset('image/moment/moment4.png'),
             'link' => '#',
             'title' => 'Momen 4',
             'description' => 'Kilas Balik PARTI'
