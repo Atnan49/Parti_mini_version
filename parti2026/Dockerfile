@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 # ponytail: keep dependencies minimal and package cleanups to reduce image size
 RUN apt-get update && apt-get install -y \
