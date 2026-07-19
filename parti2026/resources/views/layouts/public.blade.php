@@ -100,9 +100,9 @@
                   x-text="progress >= 100 ? 'Selesai' : 'Memuat...'"></span>
         </div>
 
-        <!-- Logo Wrapper — Centered, handles the entrance and cinematic exit zoom -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
-            <!-- Inner Div — Handles the reveal and zoom-through exit animations -->
+        <!-- Logo & Title Wrapper — Perfectly Centered as a Single Unit -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-6 z-10 pointer-events-none">
+            <!-- Logo Section -->
             <div class="reveal-logo transition-all duration-[1200ms] ease-premium"
                  :class="logoExiting 
                      ? 'opacity-0 scale-[1.18] blur-md' 
@@ -110,12 +110,8 @@
                 <img src="{{ asset('logo.png') }}" alt="Logo PARTI" 
                      class="h-24 w-auto drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)] animate-pulse-glow">
             </div>
-        </div>
 
-        <!-- Title Text Wrapper — Centered, handles the entrance and exit zoom -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 z-0 pointer-events-none"
-             style="margin-top: 60px;">
-            <!-- Inner Div — Handles the reveal and zoom-through exit animations -->
+            <!-- Title Text Section -->
             <div class="flex flex-col items-center gap-1.5 reveal-text transition-all duration-[1200ms] ease-premium"
                  :class="logoExiting 
                      ? 'opacity-0 scale-[1.12] blur-sm' 
