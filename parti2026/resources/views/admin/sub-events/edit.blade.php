@@ -19,7 +19,7 @@
 
     <!-- Form Card -->
     <div class="bg-white border border-line rounded-[6px] p-6 md:p-8 shadow-sm">
-        <form method="POST" action="{{ route('admin.sub-events.update', $subEvent->id) }}" enctype="multipart/form-data" class="space-y-6">
+        <form method="POST" action="{{ route('admin.sub-events.update', $subEvent) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 

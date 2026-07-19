@@ -163,4 +163,13 @@ class SubEvent extends Model
     {
         return $this->poster_path ? Storage::url($this->poster_path) : null;
     }
+
+    /**
+     * Get the route key for the model.
+     * ponytail: use slug for pretty URLs in resource routing
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

@@ -53,7 +53,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <form method="POST" action="{{ route('admin.sub-events.status', $subEvent->id) }}" class="inline-block">
+                                <form method="POST" action="{{ route('admin.sub-events.status', $subEvent) }}" class="inline-block">
                                     @csrf
                                     @method('PUT')
                                     <select name="status" onchange="this.form.submit()" class="appearance-none bg-paper-warm/40 border border-line rounded-[2px] px-2.5 py-1 text-xs font-mono font-bold text-ink cursor-pointer focus:outline-none focus:border-ember">
@@ -64,16 +64,16 @@
                                 </form>
                             </td>
                             <td class="px-6 py-4 text-xs">
-                                <a href="{{ route('admin.documents.index', $subEvent->id) }}" class="inline-flex items-center gap-1.5 font-mono text-[11px] text-ink-soft hover:text-ember font-bold uppercase tracking-wider">
+                                <a href="{{ route('admin.documents.index', $subEvent) }}" class="inline-flex items-center gap-1.5 font-mono text-[11px] text-ink-soft hover:text-ember font-bold uppercase tracking-wider">
                                     📄 Kelola ({{ $subEvent->documents->count() }})
                                 </a>
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-3.5">
-                                    <a href="{{ route('admin.sub-events.edit', $subEvent->id) }}" class="font-mono text-[11px] text-ember hover:text-ember-dark font-bold uppercase tracking-wider">
+                                    <a href="{{ route('admin.sub-events.edit', $subEvent) }}" class="font-mono text-[11px] text-ember hover:text-ember-dark font-bold uppercase tracking-wider">
                                         ✏️ Edit
                                     </a>
-                                    <form method="POST" action="{{ route('admin.sub-events.destroy', $subEvent->id) }}" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sub-acara ini?')">
+                                    <form method="POST" action="{{ route('admin.sub-events.destroy', $subEvent) }}" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sub-acara ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="font-mono text-[11px] text-rose-600 hover:text-rose-800 font-bold uppercase tracking-wider">

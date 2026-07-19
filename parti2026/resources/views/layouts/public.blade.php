@@ -38,23 +38,91 @@
     <!-- Styles and Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body x-data="{ isPageLoaded: false, showSplash: true }" 
-      x-init="window.addEventListener('load', () => {
-          setTimeout(() => { isPageLoaded = true; }, 100);
-          setTimeout(() => { showSplash = false; }, 1500);
-      })"
+<body x-data="{
+          isPageLoaded: false,
+          showSplash: true,
+          logoVisible: false,
+          logoExiting: false,
+          progress: 0,
+          _interval: null,
+          _done: false,
+          startLoading() {
+              this._interval = setInterval(() => {
+                  if (this.progress < 90) {
+                      this.progress = Math.min(90, this.progress + (90 - this.progress) * 0.08);
+                  }
+              }, 50);
+              if (document.readyState === 'complete') {
+                  this.finishLoading();
+              } else {
+                  window.addEventListener('load', () => this.finishLoading());
+              }
+          },
+          finishLoading() {
+              if (this._done) return;
+              this._done = true;
+              clearInterval(this._interval);
+              this.progress = 100;
+              
+              // Sequence:
+              // 1. Progress reaches 100%.
+              // 2. Wait 800ms (delay after finished), then fade out progress bar and reveal logo & text.
+              setTimeout(() => { this.logoVisible = true; }, 800);
+              
+              // 3. Wait another 2200ms (total 3000ms) for visual appreciation, then zoom-through exit.
+              setTimeout(() => { this.logoExiting = true; }, 3000);
+              
+              // 4. Start fading out splash background (total 3300ms).
+              setTimeout(() => { this.isPageLoaded = true; }, 3300);
+              
+              // 5. Remove splash screen from DOM (total 4500ms).
+              setTimeout(() => { this.showSplash = false; }, 4500);
+          }
+      }"
+      x-init="startLoading()"
       class="bg-paper text-ink font-body antialiased overflow-x-hidden">
 
     <!-- Splash Screen Loader -->
-    <!-- ponytail: elegant page load animation with logo sliding to top-left -->
+    <!-- ponytail: step-by-step loading choreography (loadbar -> logo reveal -> cinematic zoom-through exit) -->
     <div x-show="showSplash" 
          x-cloak
-         class="fixed inset-0 z-[100] flex items-center justify-center bg-[#FDF9F1] transition-opacity duration-[1000ms] ease-premium"
+         class="fixed inset-0 z-[100] bg-[#FDF9F1] transition-opacity duration-[1200ms] ease-premium"
          :class="isPageLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'">
-        <div class="flex flex-col items-center gap-4 transition-all duration-[1200ms] ease-premium"
-             :class="isPageLoaded ? '-translate-x-[calc(50vw-120px)] -translate-y-[calc(50vh-50px)] scale-[0.25] opacity-0' : 'scale-100 opacity-100'">
-            <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-24 w-auto drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)] animate-pulse-glow">
-            <span class="font-display font-semibold text-[26px] tracking-[0.2em] text-ink uppercase">PARTI {{ config('parti.active_year', 2026) }}</span>
+
+        <!-- Loading Bar Container — Center screen, fades out after loading complete -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3 transition-all duration-500 ease-out z-0"
+             :class="logoVisible ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100'">
+            <div class="w-48 h-[3px] bg-line/40 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-ember to-gold rounded-full transition-all duration-300 ease-out"
+                     :style="'width: ' + progress + '%'"></div>
+            </div>
+            <span class="font-mono text-[10px] tracking-[0.15em] text-ink-soft/60 uppercase"
+                  x-text="progress >= 100 ? 'Selesai' : 'Memuat...'"></span>
+        </div>
+
+        <!-- Logo Wrapper — Centered, handles the entrance and cinematic exit zoom -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+            <!-- Inner Div — Handles the reveal and zoom-through exit animations -->
+            <div class="reveal-logo transition-all duration-[1200ms] ease-premium"
+                 :class="logoExiting 
+                     ? 'opacity-0 scale-[1.18] blur-md' 
+                     : (logoVisible ? 'reveal-logo-visible' : 'reveal-logo-hidden')">
+                <img src="{{ asset('logo.png') }}" alt="Logo PARTI" 
+                     class="h-24 w-auto drop-shadow-[0_10px_25px_rgba(176,128,30,0.15)] animate-pulse-glow">
+            </div>
+        </div>
+
+        <!-- Title Text Wrapper — Centered, handles the entrance and exit zoom -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 z-0 pointer-events-none"
+             style="margin-top: 60px;">
+            <!-- Inner Div — Handles the reveal and zoom-through exit animations -->
+            <div class="flex flex-col items-center gap-1.5 reveal-text transition-all duration-[1200ms] ease-premium"
+                 :class="logoExiting 
+                     ? 'opacity-0 scale-[1.12] blur-sm' 
+                     : (logoVisible ? 'reveal-text-visible' : 'reveal-text-hidden')">
+                <span class="font-display font-semibold text-[20px] md:text-[26px] tracking-[0.2em] text-ink uppercase whitespace-nowrap">PARTI {{ config('parti.active_year', 2026) }}</span>
+                <span class="font-mono text-[10px] tracking-[0.15em] text-ink-soft/60 uppercase">Selamat Datang</span>
+            </div>
         </div>
     </div>
 

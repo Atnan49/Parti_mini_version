@@ -3,6 +3,16 @@
 @section('title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')
 
 @section('content')
+@php
+    $menuItems = $subEvents->map(function($event) {
+        return [
+            'image' => $event->poster_url ?: asset('hero_moment.png'),
+            'link' => route('sub-event.show', $event->slug),
+            'title' => $event->name,
+            'description' => $event->tagline ?: ''
+        ];
+    });
+@endphp
 {{-- ponytail: all sections are placed directly here to avoid the overhead of multiple Blade component files --}}
 
 <!-- HERO SECTION -->
@@ -12,8 +22,36 @@
     <div class="absolute top-0 right-0 w-[45%] h-[60%] bg-gradient-to-bl from-gold-soft/14 via-ember/5 to-transparent blur-[120px] rounded-full pointer-events-none animate-pulse-glow"></div>
     <div class="absolute -bottom-10 -left-10 w-[350px] h-[350px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
 
-    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left relative z-10">
-        <div>
+    <!-- ponytail: interactive 3D WebGL InfiniteMenu running in absolute background on the right half (reposisi di mobile ke area bawah) -->
+    <div x-data="{
+        items: {{ $menuItems->toJson() }},
+        activeItem: null,
+        isMoving: false,
+        init() {
+            if (this.items && this.items.length > 0) {
+                window.initInfiniteMenu(
+                    this.$refs.canvas, 
+                    this.items, 
+                    (item) => { this.activeItem = item; }, 
+                    (moving) => { this.isMoving = moving; },
+                    0.85
+                );
+            }
+        }
+    }" class="absolute bottom-0 left-0 md:left-auto md:right-0 w-full md:w-1/2 h-[300px] sm:h-[380px] md:h-full z-0 overflow-hidden pointer-events-auto animate-fade-in">
+        <canvas x-ref="canvas" id="infinite-grid-menu-canvas"></canvas>
+
+        <!-- Left fade overlay - blending into text background (desktop only) -->
+        <div class="hidden md:block absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#FDF9F1] via-[#FDF9F1]/90 to-transparent pointer-events-none z-10"></div>
+        <!-- Top fade overlay (mobile/tablet only) -->
+        <div class="block md:hidden absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-[#FDF9F1] via-[#FDF9F1]/90 to-transparent pointer-events-none z-10"></div>
+        <!-- Bottom fade overlay for mobile transition or desktop integration -->
+        <div class="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#FDF9F1] via-[#FDF9F1]/80 to-transparent pointer-events-none z-10"></div>
+    </div>
+
+    <!-- Main Content Overlaid on top of background -->
+    <div class="max-w-[1180px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left relative z-10 pointer-events-none">
+        <div class="pointer-events-auto">
             <span class="font-mono text-[12px] tracking-[0.22em] uppercase text-ember-dark flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[22px] before:h-[1px] before:bg-ember-dark animate-fade-in">
                 PARTI - HIMATIF UMS
             </span>
@@ -38,17 +76,8 @@
             </div>
         </div>
 
-        <!-- ponytail: moment photo column with seamless fade overlay -->
-        <div class="relative w-full h-[320px] sm:h-[400px] md:h-[450px] rounded-[10px] overflow-hidden shadow-[0_20px_50px_-15px_rgba(28,20,11,0.12)] border border-white/60 hover:scale-[1.02] transition-transform duration-700 ease-premium animate-fade-in group">
-            <img src="{{ asset('hero_moment.png') }}" alt="Momen PARTI Tahun Lalu" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
-            <!-- Left fade overlay - blending into text background -->
-            <div class="hidden md:block absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#FDF9F1] via-[#FDF9F1]/80 to-transparent pointer-events-none"></div>
-            <!-- Bottom fade overlay for mobile transition or desktop integration -->
-            <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#FDF9F1] via-[#FDF9F1]/70 to-transparent pointer-events-none"></div>
-            <!-- Tech-bracket accents on image corners -->
-            <div class="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-ember/60"></div>
-            <div class="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-ember/60"></div>
-        </div>
+        <!-- Right Column Placeholder (empty on grid to reserve layout structure) -->
+        <div class="h-[320px] sm:h-[400px] md:h-[450px] pointer-events-none"></div>
     </div>
     <!-- Subtle fade-out bottom overlay -->
     <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-paper to-transparent pointer-events-none"></div>

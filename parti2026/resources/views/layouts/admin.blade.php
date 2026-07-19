@@ -15,7 +15,7 @@
     <!-- Styles and Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-paper-warm text-ink font-body antialiased overflow-x-hidden" x-data="{ sidebarOpen: false }">
+<body class="admin-theme bg-paper-warm text-ink font-body antialiased overflow-x-hidden" x-data="{ sidebarOpen: false }">
     <!-- Overlay for mobile sidebar -->
     <div x-show="sidebarOpen" x-cloak @click="sidebarOpen = false" class="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm md:hidden"></div>
 

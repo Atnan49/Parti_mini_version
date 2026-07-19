@@ -22,7 +22,7 @@
         <div class="bg-white border border-line rounded-[6px] p-6 shadow-sm space-y-4">
             <h3 class="font-display font-bold text-base text-ink uppercase tracking-wide border-b border-line pb-2">Unggah Baru</h3>
             
-            <form method="POST" action="{{ route('admin.documents.store', $subEvent->id) }}" enctype="multipart/form-data" class="space-y-4">
+            <form method="POST" action="{{ route('admin.documents.store', $subEvent) }}" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 
                 <div>

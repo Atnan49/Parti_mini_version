@@ -47,7 +47,7 @@
 
                     <!-- Right: Form Update Link -->
                     <div class="flex-1 lg:max-w-xl">
-                        <form method="POST" action="{{ route('admin.registration-links.update', $subEvent->id) }}" class="space-y-2">
+                        <form method="POST" action="{{ route('admin.registration-links.update', $subEvent) }}" class="space-y-2">
                             @csrf
                             @method('PUT')
                             
