@@ -161,7 +161,16 @@ class SubEvent extends Model
      */
     public function getPosterUrlAttribute(): ?string
     {
-        return $this->poster_path ? Storage::url($this->poster_path) : null;
+        if (!$this->poster_path) {
+            return null;
+        }
+
+        // Jika poster_path merupakan URL eksternal (diawali http/https), gunakan langsung
+        if (str_starts_with($this->poster_path, 'http://') || str_starts_with($this->poster_path, 'https://')) {
+            return $this->poster_path;
+        }
+
+        return Storage::url($this->poster_path);
     }
 
     /**
