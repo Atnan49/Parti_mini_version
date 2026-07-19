@@ -1,58 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dokumentasi Website PARTI UMS 2026
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website resmi **PARTI (Parade Teknik Informatika) 2026** yang diselenggarakan oleh **Himpunan Mahasiswa Teknik Informatika (HIMATIF) UMS**. Website ini dirancang sebagai platform informasi, publikasi sub-event, serta manajemen sponsorship dan administrasi kepanitiaan.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Panduan Pengembangan Lokal (Local Development)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Prasyarat (Prerequisites)
+* **PHP** >= 8.3 (Lokal disarankan PHP 8.4)
+* **Composer**
+* **Node.js** >= 20.x & **NPM**
+* **MySQL / MariaDB** atau **Docker Desktop**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Cara 1: Menggunakan Docker & Docker Compose (Direkomendasikan)
+Jika Anda menggunakan Docker, Anda tidak perlu menginstal PHP, MySQL, atau Node.js secara lokal di laptop Anda. Semua dependensi sudah terbungkus otomatis.
 
-## Learning Laravel
+1. Pastikan Docker Desktop sudah aktif.
+2. Jalankan perintah di terminal root proyek:
+   ```bash
+   docker-compose up -d --build
+   ```
+3. Akses website melalui `http://localhost:8000`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Cara 2: Menjalankan Secara Manual (Tanpa Docker)
+1. Salin berkas konfigurasi env:
+   ```bash
+   cp .env.example .env
+   ```
+2. Pasang dependensi PHP dan Node.js:
+   ```bash
+   composer install
+   npm install
+   ```
+3. Buat kunci enkripsi aplikasi:
+   ```bash
+   php artisan key:generate
+   ```
+4. Buat database baru bernama `parti2026` di phpMyAdmin Anda, lalu sesuaikan kredensial di file `.env`.
+5. Jalankan migrasi dan seeding database:
+   ```bash
+   php artisan migrate --seed
+   ```
+6. Jalankan server lokal dan build compiler aset (Vite):
+   ```bash
+   php artisan serve
+   # di terminal baru:
+   npm run dev
+   ```
+7. Akses website di `http://localhost:8000`.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## ☁️ Panduan Deployment Produksi (Production Deployment)
 
-## Agentic Development
+### Cara A: Deploy ke Render.com (Menggunakan Docker)
+Proyek ini sudah dilengkapi konfigurasi Docker production-ready yang dioptimalkan untuk Render.com.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. **Root Directory**: Pada pengaturan Render, pastikan kolom **Root Directory** diisi dengan `parti2026`.
+2. **Runtime**: Pilih **Docker** (Render akan otomatis mendeteksi berkas `Dockerfile`).
+3. **Environment Variables**: Tambahkan variabel lingkungan berikut di dashboard Render:
+   * `APP_KEY` = `base64:xxxx...` (Gunakan kunci enkripsi lokal Anda)
+   * `APP_ENV` = `production`
+   * `APP_DEBUG` = `false`
+   * `APP_URL` = `https://nama-aplikasi-anda.onrender.com`
+   * `DB_CONNECTION` = `pgsql`
+   * `DB_HOST` = `dpg-xxxx-a` (Gunakan Hostname Internal database PostgreSQL Render Anda)
+   * `DB_PORT` = `5432`
+   * `DB_DATABASE` = `[nama_database_render]`
+   * `DB_USERNAME` = `[username_database_render]`
+   * `DB_PASSWORD` = `[password_database_render]`
+4. **Migrasi & Seeding Awal**:
+   * Akses `https://nama-aplikasi-anda.onrender.com/run-migration` untuk migrasi tabel database.
+   * Akses `https://nama-aplikasi-anda.onrender.com/run-seed` untuk memasukkan data admin dan sub-event awal.
 
-```bash
-composer require laravel/boost --dev
+### Cara B: Deploy ke Hostinger Shared Hosting (cPanel / hPanel)
+Berkat penonaktifan pengecekan platform (`platform-check` diset ke `false` di `composer.json`), kode ini aman dari *version mismatch error* meskipun versi PHP di hosting lebih rendah daripada laptop lokal Anda.
 
-php artisan boost:install
-```
+1. **Git Integration**:
+   * Hubungkan repositori GitHub Anda di hPanel Hostinger.
+   * Pilih branch **`atnan-dev`**.
+   * Set **Install Directory** ke `public_html`.
+2. **Koneksi Database**: Buat database MySQL di Hostinger, lalu sesuaikan `.env` di file manager Hostinger.
+3. **Tautan Storage (Symlink)**: Akses sekali URL `domain-anda.com/create-symlink` lewat browser untuk menghubungkan folder publik storage.
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 🔑 Kredensial Akses Default (Admin Panel)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **URL Login**: `https://domain-anda.com/auth` (di-masking dari `/login` demi alasan keamanan)
+* **Email**: `admin@parti2026.com`
+* **Password**: `changeme123`
+* **Role**: `SUPERADMIN`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🖼️ Kustomisasi Foto Momen di Hero Section
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Bagian kanan Hero menggunakan **interactive 3D WebGL InfiniteMenu** yang berputar secara otomatis. 
+* **Folder Penyimpanan**: Letakkan file foto Anda di dalam folder **`public/image/moment/`**.
+* **Nama & Format File**: Pastikan file foto memiliki format PNG dengan penamaan berikut:
+  * `hero_moment.png` (Momen 1)
+  * `moment2.png` (Momen 2)
+  * `moment3.png` (Momen 3)
+  * `moment4.png` (Momen 4)
+* **Menambah Foto Baru**: Masukkan foto tambahan (misal `moment5.png`) ke folder tersebut, lalu daftarkan item baru di dalam array `$menuItems` pada file `resources/views/public/home.blade.php`.
