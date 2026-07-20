@@ -14,17 +14,12 @@ class SponsorSeeder extends Seeder
     {
         $year = env('PARTI_ACTIVE_YEAR', 2026);
 
-        $sponsorsDir = storage_path('app/public/sponsors');
-        if (!file_exists($sponsorsDir)) {
-            mkdir($sponsorsDir, 0775, true);
-        }
-
         $placeholders = ['placeholder-platinum.png', 'placeholder-gold.png', 'placeholder-silver.png'];
         foreach ($placeholders as $file) {
-            $path = $sponsorsDir . '/' . $file;
-            if (!file_exists($path)) {
+            $path = 'sponsors/' . $file;
+            if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
                 // Create a 1x1 transparent PNG fallback if file doesn't exist
-                file_put_contents($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='));
+                \Illuminate\Support\Facades\Storage::disk('public')->put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='));
             }
         }
 
