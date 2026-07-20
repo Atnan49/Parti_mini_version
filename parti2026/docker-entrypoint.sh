@@ -8,8 +8,8 @@ fi
 # Create storage directories if they do not exist
 mkdir -p /var/www/html/storage/app/public/sponsors /var/www/html/storage/app/public/posters /var/www/html/storage/app/public/documents
 
-# Execute Laravel storage symlink creation
-php artisan storage:link --force
+# Ensure physical public/storage symlink is removed so Apache passes media requests to Laravel
+rm -rf /var/www/html/public/storage
 
 # Set directory permissions to 755 and file permissions to 644
 find /var/www/html/storage -type d -exec chmod 755 {} +

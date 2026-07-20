@@ -71,13 +71,36 @@ Route::middleware(['auth', 'force.password.change'])
         });
     });
 
-// Fallback route to serve uploaded public storage files if web server direct symlink access is restricted
+// Media route to serve uploaded public files safely without web server symlink restrictions
+Route::get('/media/{path}', function ($path) {
+    // 1. Check storage/app/public/
+    $fullPath = storage_path('app/public/' . $path);
+    if (file_exists($fullPath) && !is_dir($fullPath)) {
+        return response()->file($fullPath);
+    }
+
+    // 2. Check public/storage/
+    $publicPath = public_path('storage/' . $path);
+    if (file_exists($publicPath) && !is_dir($publicPath)) {
+        return response()->file($publicPath);
+    }
+
+    abort(404);
+})->where('path', '.*')->name('media.show');
+
+// Fallback route for legacy /storage/{path} requests
 Route::get('/storage/{path}', function ($path) {
     $fullPath = storage_path('app/public/' . $path);
-    if (!file_exists($fullPath)) {
-        abort(404);
+    if (file_exists($fullPath) && !is_dir($fullPath)) {
+        return response()->file($fullPath);
     }
-    return response()->file($fullPath);
+
+    $publicPath = public_path('storage/' . $path);
+    if (file_exists($publicPath) && !is_dir($publicPath)) {
+        return response()->file($publicPath);
+    }
+
+    abort(404);
 })->where('path', '.*');
 
 

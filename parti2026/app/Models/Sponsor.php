@@ -69,6 +69,6 @@ class Sponsor extends Model
      */
     public function getLogoUrlAttribute(): string
     {
-        return Storage::url($this->logo_path);
+        return route('media.show', ['path' => $this->logo_path]);
     }
 }

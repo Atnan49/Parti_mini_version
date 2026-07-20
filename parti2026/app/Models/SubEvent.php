@@ -170,7 +170,7 @@ class SubEvent extends Model
             return $this->poster_path;
         }
 
-        return Storage::url($this->poster_path);
+        return route('media.show', ['path' => $this->poster_path]);
     }
 
     /**

@@ -48,7 +48,7 @@
                 
                 <!-- Current logo preview -->
                 <div class="h-16 w-36 bg-paper-warm/40 border border-line/40 rounded flex items-center justify-center p-2 overflow-hidden">
-                    <img src="{{ asset('storage/' . $sponsor->logo_path) }}" alt="Logo Saat Ini" class="max-h-full max-w-full object-contain">
+                    <img src="{{ $sponsor->logo_url }}" alt="Logo Saat Ini" class="max-h-full max-w-full object-contain">
                 </div>
 
                 <input id="logo" name="logo" type="file" class="block w-full text-xs text-ink-soft file:mr-3 file:py-1.5 file:px-3 file:rounded-[2px] file:border file:border-line file:text-xs file:font-semibold file:bg-paper-warm/40 file:text-ink-soft hover:file:bg-paper-warm cursor-pointer" />

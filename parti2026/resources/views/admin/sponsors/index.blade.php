@@ -38,7 +38,7 @@
                         <tr class="hover:bg-paper-warm/10 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="h-10 w-24 bg-paper-warm/40 border border-line/40 rounded flex items-center justify-center p-1.5 overflow-hidden">
-                                    <img src="{{ asset('storage/' . $sponsor->logo_path) }}" alt="{{ $sponsor->name }}" class="max-h-full max-w-full object-contain">
+                                    <img src="{{ $sponsor->logo_url }}" alt="{{ $sponsor->name }}" class="max-h-full max-w-full object-contain">
                                 </div>
                             </td>
                             <td class="px-6 py-4">
