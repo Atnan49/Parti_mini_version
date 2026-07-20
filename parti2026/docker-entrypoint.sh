@@ -11,9 +11,13 @@ mkdir -p /var/www/html/storage/app/public/sponsors /var/www/html/storage/app/pub
 # Execute Laravel storage symlink creation
 php artisan storage:link --force
 
-# Ensure full permissions for Apache user www-data across storage, public, and bootstrap/cache
+# Set directory permissions to 755 and file permissions to 644
+find /var/www/html/storage -type d -exec chmod 755 {} +
+find /var/www/html/storage -type f -exec chmod 644 {} +
+find /var/www/html/bootstrap/cache -type d -exec chmod 755 {} +
+
+# Ensure web server user (www-data) owns storage, public, and bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache
-chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Run database migrations in production
 if [ -n "$DB_HOST" ]; then
