@@ -25,9 +25,19 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 
-# Enable Apache rewrite module
+# Enable Apache rewrite module and configure Directory permissions for symlinked storage
 RUN a2enmod rewrite
-RUN printf '<Directory /var/www/html/public>\n\
+RUN printf '<Directory /var/www/>\n\
+    Options Indexes FollowSymLinks\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>\n\
+<Directory /var/www/html/public>\n\
+    Options Indexes FollowSymLinks\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>\n\
+<Directory /var/www/html/storage/app/public>\n\
     Options Indexes FollowSymLinks\n\
     AllowOverride All\n\
     Require all granted\n\
