@@ -8,11 +8,11 @@ fi
 # Create storage directories if they do not exist
 mkdir -p /var/www/html/storage/app/public/sponsors /var/www/html/storage/app/public/posters /var/www/html/storage/app/public/documents
 
-# Create storage symlink
-php artisan storage:link --force
+# Remove physical public/storage symlink so Apache Alias /storage handles requests directly
+rm -rf /var/www/html/public/storage
 
-# Ensure permissions for storage, public/storage, and bootstrap/cache
-chown -R www-data:www-data /var/www/html/storage /var/www/html/public/storage /var/www/html/bootstrap/cache
+# Ensure permissions for storage and bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Run database migrations in production
