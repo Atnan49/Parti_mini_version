@@ -2,10 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes draw {
-    to {
-        stroke-dashoffset: 0;
-    }
+/* CSS Variables for Theme Switching (macOS/iOS Style - Zero Purple) */
+:root {
+    --color-paper: #FAF9F6;       /* Minimal Off-white */
+    --color-paper-warm: #F4F3ED;  /* Apple System Warm Gray */
+    --color-ink: #1C1917;         /* Stone 900 */
+    --color-ink-soft: #57534E;    /* Stone 600 */
+    --color-ember: #E2650B;       /* Brand Ember (Vibrant Orange) */
+    --color-ember-dark: #A03F02;
+    --color-gold: #C58F17;        /* Polished Gold */
+    --color-gold-soft: #E9CE93;
+    --color-line: rgba(0, 0, 0, 0.06); /* iOS thin border */
+    
+    /* Radial glow colors (RGB format) */
+    --radial-glow-1: 197, 143, 23;  /* Gold */
+    --radial-glow-2: 226, 101, 11;  /* Ember */
+}
+
+/* Dark Mode Overrides (macOS Dark Glass Style - Zero Purple) */
+.dark {
+    --color-paper: #08080A;       /* Midnight dark */
+    --color-paper-warm: #121218;  /* Translucent Dark Plate */
+    --color-ink: #F5F5F4;         /* Stone 100 */
+    --color-ink-soft: #A8A29E;    /* Stone 400 */
+    --color-ember: #FF7A00;       /* Electric Ember */
+    --color-ember-dark: #E2650B;
+    --color-gold: #F1C40F;        /* Electric Gold */
+    --color-gold-soft: #F9E79F;
+    --color-line: rgba(255, 255, 255, 0.08); /* iOS Dark thin border */
+    
+    /* Radial glow dark (RGB) */
+    --radial-glow-1: 241, 196, 15;
+    --radial-glow-2: 255, 122, 0;
 }
 
 @keyframes float {
@@ -13,7 +41,7 @@
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-8px);
+        transform: translateY(-6px);
     }
 }
 
@@ -23,8 +51,8 @@
         transform: scale(1);
     }
     50% {
-        opacity: 0.9;
-        transform: scale(1.05);
+        opacity: 0.85;
+        transform: scale(1.04);
     }
 }
 
@@ -33,112 +61,99 @@
 }
 
 .animate-pulse-glow {
-    animation: pulse-glow 8s ease-in-out infinite;
+    animation: pulse-glow 10s ease-in-out infinite;
 }
 
 .transition-premium {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [x-cloak] {
     display: none !important;
 }
 
-/* ponytail: utility to hide scrollbars for clean horizontal carousels */
+/* utility to hide scrollbars */
 .scrollbar-none::-webkit-scrollbar {
     display: none;
 }
 .scrollbar-none {
-    -ms-overflow-style: none;  /* IE/Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.hero-pattern-bg {
-    background-color: #FDF9F1;
+/* macOS Aurora Gradient Background (Fluid & Dynamic) */
+.mac-aurora-bg {
+    background-color: var(--color-paper);
     background-image: 
-        radial-gradient(circle at 80% 20%, rgba(233, 206, 147, 0.25), transparent 50%),
-        radial-gradient(circle at 10% 80%, rgba(226, 101, 11, 0.06), transparent 45%),
-        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0 L40 80 M0 40 L80 40 M0 0 L80 80 M80 0 L0 80' stroke='rgba(148,102,15,0.035)' stroke-width='0.7' fill='none'/%3E%3Ccircle cx='40' cy='40' r='2' fill='rgba(226,101,11,0.12)'/%3E%3Ccircle cx='0' cy='0' r='1.5' fill='rgba(148,102,15,0.1)'/%3E%3C/svg%3E");
+        radial-gradient(circle at 15% 15%, rgba(var(--radial-glow-2), 0.12), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(var(--radial-glow-1), 0.1), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(var(--radial-glow-2), 0.04), transparent 40%);
+    background-size: 100% 100%;
+    transition: background-color 0.5s ease, background-image 0.5s ease;
 }
 
-/* ponytail: custom easing and visual additions */
-.ease-premium {
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+.dark .mac-aurora-bg {
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(var(--radial-glow-2), 0.28), transparent 50%),
+        radial-gradient(circle at 85% 80%, rgba(var(--radial-glow-1), 0.24), transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(var(--radial-glow-2), 0.1), transparent 45%);
 }
 
-.dot-matrix-bg {
-    background-image: radial-gradient(rgba(148, 102, 15, 0.08) 1px, transparent 1px);
-    background-size: 24px 24px;
+/* iOS Glassmorphism Card Style */
+.ios-glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.88); /* Increased base opacity for clear light mode contrast */
+    border: 1px solid rgba(0, 0, 0, 0.08);        /* Sharper border lines */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes pulse-beacon {
-    0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(226, 101, 11, 0.5);
-    }
-    70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 10px rgba(226, 101, 11, 0);
-    }
-    100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(226, 101, 11, 0);
-    }
+.dark .ios-glass {
+    background-color: rgba(18, 18, 24, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.45);
 }
 
-.glowing-beacon {
-    animation: pulse-beacon 2s infinite;
+.ios-glass:hover {
+    transform: translateY(-4px);
+    background-color: #FFFFFF; /* High contrast solid-like surface on hover */
+    border-color: rgba(226, 101, 11, 0.3); /* Subtle ember highlight */
+    box-shadow: 0 20px 40px -12px rgba(226, 101, 11, 0.08), 0 4px 12px -5px rgba(0, 0, 0, 0.03);
 }
 
-/* ponytail: scoped admin border thickening — one CSS block instead of editing dozens of Blade files */
-.admin-theme .border,
-.admin-theme .border-t,
-.admin-theme .border-b,
-.admin-theme .border-l,
-.admin-theme .border-r {
-    border-width: 2px;
-}
-.admin-theme .border-t { border-top-width: 2px; }
-.admin-theme .border-b { border-bottom-width: 2px; }
-.admin-theme .border-l { border-left-width: 2px; }
-.admin-theme .border-r { border-right-width: 2px; }
-
-.admin-theme .divide-y > :not(:first-child) {
-    border-top-width: 2px;
+.dark .ios-glass:hover {
+    background-color: rgba(24, 24, 32, 0.85);
+    border-color: rgba(255, 122, 0, 0.35); /* Glowing ember dark border */
+    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.55), 0 8px 24px -10px rgba(255, 122, 0, 0.12);
 }
 
-.admin-theme input,
-.admin-theme select,
-.admin-theme textarea {
-    border-width: 2px;
-}
-
-/* ponytail: premium cinematic entrance transitions for splash screen elements */
+/* macOS start screen reveal logo transitions */
 .reveal-logo {
-    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                opacity 1s cubic-bezier(0.25, 1, 0.5, 1), 
-                filter 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.8s ease-out, 
+                filter 0.8s ease-out;
 }
 .reveal-logo-hidden {
     opacity: 0;
-    transform: scale(0.8) rotate(-4deg);
-    filter: blur(8px);
+    transform: scale(0.92);
+    filter: blur(4px);
 }
 .reveal-logo-visible {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
     filter: blur(0px);
 }
 
 .reveal-text {
-    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
-                opacity 1s cubic-bezier(0.25, 1, 0.5, 1), 
-                filter 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.8s ease-out, 
+                filter 0.8s ease-out;
 }
 .reveal-text-hidden {
     opacity: 0;
-    transform: translateY(15px);
-    filter: blur(6px);
+    transform: translateY(8px);
+    filter: blur(4px);
 }
 .reveal-text-visible {
     opacity: 1;
@@ -146,7 +161,7 @@
     filter: blur(0px);
 }
 
-/* ponytail: InfiniteGridMenu canvas styles */
+/* InfiniteGridMenu canvas styles */
 #infinite-grid-menu-canvas {
     cursor: grab;
     width: 100%;
@@ -159,8 +174,3 @@
 #infinite-grid-menu-canvas:active {
     cursor: grabbing;
 }
-
-
-
-
-

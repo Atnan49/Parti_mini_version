@@ -3,6 +3,7 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -12,22 +13,22 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-                display: ['Cinzel', 'serif'],
-                'display-decorative': ['"Cinzel Decorative"', 'serif'],
-                body: ['"Work Sans"', 'sans-serif'],
+                sans: ['"Plus Jakarta Sans"', ...defaultTheme.fontFamily.sans],
+                display: ['"Space Grotesk"', 'sans-serif'],
+                'display-decorative': ['"Space Grotesk"', 'sans-serif'],
+                body: ['"Plus Jakarta Sans"', 'sans-serif'],
                 mono: ['"Space Mono"', 'monospace'],
             },
             colors: {
-                paper:       '#FFFFFF',
-                'paper-warm':'#FDF9F1',
-                ink:         '#1C140B',
-                'ink-soft':  '#423525', // ponytail: darkened for better WCAG readability contrast
-                ember:       '#E2650B',
-                'ember-dark':'#A03F02', // ponytail: darkened for better contrast
-                gold:        '#94660F', // ponytail: darkened for WCAG AA readability compliance
-                'gold-soft': '#E9CE93',
-                line:        '#E4D8C1', // ponytail: darkened for crisper borders
+                paper:       'var(--color-paper)',
+                'paper-warm': 'var(--color-paper-warm)',
+                ink:         'var(--color-ink)',
+                'ink-soft':  'var(--color-ink-soft)',
+                ember:       'var(--color-ember)',
+                'ember-dark': 'var(--color-ember-dark)',
+                gold:        'var(--color-gold)',
+                'gold-soft':  'var(--color-gold-soft)',
+                line:        'var(--color-line)',
             },
             screens: {
                 '3xl': '1920px',

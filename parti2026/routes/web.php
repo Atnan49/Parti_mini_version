@@ -71,47 +71,10 @@ Route::middleware(['auth', 'force.password.change'])
         });
     });
 
-// Route pemicu symlink storage untuk shared hosting (InfinityFree) tanpa SSH
-Route::get('/create-symlink', function () {
-    $target = storage_path('app/public');
-    $shortcut = public_path('storage');
-    
-    if (file_exists($shortcut)) {
-        return 'Tautan storage (symlink) sudah ada sebelumnya.';
-    }
-    
-    try {
-        symlink($target, $shortcut);
-        return 'Tautan storage (symlink) berhasil dibuat!';
-    } catch (\Exception $e) {
-        return 'Gagal membuat symlink: ' . $e->getMessage() . '. Coba buat folder manual jika hosting membatasi fungsi symlink.';
-    }
-});
-
-// Route pemicu migrasi & seeding database untuk shared hosting (InfinityFree) tanpa SSH
-Route::get('/run-migration', function () {
-    try {
-        // Jalankan migrasi dan seeding secara otomatis
-        \Illuminate\Support\Facades\Artisan::call('migrate', [
-            '--force' => true // Diperlukan di environment production
-        ]);
-        return 'Migrasi database berhasil dijalankan!';
-    } catch (\Exception $e) {
-        return 'Gagal menjalankan migrasi: ' . $e->getMessage();
-    }
-});
-
-// Route pemicu seeding database untuk memasukkan data awal/default (Admin, Sub-Events, dll)
-Route::get('/run-seed', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--force' => true
-        ]);
-        return 'Seeding database berhasil dijalankan! Silakan coba login.';
-    } catch (\Exception $e) {
-        return 'Gagal menjalankan seeding: ' . $e->getMessage();
-    }
-});
+// ponytail: REMOVED /create-symlink, /run-migration, /run-seed routes.
+// These exposed Artisan commands to the public internet without authentication.
+// For shared hosting without SSH, run these via a one-time PHP script and delete it immediately,
+// or protect them behind auth middleware at minimum.
 
 
 
