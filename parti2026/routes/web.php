@@ -71,10 +71,14 @@ Route::middleware(['auth', 'force.password.change'])
         });
     });
 
-// ponytail: REMOVED /create-symlink, /run-migration, /run-seed routes.
-// These exposed Artisan commands to the public internet without authentication.
-// For shared hosting without SSH, run these via a one-time PHP script and delete it immediately,
-// or protect them behind auth middleware at minimum.
+// Fallback route to serve uploaded public storage files if web server direct symlink access is restricted
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*');
 
 
 
