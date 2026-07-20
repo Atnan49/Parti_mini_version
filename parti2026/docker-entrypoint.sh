@@ -5,12 +5,15 @@ if [ -n "$PORT" ]; then
     sed -i "s/80/${PORT}/g" /etc/apache2/sites-available/*.conf /etc/apache2/ports.conf
 fi
 
-# Create storage symlink if not exists
+# Create storage directories if they do not exist
+mkdir -p /var/www/html/storage/app/public/sponsors /var/www/html/storage/app/public/posters /var/www/html/storage/app/public/documents
+
+# Create storage symlink
 php artisan storage:link --force
 
-# Ensure permissions for storage and bootstrap/cache
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Ensure permissions for storage, public/storage, and bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/public/storage /var/www/html/bootstrap/cache
+chmod -R 777 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Run database migrations in production
 if [ -n "$DB_HOST" ]; then

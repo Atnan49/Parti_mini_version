@@ -26,9 +26,9 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Enable Apache rewrite module and configure SymLinks
+# Enable Apache rewrite module and configure SymLinks for both public and storage
 RUN a2enmod rewrite
-RUN printf '<Directory /var/www/html/public>\n\
+RUN printf '<Directory /var/www/html>\n\
     Options Indexes FollowSymLinks\n\
     AllowOverride All\n\
     Require all granted\n\
