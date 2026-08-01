@@ -62,7 +62,7 @@
                                 </button>
                             </div>
                             
-                            @error('gform_link', $subEvent->id)
+                            @error('gform_link')
                                 <p class="text-xs text-rose-600 font-medium">{{ $message }}</p>
                             @enderror
 

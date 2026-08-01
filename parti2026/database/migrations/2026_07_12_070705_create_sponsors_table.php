@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedSmallInteger('year');
             $table->string('name');
-            $table->string('logo_path');              // path to logo file in storage
+            $table->string('logo_path')->nullable();            // path to logo file in storage
             $table->string('website_url')->nullable();
             $table->enum('tier', ['PLATINUM', 'GOLD', 'SILVER', 'BRONZE'])->default('SILVER');
             $table->unsignedInteger('order')->default(0);

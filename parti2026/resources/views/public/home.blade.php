@@ -1,10 +1,10 @@
 @extends('layouts.public')
 
-@section('title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')
+@section('title', 'PARTI Himatif UMS')
 
 @section('content')
 @php
-    // ponytail: static moments from last year's PARTI to prevent blank canvas when database is empty
+    // Data galeri momen PARTI periode sebelumnya untuk tampilan animasi canvas 3D
     $menuItems = collect([
         [
             'image' => asset('image/moment/hero_moment.png'),
@@ -59,7 +59,7 @@
     <div class="w-full max-w-[1140px] mx-auto px-6 md:px-8 relative z-10 pointer-events-none my-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center md:text-left">
             <!-- macOS Terminal Window Container -->
-            <div class="pointer-events-auto text-left mx-auto md:mx-0 w-full rounded-[28px] border border-line bg-white/85 dark:bg-[#121218]/75 backdrop-blur-xl shadow-[0_20px_50px_-20px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] overflow-hidden">
+            <div class="pointer-events-auto text-left mx-auto md:mx-0 w-full rounded-[28px] ios-glass overflow-hidden">
                 <!-- Window Title Bar -->
                 <div class="relative flex items-center justify-between px-5 py-3.5 border-b border-line bg-black/[0.03] dark:bg-white/[0.03]">
                     <div class="flex items-center gap-1.5 z-10">
@@ -68,28 +68,26 @@
                         <span class="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block shadow-sm"></span>
                     </div>
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <span class="font-mono text-[9px] tracking-wider uppercase text-ink-soft/60 select-none font-semibold">vanguard - terminal</span>
+                        <span class="font-mono text-[9px] tracking-wider uppercase text-ink-soft/60 select-none font-semibold">parti - terminal</span>
                     </div>
                     <div class="w-10"></div>
                 </div>
                 <!-- Window Content -->
                 <div class="p-6 sm:p-8 md:p-10">
                     <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember animate-fade-in font-bold">
-                        PARTI - HIMATIF UMS
+                        PARTI — HIMATIF UMS
                     </span>
                     
-                    <h1 class="font-display font-bold leading-[1.05] text-[34px] sm:text-[40px] md:text-[54px] mt-4 mb-5 text-ink uppercase tracking-tight">
-                        VANGUARD<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ember to-gold">OF TECH</span>
+                    <h1 class="font-display font-bold leading-[1.05] text-[32px] sm:text-[38px] md:text-[46px] mt-4 mb-5 text-ink uppercase tracking-tight">
+                        PARADE TEKNIK<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ember to-gold">INFORMATIKA</span>
                     </h1>
                     
                     <p class="font-display text-[15px] sm:text-[17px] italic text-ink-soft mb-5 border-l-2 border-gold pl-4 max-w-[46ch]">
-                        Panggung Inovasi dan Kolaborasi Teknologi
+                        Wadah Inovasi, Kreativitas, dan Kolaborasi Teknologi
                     </p>
                     
                     <p class="text-[14px] sm:text-[14.5px] leading-relaxed text-ink-soft max-w-[50ch] mb-8">
-                        Dunia terus melangkah dalam akselerasi digital. PARTI {{ session('active_year', config('parti.active_year', 2026)) }} hadir
-                        sebagai wadah kreativitas, keilmuan, dan aksi nyata mahasiswa untuk menyatukan keberanian bereksplorasi,
-                        ketekunan berkarya, dan sinergi positif dalam menghadapi tantangan era masa depan.
+                        PARTI (Parade Teknik Informatika) adalah rangkaian event tahunan terbesar yang diselenggarakan oleh HIMATIF UMS. Berbagai sub-acara kompetisi, seminar, dan workshop dirancang untuk mengasah potensi, keilmuan, serta semangat berinovasi mahasiswa dan publik.
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center gap-4">
@@ -109,34 +107,8 @@
     </div>
 </section>
 
-<!-- PLATINUM SPONSORS BAR (iOS Plate style) -->
-@php
-    $platinumSponsors = $sponsors->where('tier', 'PLATINUM');
-@endphp
-@if($platinumSponsors->isNotEmpty())
-<section class="max-w-[1140px] mx-auto px-6 md:px-8 mb-10 z-10 relative">
-    <div class="rounded-3xl border border-line bg-white/80 dark:bg-[#121218]/80 backdrop-blur-xl shadow-sm px-6 py-5 md:px-8 md:py-6 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-        <div class="flex items-center gap-3">
-            <span class="h-2 w-2 rounded-full bg-ember"></span>
-            <span class="font-mono text-[9px] tracking-[0.2em] text-ink-soft uppercase font-bold">Mitra Platinum Utama</span>
-        </div>
-        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14">
-            @foreach($platinumSponsors as $sponsor)
-            <a href="{{ $sponsor->website_url ?? '#' }}" target="_blank" rel="noopener noreferrer" class="group transition-transform hover:scale-105 duration-200">
-                @if($sponsor->logo_path)
-                <img src="{{ $sponsor->logo_url }}" alt="{{ $sponsor->name }}" 
-                     class="h-[34px] md:h-[40px] object-contain filter dark:brightness-200 dark:contrast-75 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                @else
-                <span class="font-mono font-bold text-[14px] text-ink-soft group-hover:text-ember transition-colors">
-                    {{ $sponsor->name }}
-                </span>
-                @endif
-            </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
+<!-- SECTION SPONSOR LOGOLOOP (Ditempatkan Tepat Di Bawah Section Hero) -->
+<x-sponsor-section :sponsors="$sponsors" />
 
 <!-- TENTANG SECTION (macOS Floating Pane) -->
 <section class="py-6 px-4 max-w-[1140px] mx-auto z-10 relative" id="tentang">
@@ -161,56 +133,13 @@
                 <p class="text-ink-soft leading-relaxed mb-6 text-[14.5px] sm:text-[15px]">
                     Sebagai platform tahunan yang dinamis, di dalam PARTI terdapat beberapa sub event yang dirancang khusus untuk memadukan kompetensi sains, kreativitas seni, dan kepekaan sosial guna menciptakan sinergi positif yang berkelanjutan bagi masyarakat luas.
                 </p>
-                <div class="mt-6 p-4.5 bg-white/70 dark:bg-white/[0.03] border border-line rounded-[16px] font-display italic text-[14px] sm:text-[15px] text-ink shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)] text-left">
+                <div class="mt-6 px-6 py-5 bg-white/90 dark:bg-white/[0.04] border border-line/80 rounded-[22px] font-display italic text-[14.5px] sm:text-[16px] text-ink shadow-sm text-left leading-relaxed">
                     “Merajut inovasi teknologi, kreativitas, dan kolaborasi dalam harmoni tahunan.”
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<!-- SPONSORS SECTION (iOS Segment) -->
-@php
-    $otherSponsors = $sponsors->whereIn('tier', ['GOLD', 'SILVER', 'BRONZE']);
-@endphp
-@if($otherSponsors->isNotEmpty())
-<section class="py-6 px-4 max-w-[1140px] mx-auto z-10 relative">
-    <div class="rounded-3xl border border-line bg-white/60 dark:bg-white/[0.02] backdrop-blur-lg px-6 py-10 text-center shadow-sm">
-        <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-ember font-bold mb-8 block">Didukung Oleh</span>
-
-        @foreach(['GOLD', 'SILVER', 'BRONZE'] as $tier)
-        @php
-        $tierSponsors = $sponsors->where('tier', $tier);
-        @endphp
-        @if($tierSponsors->isNotEmpty())
-        <div class="mb-8 last:mb-0">
-            <div class="flex items-center justify-center gap-3 mb-6">
-                <span class="h-[1px] w-6 bg-line"></span>
-                <span class="font-mono text-[9px] tracking-[0.25em] text-ink-soft uppercase font-bold">{{ $tier }} SPONSORS</span>
-                <span class="h-[1px] w-6 bg-line"></span>
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-                @foreach($tierSponsors as $sponsor)
-                <a href="{{ $sponsor->website_url ?? '#' }}" target="_blank" rel="noopener noreferrer" class="group transition-transform hover:scale-105 duration-200">
-                    @if($sponsor->logo_path)
-                    <img src="{{ $sponsor->logo_url }}" alt="{{ $sponsor->name }}"
-                        class="object-contain filter dark:brightness-200 dark:contrast-75 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300
-                              @if($tier === 'GOLD') h-[44px] md:h-[50px] @else h-[34px] md:h-[40px] @endif">
-                    @else
-                    <span class="font-mono font-bold text-ink-soft group-hover:text-ember transition-colors
-                                @if($tier === 'GOLD') text-[14px] md:text-[16px] @else text-[12px] md:text-[14px] @endif">
-                        {{ $sponsor->name }}
-                    </span>
-                    @endif
-                </a>
-                @endforeach
-            </div>
-        </div>
-        @endif
-        @endforeach
-    </div>
-</section>
-@endif
 
 <!-- SUB ACARA SECTION (Modular Grid Section) -->
 <section class="py-12 px-4 max-w-[1140px] mx-auto z-10 relative" id="sub-acara">

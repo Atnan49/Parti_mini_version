@@ -10,7 +10,7 @@ return [
     ],
     'gform_domains' => ['docs.google.com/forms', 'forms.gle'],
 
-    // ponytail: simple configuration array for social media channels and SEO settings
+    // Konfigurasi akun media sosial resmi dan pengaturan SEO
     'socials' => [
         'parti' => [
             'instagram' => env('SOCIAL_PARTI_INSTAGRAM', 'https://www.instagram.com/parti.ums/'),

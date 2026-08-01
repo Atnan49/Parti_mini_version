@@ -10,7 +10,7 @@ class SubEventController extends Controller
 {
     public function show(string $slug)
     {
-        // ponytail: query directly to database for the active year, abort if not found
+        // Cari data detail sub-acara aktif berdasarkan slug di database, tampilkan 404 jika tidak ditemukan
         $year = session('active_year', config('parti.active_year', 2026));
         $subEvent = SubEvent::where('year', $year)
             ->where('slug', $slug)
@@ -26,7 +26,7 @@ class SubEventController extends Controller
 
     public function download(SubEventDocument $document)
     {
-        // ponytail: verify document belongs to an active, published sub-event to prevent IDOR
+        // Validasi keamanan: Pastikan dokumen terhubung ke sub-acara publik yang aktif
         $document->loadMissing('subEvent');
         if (!$document->subEvent || $document->subEvent->status !== 'PUBLISHED' || $document->subEvent->is_deleted) {
             abort(404, 'File tidak ditemukan.');

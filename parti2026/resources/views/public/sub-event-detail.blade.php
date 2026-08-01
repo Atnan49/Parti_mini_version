@@ -30,7 +30,7 @@
             </div>
 
             <!-- LED Registration status badge -->
-            <div class="flex items-center gap-4 bg-white/80 dark:bg-[#121218]/80 border border-line px-5 py-3 rounded-full shadow-sm">
+            <div class="flex items-center gap-4 bg-paper/80 dark:bg-paper-warm/80 border border-line px-5 py-3 rounded-full shadow-sm">
                 <span class="font-mono text-[9px] tracking-[0.05em] uppercase px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 whitespace-nowrap border
                     @if($subEvent->registration_button_state === 'open') bg-emerald-500/10 text-emerald-500 border-emerald-500/20
                     @elseif($subEvent->registration_button_state === 'closed') bg-rose-500/10 text-rose-500 border-rose-500/20

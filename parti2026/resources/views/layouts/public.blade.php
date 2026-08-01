@@ -1,3 +1,26 @@
+@php
+    // Data statis lembaga & organisasi penyelenggara event (UMS, Prodi TI, dan HIMATIF)
+    $organizers = [
+        [
+            'nama' => 'UMS',
+            'full_name' => 'Universitas Muhammadiyah Surakarta',
+            'logo' => asset('images/logo-ums.png'),
+            'url' => 'https://www.ums.ac.id/'
+        ],
+        [
+            'nama' => 'TEKNIK INFORMATIKA',
+            'full_name' => 'Program Studi Teknik Informatika UMS',
+            'logo' => asset('images/logo-tf.png'),
+            'url' => 'https://teknikinformatika.ums.ac.id/'
+        ],
+        [
+            'nama' => 'HIMATIF',
+            'full_name' => 'HIMATIF UMS',
+            'logo' => asset('images/logo-himatif.png'),
+            'url' => 'https://himatifums.org/'
+        ],
+    ];
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
       x-data="{ 
@@ -10,22 +33,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')</title>
-    <meta name="description" content="@yield('meta_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
+    <title>@yield('title', 'PARTI Himatif UMS')</title>
+    <meta name="description" content="@yield('meta_description', 'Website PARTI Himatif UMS, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
 
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
-    <meta property="og:site_name" content="PARTI {{ config('parti.active_year', 2026) }} UMS">
-    <meta property="og:title" content="@yield('og_title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')">
-    <meta property="og:description" content="@yield('og_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
+    <meta property="og:site_name" content="PARTI Himatif UMS">
+    <meta property="og:title" content="@yield('og_title', 'PARTI Himatif UMS')">
+    <meta property="og:description" content="@yield('og_description', 'Website PARTI Himatif UMS, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
     <meta property="og:image" content="@yield('og_image', asset('logo.png'))">
 
     <!-- Twitter SEO -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ request()->url() }}">
-    <meta property="twitter:title" content="@yield('og_title', 'PARTI ' . config('parti.active_year', 2026) . ' | Vanguard of Tech')">
-    <meta property="twitter:description" content="@yield('og_description', 'Website PARTI ' . config('parti.active_year', 2026) . ' UMS | Vanguard of Tech, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
+    <meta property="twitter:title" content="@yield('og_title', 'PARTI Himatif UMS')">
+    <meta property="twitter:description" content="@yield('og_description', 'Website PARTI Himatif UMS, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
     <meta property="twitter:image" content="@yield('og_image', asset('logo.png'))">
     @if(config('parti.seo.twitter_handle'))
     <meta property="twitter:site" content="{{ config('parti.seo.twitter_handle') }}">
@@ -107,11 +130,41 @@
         </div>
     </div>
 
-    <!-- macOS Floating Dock Navbar -->
-    <header class="sticky top-0 z-50 w-full transition-all duration-[1000ms] ease-premium transform"
+    <!-- macOS Full-Width Edge-to-Edge Header Navbar -->
+    <header class="sticky top-0 z-50 w-full bg-paper/90 dark:bg-paper-warm/90 backdrop-blur-xl border-b border-line shadow-sm transition-all duration-[1000ms] ease-premium transform"
             :class="isPageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'">
+        
+        <!-- Strip Top Bar Logo Organisasi Penyelenggara -->
+        <div class="w-full border-b border-line/40 bg-black/[0.03] dark:bg-white/[0.02] py-2 px-6 md:px-10 lg:px-12">
+            <div class="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="w-1.5 h-1.5 rounded-full bg-ember inline-block"></span>
+                    <span class="font-mono text-[9px] sm:text-[9.5px] tracking-[0.2em] uppercase text-ink-soft/70 font-bold whitespace-nowrap">
+                        DISELENGGARAKAN OLEH
+                    </span>
+                </div>
+                
+                <div class="flex items-center gap-4 sm:gap-6 shrink-0">
+                    @foreach($organizers as $org)
+                    <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" 
+                       class="group flex items-center gap-1.5 sm:gap-2 transition-all duration-300"
+                       title="{{ $org['full_name'] }}">
+                        <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" 
+                             class="h-5 sm:h-6 w-auto object-contain filter grayscale brightness-125 opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                        <span class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-ink-soft/80 group-hover:text-ember transition-colors font-bold whitespace-nowrap">
+                            {{ $org['nama'] }}
+                        </span>
+                    </a>
+                    @if(!$loop->last)
+                    <span class="h-3 w-[1px] bg-line/50 inline-block"></span>
+                    @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
         <nav x-data="{ mobileMenuOpen: false }" 
-             class="mx-4 md:mx-auto mt-4 max-w-[1140px] rounded-2xl md:rounded-full bg-white/70 dark:bg-[#121218]/70 backdrop-blur-xl border border-line shadow-[0_10px_30px_rgba(0,0,0,0.03)] px-5 py-3 md:px-8 md:py-3.5 transition-all duration-300">
+             class="w-full px-6 md:px-10 lg:px-12 py-3.5 transition-all duration-300">
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="font-display font-bold text-[17px] sm:text-[19px] text-ink flex items-center gap-2.5 hover:opacity-90 transition-opacity">
                     <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-7 w-auto">
@@ -189,7 +242,7 @@
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                  x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
-                 class="md:hidden bg-white/95 dark:bg-[#08080A]/95 rounded-xl border border-line mt-3 py-4 px-5 shadow-lg">
+                 class="md:hidden bg-paper/95 dark:bg-paper-warm/95 rounded-xl border border-line mt-3 py-4 px-5 shadow-lg">
                 <div class="flex flex-col gap-3.5 text-[14px] font-medium text-ink-soft">
                     <a href="{{ route('home') }}#tentang" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
@@ -208,10 +261,10 @@
         @yield('content')
     </main>
 
-    <!-- Footer (iOS modular panel) -->
-    <footer class="bg-paper-warm border-t border-line text-ink pt-16 pb-[34px] transition-opacity duration-[1000ms] ease-premium delay-[300ms]"
+    <!-- Full-Width Edge-to-Edge Footer -->
+    <footer class="w-full bg-paper-warm border-t border-line text-ink pt-16 pb-[34px] transition-opacity duration-[1000ms] ease-premium delay-[300ms]"
             :class="isPageLoaded ? 'opacity-100' : 'opacity-0'">
-        <div class="w-full max-w-[1140px] mx-auto px-6 md:px-8">
+        <div class="w-full px-6 md:px-10 lg:px-12">
             <div class="flex flex-col md:flex-row justify-between items-start pb-11 border-b border-line/60 gap-8">
                 <div>
                     <div class="font-display text-[20px] font-bold flex items-center gap-2.5">
@@ -219,6 +272,22 @@
                         <span class="tracking-wide">PARTI <span class="text-ember">{{ config('parti.active_year', 2026) }}</span></span>
                     </div>
                     <p class="text-[13px] text-ink-soft mt-2.5 max-w-[32ch]">Vanguard of Tech | HIMATIF Universitas Muhammadiyah Surakarta.</p>
+                    
+                    <!-- Penyelenggara & Naungan Logos -->
+                    <div class="mt-5 pt-4 border-t border-line/40">
+                        <span class="block font-mono text-[9px] tracking-widest uppercase text-ink-soft/70 font-bold mb-2.5">DISELENGGARAKAN OLEH</span>
+                        <div class="flex items-center gap-4 flex-wrap">
+                            @foreach($organizers as $org)
+                            <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-1.5 transition-all duration-300" title="{{ $org['full_name'] }}">
+                                <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" class="h-6 w-auto object-contain filter grayscale brightness-125 opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                                <span class="font-mono text-[9px] tracking-wider uppercase text-ink-soft/75 group-hover:text-ember transition-colors font-bold">{{ $org['nama'] }}</span>
+                            </a>
+                            @if(!$loop->last)
+                            <div class="h-3.5 w-[1px] bg-line/60"></div>
+                            @endif
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="flex flex-wrap gap-12 sm:gap-16">
                     <div class="text-left">

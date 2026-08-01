@@ -3,14 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sponsor;
 use App\Models\AuditLog;
+use App\Models\Sponsor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
+/**
+ * Controller Manajemen Sponsor (Panel Admin)
+ *
+ * Menangani operasi CRUD (Create, Read, Update, Delete) untuk pengelolaan data sponsor event.
+ * Setiap tindakan modifikasi dicatat secara otomatis ke AuditLog sebagai jejak rekam aktivitas admin.
+ */
 class SponsorController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan daftar sponsor berdasarkan tahun aktif pelaksanaan event.
+     */
+    public function index(): View
     {
         $year = session('active_year', config('parti.active_year', 2026));
         $sponsors = Sponsor::forYear($year)->orderBy('tier')->orderBy('order')->get();
@@ -18,18 +30,26 @@ class SponsorController extends Controller
         return view('admin.sponsors.index', compact('sponsors', 'year'));
     }
 
-    public function create()
+    /**
+     * Menampilkan formulir untuk menambahkan data sponsor baru.
+     */
+    public function create(): View
     {
         return view('admin.sponsors.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Menyimpan data sponsor baru ke database dan mengunggah berkas logo.
+     *
+     * Ukuran logo dibatasi maksimum 1MB untuk memastikan kinerja pemuatan halaman depan tetap responsif.
+     */
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['required', 'image', 'max:1024'], // max 1MB logo
+            'logo' => ['required', 'image', 'max:1024'],
             'website_url' => ['nullable', 'url', 'max:255'],
-            'tier' => ['required', 'in:PLATINUM,GOLD,SILVER,BRONZE'],
+            'tier' => ['required', 'in:' . implode(',', Sponsor::TIERS)],
             'order' => ['required', 'integer', 'min:0'],
         ]);
 
@@ -46,9 +66,8 @@ class SponsorController extends Controller
             'is_active' => $request->has('is_active'),
         ]);
 
-        // Audit Log
         AuditLog::create([
-            'user_id' => \Illuminate\Support\Facades\Auth::id(),
+            'user_id' => Auth::id(),
             'action' => 'Menambahkan sponsor baru: ' . $sponsor->name . ' (' . $sponsor->tier . ')',
             'entity_type' => 'Sponsor',
             'entity_id' => $sponsor->id,
@@ -57,18 +76,24 @@ class SponsorController extends Controller
         return redirect()->route('admin.sponsors.index')->with('success', 'Sponsor berhasil ditambahkan.');
     }
 
-    public function edit(Sponsor $sponsor)
+    /**
+     * Menampilkan formulir penyuntingan data sponsor.
+     */
+    public function edit(Sponsor $sponsor): View
     {
         return view('admin.sponsors.edit', compact('sponsor'));
     }
 
-    public function update(Request $request, Sponsor $sponsor)
+    /**
+     * Memperbarui detail sponsor serta mengganti berkas logo jika diunggah logo baru.
+     */
+    public function update(Request $request, Sponsor $sponsor): RedirectResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'logo' => ['nullable', 'image', 'max:1024'],
             'website_url' => ['nullable', 'url', 'max:255'],
-            'tier' => ['required', 'in:PLATINUM,GOLD,SILVER,BRONZE'],
+            'tier' => ['required', 'in:' . implode(',', Sponsor::TIERS)],
             'order' => ['required', 'integer', 'min:0'],
         ]);
 
@@ -81,7 +106,6 @@ class SponsorController extends Controller
         ];
 
         if ($request->hasFile('logo')) {
-            // Delete old file
             if (Storage::disk('public')->exists($sponsor->logo_path)) {
                 Storage::disk('public')->delete($sponsor->logo_path);
             }
@@ -90,9 +114,8 @@ class SponsorController extends Controller
 
         $sponsor->update($data);
 
-        // Audit Log
         AuditLog::create([
-            'user_id' => \Illuminate\Support\Facades\Auth::id(),
+            'user_id' => Auth::id(),
             'action' => 'Mengubah detail sponsor: ' . $sponsor->name,
             'entity_type' => 'Sponsor',
             'entity_id' => $sponsor->id,
@@ -101,26 +124,25 @@ class SponsorController extends Controller
         return redirect()->route('admin.sponsors.index')->with('success', 'Sponsor berhasil diperbarui.');
     }
 
-    public function destroy(Sponsor $sponsor)
+    /**
+     * Menghapus record sponsor dari database.
+     *
+     * Catatan audit dibuat terlebih dahulu sebelum penghapusan data agar ID entitas tetap valid saat dicatat.
+     */
+    public function destroy(Sponsor $sponsor): RedirectResponse
     {
-        // Delete logo file
-        if (Storage::disk('public')->exists($sponsor->logo_path)) {
-            Storage::disk('public')->delete($sponsor->logo_path);
-        }
-
-        // Audit Log before deletion
         AuditLog::create([
-            'user_id' => \Illuminate\Support\Facades\Auth::id(),
+            'user_id' => Auth::id(),
             'action' => 'Menghapus sponsor: ' . $sponsor->name,
             'entity_type' => 'Sponsor',
             'entity_id' => $sponsor->id,
         ]);
 
+        // ponytail: Penghapusan berkas fisik di disk diserahkan penuh ke static deleting boot event di model Sponsor
         $sponsor->delete();
 
         return redirect()->route('admin.sponsors.index')->with('success', 'Sponsor berhasil dihapus.');
     }
-
-
 }
+
 

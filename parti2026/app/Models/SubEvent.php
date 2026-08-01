@@ -170,12 +170,11 @@ class SubEvent extends Model
             return $this->poster_path;
         }
 
-        return route('media.show', ['path' => $this->poster_path]);
+        return asset('storage/' . $this->poster_path);
     }
 
     /**
-     * Get the route key for the model.
-     * ponytail: use slug for pretty URLs in resource routing
+     * Menggunakan atribut slug sebagai penunjuk parameter URL resmi model.
      */
     public function getRouteKeyName(): string
     {

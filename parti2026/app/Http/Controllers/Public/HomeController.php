@@ -6,12 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Models\SubEvent;
 use App\Models\TimelineItem;
 use App\Models\Sponsor;
+use Illuminate\View\View;
 
+/**
+ * Controller Halaman Utama Publik
+ *
+ * Menangani penyajian data landing page utama event PARTI, meliputi daftar cabang perlombaan
+ * (sub-events), tahapan timeline pelaksanaan, serta daftar mitra/sponsor aktif.
+ */
 class HomeController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan halaman utama (landing page) publik PARTI.
+     *
+     * Tahun aktif pelaksanaan ditentukan melalui session atau fallback konfigurasi `parti.active_year`.
+     * Keputusan ini dibuat agar platform dapat menampilkan arsip data event tahun lalu tanpa mengubah struktur database.
+     */
+    public function index(): View
     {
-        // ponytail: check session active_year for admin previews, fallback to config
         $year = session('active_year', config('parti.active_year', 2026));
 
         $subEvents = SubEvent::forYear($year)->published()->notDeleted()->orderBy('order')->get();
@@ -21,3 +33,4 @@ class HomeController extends Controller
         return view('public.home', compact('subEvents', 'timeline', 'sponsors'));
     }
 }
+
