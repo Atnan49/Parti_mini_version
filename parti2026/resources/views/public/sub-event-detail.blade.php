@@ -1,8 +1,8 @@
 @extends('layouts.public')
 
-@section('title', $subEvent->name . ' | PARTI ' . config('parti.active_year', 2026))
+@section('title', $subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026)))
 @section('meta_description', $subEvent->tagline ?? $subEvent->name)
-@section('og_title', $subEvent->name . ' | PARTI ' . config('parti.active_year', 2026))
+@section('og_title', $subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026)))
 @section('og_description', $subEvent->tagline ?? Str::limit($subEvent->description, 150))
 @section('og_image', $subEvent->poster_url ?? asset('logo.png'))
 
@@ -70,7 +70,6 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block"></span>
                     <span class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block"></span>
                     <span class="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block"></span>
-                    <span class="font-mono text-[9px] text-ink-soft/50 ml-2 select-none uppercase tracking-wide font-bold">Aksi Pendaftaran</span>
                 </div>
                 
                 <h4 class="font-display font-bold text-[16px] text-ink uppercase tracking-wider mb-5">Pendaftaran Peserta</h4>
@@ -153,7 +152,7 @@
                 </p>
                 <div class="flex flex-wrap gap-2.5">
                     <!-- WhatsApp -->
-                    <a href="https://api.whatsapp.com/send?text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026) . ': ' . request()->url()) }}" 
+                    <a href="https://api.whatsapp.com/send?text={{ rawurlencode($subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026)) . ': ' . request()->url()) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-9 h-9 rounded-full border border-line hover:border-emerald-500 hover:text-emerald-500 dark:hover:bg-emerald-500/10 text-ink-soft transition-all"
                        title="Bagikan ke WhatsApp">
@@ -162,7 +161,7 @@
                         </svg>
                     </a>
                     <!-- Twitter / X -->
-                    <a href="https://twitter.com/intent/tweet?text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026)) }}&url={{ rawurlencode(request()->url()) }}" 
+                    <a href="https://twitter.com/intent/tweet?text={{ rawurlencode($subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026))) }}&url={{ rawurlencode(request()->url()) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-9 h-9 rounded-full border border-line hover:border-sky-500 hover:text-sky-500 dark:hover:bg-sky-500/10 text-ink-soft transition-all"
                        title="Bagikan ke X">
@@ -171,7 +170,7 @@
                         </svg>
                     </a>
                     <!-- Telegram -->
-                    <a href="https://t.me/share/url?url={{ rawurlencode(request()->url()) }}&text={{ rawurlencode($subEvent->name . ' | PARTI ' . config('parti.active_year', 2026)) }}" 
+                    <a href="https://t.me/share/url?url={{ rawurlencode(request()->url()) }}&text={{ rawurlencode($subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026))) }}" 
                        target="_blank" rel="noopener noreferrer" 
                        class="flex items-center justify-center w-9 h-9 rounded-full border border-line hover:border-blue-500 hover:text-blue-500 dark:hover:bg-blue-500/10 text-ink-soft transition-all"
                        title="Bagikan ke Telegram">

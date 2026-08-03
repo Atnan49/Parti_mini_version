@@ -4,33 +4,33 @@
 
 @section('content')
 @php
-    // Data galeri momen PARTI periode sebelumnya untuk tampilan animasi canvas 3D
-    $menuItems = collect([
-        [
-            'image' => asset('image/moment/hero_moment.png'),
-            'link' => '#',
-            'title' => 'Momen 1',
-            'description' => 'Kilas Balik PARTI'
-        ],
-        [
-            'image' => asset('image/moment/moment2.png'),
-            'link' => '#',
-            'title' => 'Momen 2',
-            'description' => 'Kilas Balik PARTI'
-        ],
-        [
-            'image' => asset('image/moment/moment3.png'),
-            'link' => '#',
-            'title' => 'Momen 3',
-            'description' => 'Kilas Balik PARTI'
-        ],
-        [
-            'image' => asset('image/moment/moment4.png'),
-            'link' => '#',
-            'title' => 'Momen 4',
-            'description' => 'Kilas Balik PARTI'
-        ]
-    ]);
+// Data galeri momen PARTI periode sebelumnya untuk tampilan animasi canvas 3D
+$menuItems = collect([
+[
+'image' => asset('image/moment/hero_moment.png'),
+'link' => '#',
+'title' => 'Momen 1',
+'description' => 'Kilas Balik PARTI'
+],
+[
+'image' => asset('image/moment/moment2.png'),
+'link' => '#',
+'title' => 'Momen 2',
+'description' => 'Kilas Balik PARTI'
+],
+[
+'image' => asset('image/moment/moment3.png'),
+'link' => '#',
+'title' => 'Momen 3',
+'description' => 'Kilas Balik PARTI'
+],
+[
+'image' => asset('image/moment/moment4.png'),
+'link' => '#',
+'title' => 'Momen 4',
+'description' => 'Kilas Balik PARTI'
+]
+]);
 @endphp
 
 <!-- HERO SECTION -->
@@ -75,21 +75,21 @@
                 <!-- Window Content -->
                 <div class="p-6 sm:p-8 md:p-10">
                     <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember animate-fade-in font-bold">
-                        PARTI — HIMATIF UMS
+                        PARTI HIMATIF UMS
                     </span>
-                    
+
                     <h1 class="font-display font-bold leading-[1.05] text-[32px] sm:text-[38px] md:text-[46px] mt-4 mb-5 text-ink uppercase tracking-tight">
                         PARADE TEKNIK<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-ember to-gold">INFORMATIKA</span>
                     </h1>
-                    
+
                     <p class="font-display text-[15px] sm:text-[17px] italic text-ink-soft mb-5 border-l-2 border-gold pl-4 max-w-[46ch]">
                         Wadah Inovasi, Kreativitas, dan Kolaborasi Teknologi
                     </p>
-                    
+
                     <p class="text-[14px] sm:text-[14.5px] leading-relaxed text-ink-soft max-w-[50ch] mb-8">
                         PARTI (Parade Teknik Informatika) adalah rangkaian event tahunan terbesar yang diselenggarakan oleh HIMATIF UMS. Berbagai sub-acara kompetisi, seminar, dan workshop dirancang untuk mengasah potensi, keilmuan, serta semangat berinovasi mahasiswa dan publik.
                     </p>
-                    
+
                     <div class="flex flex-col sm:flex-row items-center gap-4">
                         <a href="#sub-acara" class="w-full sm:w-auto bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-[13px] px-[28px] py-[13px] rounded-full inline-flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(255,107,0,0.4)] hover:-translate-y-0.5 active:translate-y-0 text-center uppercase tracking-wider font-mono shadow-sm">
                             Jelajahi Acara ↓
@@ -123,20 +123,20 @@
     <!-- Minimalist Cards Grid -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7">
         @forelse($subEvents as $subEvent)
-        <a href="{{ route('sub-event.show', $subEvent->slug) }}" 
-           class="w-full group flex flex-col ios-glass rounded-[24px] p-6 sm:p-7 relative text-left transition-all duration-300 hover:-translate-y-1">
-            
+        <a href="{{ route('sub-event.show', $subEvent->slug) }}"
+            class="w-full group flex flex-col ios-glass rounded-[24px] p-6 sm:p-7 relative text-left transition-all duration-300 hover:-translate-y-1">
+
             <!-- Top Bar: Date & Status -->
             <div class="flex items-center justify-between mb-4">
                 <span class="font-mono text-[11px] text-ink-soft">
                     @if($subEvent->date_start)
-                        @if($subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
-                            {{ $subEvent->date_start->translatedFormat('j') }} - {{ $subEvent->date_end->translatedFormat('j M Y') }}
-                        @else
-                            {{ $subEvent->date_start->translatedFormat('j M Y') }}
-                        @endif
+                    @if($subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
+                    {{ $subEvent->date_start->translatedFormat('j') }} - {{ $subEvent->date_end->translatedFormat('j M Y') }}
                     @else
-                        TBD
+                    {{ $subEvent->date_start->translatedFormat('j M Y') }}
+                    @endif
+                    @else
+                    TBD
                     @endif
                 </span>
 
@@ -149,11 +149,11 @@
                             @elseif($subEvent->registration_button_state === 'closed') bg-rose-400
                             @else bg-amber-400 @endif"></span>
                     @if($subEvent->registration_button_state === 'open')
-                        Pendaftaran Buka
+                    Pendaftaran Buka
                     @elseif($subEvent->registration_button_state === 'closed')
-                        Pendaftaran Tutup
+                    Pendaftaran Tutup
                     @else
-                        Segera Dibuka
+                    Segera Dibuka
                     @endif
                 </span>
             </div>

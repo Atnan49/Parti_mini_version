@@ -127,7 +127,7 @@
                  :class="logoExiting 
                      ? 'opacity-0 scale-[0.96] blur-sm' 
                      : (logoVisible ? 'reveal-text-visible' : 'reveal-text-hidden')">
-                <span class="font-display font-bold text-[18px] md:text-[22px] tracking-[0.15em] text-ink uppercase whitespace-nowrap">PARTI {{ config('parti.active_year', 2026) }}</span>
+                <span class="font-display font-bold text-[18px] md:text-[22px] tracking-[0.15em] text-ink uppercase whitespace-nowrap">PARTI {{ session('active_year', config('parti.active_year', 2026)) }}</span>
                 <div class="flex items-center gap-2 mt-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-ember animate-ping"></span>
                     <span class="font-mono text-[9px] tracking-wider text-ink-soft/60 uppercase">System Initializing</span>
@@ -207,7 +207,7 @@
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="font-display font-bold text-[17px] sm:text-[19px] text-ink flex items-center gap-2.5 hover:opacity-90 transition-opacity">
                     <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-7 w-auto">
-                    <span class="tracking-wide">PARTI {{ config('parti.active_year', 2026) }}</span>
+                    <span class="tracking-wide">PARTI {{ session('active_year', config('parti.active_year', 2026)) }}</span>
                 </a>
                 
                 <div class="hidden md:flex gap-[28px] text-[14px] font-medium text-ink-soft">
@@ -308,7 +308,7 @@
                 <div>
                     <div class="font-display text-[20px] font-bold flex items-center gap-2.5">
                         <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="h-7 w-auto">
-                        <span class="tracking-wide">PARTI <span class="text-ember">{{ config('parti.active_year', 2026) }}</span></span>
+                        <span class="tracking-wide">PARTI <span class="text-ember">{{ session('active_year', config('parti.active_year', 2026)) }}</span></span>
                     </div>
                     <p class="text-[13px] text-ink-soft mt-2.5 max-w-[32ch]">Vanguard of Tech | HIMATIF Universitas Muhammadiyah Surakarta.</p>
                     
@@ -367,7 +367,7 @@
                 </div>
             </div>
             <div class="pt-7 flex flex-col sm:flex-row justify-between text-[11.5px] text-ink-soft/75 gap-2.5">
-                <span>© {{ config('parti.active_year', 2026) }} HIMATIF UMS. Seluruh hak cipta dilindungi.</span>
+                <span>© {{ session('active_year', config('parti.active_year', 2026)) }} HIMATIF UMS. Seluruh hak cipta dilindungi.</span>
                 {{-- ponytail: removed redundant Vanguard macOS Edition tag --}}
             </div>
         </div>
