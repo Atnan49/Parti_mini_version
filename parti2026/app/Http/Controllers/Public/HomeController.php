@@ -32,5 +32,17 @@ class HomeController extends Controller
 
         return view('public.home', compact('subEvents', 'timeline', 'sponsors'));
     }
+
+    /**
+     * Menampilkan halaman khusus "Tentang PARTI".
+     */
+    public function about(): View
+    {
+        $year = session('active_year', config('parti.active_year', 2026));
+        $subEvents = SubEvent::forYear($year)->published()->notDeleted()->orderBy('order')->get();
+        $sponsors = Sponsor::forYear($year)->active()->orderBy('tier')->orderBy('order')->get();
+
+        return view('public.about', compact('subEvents', 'sponsors'));
+    }
 }
 

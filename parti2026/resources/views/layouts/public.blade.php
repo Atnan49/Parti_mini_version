@@ -2,21 +2,27 @@
     // Data statis lembaga & organisasi penyelenggara event (UMS, Prodi TI, dan HIMATIF)
     $organizers = [
         [
+            'id' => 'ums',
             'nama' => 'UMS',
             'full_name' => 'Universitas Muhammadiyah Surakarta',
             'logo' => asset('images/logo-ums.png'),
+            'logo_light' => asset('images/logo-ums.png'),
             'url' => 'https://www.ums.ac.id/'
         ],
         [
-            'nama' => 'TEKNIK INFORMATIKA',
+            'id' => 'ti',
+            'nama' => 'TEKNIK INFORMATIKA UMS',
             'full_name' => 'Program Studi Teknik Informatika UMS',
             'logo' => asset('images/logo-tf.png'),
+            'logo_light' => asset('images/logo-tf.png'),
             'url' => 'https://teknikinformatika.ums.ac.id/'
         ],
         [
+            'id' => 'himatif',
             'nama' => 'HIMATIF',
             'full_name' => 'HIMATIF UMS',
             'logo' => asset('images/logo-himatif.png'),
+            'logo_light' => asset('images/logo-himatif-light.png'),
             'url' => 'https://himatifums.org/'
         ],
     ];
@@ -135,30 +141,63 @@
             :class="isPageLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'">
         
         <!-- Strip Top Bar Logo Organisasi Penyelenggara -->
-        <div class="w-full border-b border-line/40 bg-black/[0.03] dark:bg-white/[0.02] py-2 px-6 md:px-10 lg:px-12">
-            <div class="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
-                <div class="flex items-center gap-2 shrink-0">
+        <div class="w-full border-b border-line/40 bg-black/[0.03] dark:bg-white/[0.02] py-2 px-4 md:px-8 overflow-hidden">
+            <div class="flex items-center justify-between gap-4">
+                <!-- Label Statis di Sisi Kiri -->
+                <div class="flex items-center gap-2 shrink-0 z-10 bg-paper/90 dark:bg-paper-warm/90 pr-3">
                     <span class="w-1.5 h-1.5 rounded-full bg-ember inline-block"></span>
-                    <span class="font-mono text-[9px] sm:text-[9.5px] tracking-[0.2em] uppercase text-ink-soft/70 font-bold whitespace-nowrap">
+                    <span class="font-mono text-[9px] sm:text-[9.5px] tracking-[0.2em] uppercase text-ink-soft/80 font-bold whitespace-nowrap">
                         DISELENGGARAKAN OLEH
                     </span>
                 </div>
                 
-                <div class="flex items-center gap-4 sm:gap-6 shrink-0">
-                    @foreach($organizers as $org)
-                    <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" 
-                       class="group flex items-center gap-1.5 sm:gap-2 transition-all duration-300"
-                       title="{{ $org['full_name'] }}">
-                        <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" 
-                             class="h-5 sm:h-6 w-auto object-contain filter grayscale brightness-125 opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
-                        <span class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-ink-soft/80 group-hover:text-ember transition-colors font-bold whitespace-nowrap">
-                            {{ $org['nama'] }}
-                        </span>
-                    </a>
-                    @if(!$loop->last)
-                    <span class="h-3 w-[1px] bg-line/50 inline-block"></span>
-                    @endif
-                    @endforeach
+                <!-- Marquee Loop Running Logos Saja di Sisi Kanan -->
+                <div class="logoloop-container logoloop-fade-mask py-0.5 flex-1">
+                    <div class="inline-flex items-center gap-6 sm:gap-8 animate-logoloop-left-fast whitespace-nowrap">
+                        <!-- Jalur 1 (Trek Asli Berulang 4x agar Padat Tanpa Celah) -->
+                        <div class="flex items-center gap-6 sm:gap-8 shrink-0">
+                            @for($i = 0; $i < 4; $i++)
+                                @foreach($organizers as $org)
+                                <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" 
+                                   class="group flex items-center gap-1.5 sm:gap-2 transition-all duration-300"
+                                   title="{{ $org['full_name'] }}">
+                                    <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" 
+                                         x-show="darkMode"
+                                         class="h-5 sm:h-6 w-auto object-contain filter grayscale brightness-125 opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                                    <img src="{{ $org['logo_light'] }}" alt="{{ $org['nama'] }}" 
+                                         x-show="!darkMode" x-cloak
+                                         class="h-5 sm:h-6 w-auto object-contain filter opacity-85 group-hover:opacity-100 transition-all duration-300">
+                                    <span class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-ink-soft/80 group-hover:text-ember transition-colors font-bold whitespace-nowrap">
+                                        {{ $org['nama'] }}
+                                    </span>
+                                </a>
+                                <span class="h-3 w-[1px] bg-line/50 inline-block"></span>
+                                @endforeach
+                            @endfor
+                        </div>
+
+                        <!-- Jalur 2 (Pengulangan Animasi Marquee Infinite Berulang 4x) -->
+                        <div class="flex items-center gap-6 sm:gap-8 shrink-0" aria-hidden="true">
+                            @for($i = 0; $i < 4; $i++)
+                                @foreach($organizers as $org)
+                                <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" 
+                                   class="group flex items-center gap-1.5 sm:gap-2 transition-all duration-300"
+                                   title="{{ $org['full_name'] }}">
+                                    <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" 
+                                         x-show="darkMode"
+                                         class="h-5 sm:h-6 w-auto object-contain filter grayscale brightness-125 opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                                    <img src="{{ $org['logo_light'] }}" alt="{{ $org['nama'] }}" 
+                                         x-show="!darkMode" x-cloak
+                                         class="h-5 sm:h-6 w-auto object-contain filter opacity-85 group-hover:opacity-100 transition-all duration-300">
+                                    <span class="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-ink-soft/80 group-hover:text-ember transition-colors font-bold whitespace-nowrap">
+                                        {{ $org['nama'] }}
+                                    </span>
+                                </a>
+                                <span class="h-3 w-[1px] bg-line/50 inline-block"></span>
+                                @endforeach
+                            @endfor
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -172,7 +211,7 @@
                 </a>
                 
                 <div class="hidden md:flex gap-[28px] text-[14px] font-medium text-ink-soft">
-                    <a href="{{ route('home') }}#tentang" class="hover:text-ember transition-colors py-1">Tentang</a>
+                    <a href="{{ route('about') }}" class="hover:text-ember transition-colors py-1">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" class="hover:text-ember transition-colors py-1">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" class="hover:text-ember transition-colors py-1">Timeline</a>
                 </div>
@@ -244,7 +283,7 @@
                  x-transition:leave-end="opacity-0 -translate-y-2 scale-95"
                  class="md:hidden bg-paper/95 dark:bg-paper-warm/95 rounded-xl border border-line mt-3 py-4 px-5 shadow-lg">
                 <div class="flex flex-col gap-3.5 text-[14px] font-medium text-ink-soft">
-                    <a href="{{ route('home') }}#tentang" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
+                    <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Timeline</a>
                     <a class="font-mono text-[11px] tracking-wide uppercase bg-ink text-paper px-[20px] py-[10px] rounded-full text-center mt-2 hover:opacity-90 transition-all duration-300 shadow-sm" href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false">
@@ -279,7 +318,8 @@
                         <div class="flex items-center gap-4 flex-wrap">
                             @foreach($organizers as $org)
                             <a href="{{ $org['url'] }}" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-1.5 transition-all duration-300" title="{{ $org['full_name'] }}">
-                                <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" class="h-6 w-auto object-contain filter grayscale brightness-125 opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                                <img src="{{ $org['logo'] }}" alt="{{ $org['nama'] }}" x-show="darkMode" class="h-6 w-auto object-contain filter grayscale brightness-125 opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                                <img src="{{ $org['logo_light'] }}" alt="{{ $org['nama'] }}" x-show="!darkMode" x-cloak class="h-6 w-auto object-contain filter opacity-85 group-hover:opacity-100 transition-all duration-300">
                                 <span class="font-mono text-[9px] tracking-wider uppercase text-ink-soft/75 group-hover:text-ember transition-colors font-bold">{{ $org['nama'] }}</span>
                             </a>
                             @if(!$loop->last)
@@ -295,13 +335,13 @@
                         @forelse($footerSubEvents as $sub)
                             <a href="{{ route('sub-event.show', $sub->slug) }}" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">{{ $sub->name }}</a>
                         @empty
-                            <a href="#sub-acara" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Lihat Semua Acara</a>
+                            <a href="{{ route('home') }}#sub-acara" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Lihat Semua Acara</a>
                         @endforelse
                     </div>
                     <div class="text-left">
                         <h5 class="font-mono text-[10px] tracking-[0.15em] uppercase text-ember font-bold mb-4">Jelajah</h5>
-                        <a href="#tentang" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Tentang</a>
-                        <a href="#timeline" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Timeline</a>
+                        <a href="{{ route('about') }}" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Tentang</a>
+                        <a href="{{ route('home') }}#timeline" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Timeline</a>
                     </div>
                     <div class="text-left">
                         <h5 class="font-mono text-[10px] tracking-[0.15em] uppercase text-ember font-bold mb-4">Media Sosial</h5>
@@ -328,7 +368,7 @@
             </div>
             <div class="pt-7 flex flex-col sm:flex-row justify-between text-[11.5px] text-ink-soft/75 gap-2.5">
                 <span>© {{ config('parti.active_year', 2026) }} HIMATIF UMS. Seluruh hak cipta dilindungi.</span>
-                <span class="font-mono uppercase tracking-wider text-gold font-bold">Vanguard macOS Edition</span>
+                {{-- ponytail: removed redundant Vanguard macOS Edition tag --}}
             </div>
         </div>
     </footer>

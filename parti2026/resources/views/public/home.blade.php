@@ -74,7 +74,7 @@
                 </div>
                 <!-- Window Content -->
                 <div class="p-6 sm:p-8 md:p-10">
-                    <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember animate-fade-in font-bold">
+                    <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember animate-fade-in font-bold">
                         PARTI — HIMATIF UMS
                     </span>
                     
@@ -94,7 +94,7 @@
                         <a href="#sub-acara" class="w-full sm:w-auto bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-[13px] px-[28px] py-[13px] rounded-full inline-flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(255,107,0,0.4)] hover:-translate-y-0.5 active:translate-y-0 text-center uppercase tracking-wider font-mono shadow-sm">
                             Jelajahi Acara ↓
                         </a>
-                        <a href="#tentang" class="w-full sm:w-auto font-mono text-[11px] text-ink-soft hover:text-ember transition-colors text-center py-2 relative group font-bold">
+                        <a href="{{ route('about') }}" class="w-full sm:w-auto font-mono text-[11px] text-ink-soft hover:text-ember transition-colors text-center py-2 relative group font-bold">
                             [ Tentang PARTI ]
                         </a>
                     </div>
@@ -110,59 +110,25 @@
 <!-- SECTION SPONSOR LOGOLOOP (Ditempatkan Tepat Di Bawah Section Hero) -->
 <x-sponsor-section :sponsors="$sponsors" />
 
-<!-- TENTANG SECTION (macOS Floating Pane) -->
-<section class="py-6 px-4 max-w-[1140px] mx-auto z-10 relative" id="tentang">
-    <div class="ios-glass rounded-[32px] p-8 md:p-14">
-        <div class="grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-12 md:gap-16 items-center text-center md:text-left">
-            <!-- iOS Glass Logo Panel -->
-            <div class="relative max-w-[180px] md:max-w-[260px] mx-auto md:mx-0 w-full flex items-center justify-center p-8 bg-white/80 dark:bg-white/[0.03] rounded-[28px] border border-line shadow-sm animate-float">
-                <img src="{{ asset('logo.png') }}" alt="Logo PARTI" class="w-full h-auto drop-shadow-sm hover:scale-105 transition-transform duration-500">
-            </div>
-            
-            <div>
-                <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
-                    Tentang Event
-                </span>
-                <h2 class="font-display font-bold text-[26px] sm:text-[32px] md:text-[42px] mt-4 mb-2 text-ink uppercase tracking-tight">PARADE TEKNIK INFORMATIKA</h2>
-                <span class="font-mono text-[10px] tracking-[0.15em] text-gold uppercase mb-6 block font-bold">
-                    Diselenggarakan oleh Himpunan Mahasiswa Teknik Informatika (HIMATIF) UMS
-                </span>
-                <p class="text-ink-soft leading-relaxed mb-4 text-[14.5px] sm:text-[15px]">
-                    Parti (Parade Teknik Informatika) adalah event tahunan terbesar yang diselenggarakan oleh HIMPUNAN MAHASISWA TEKNIK INFORMATIKA UMS. Event ini dirancang sebagai wadah kolaborasi, inovasi, dan ekspresi bagi mahasiswa serta publik di bidang teknologi dan kreatif.
-                </p>
-                <p class="text-ink-soft leading-relaxed mb-6 text-[14.5px] sm:text-[15px]">
-                    Sebagai platform tahunan yang dinamis, di dalam PARTI terdapat beberapa sub event yang dirancang khusus untuk memadukan kompetensi sains, kreativitas seni, dan kepekaan sosial guna menciptakan sinergi positif yang berkelanjutan bagi masyarakat luas.
-                </p>
-                <div class="mt-6 px-6 py-5 bg-white/90 dark:bg-white/[0.04] border border-line/80 rounded-[22px] font-display italic text-[14.5px] sm:text-[16px] text-ink shadow-sm text-left leading-relaxed">
-                    “Merajut inovasi teknologi, kreativitas, dan kolaborasi dalam harmoni tahunan.”
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{{-- ponytail: removed inline tentang section in favor of dedicated /tentang route --}}
 
 <!-- SUB ACARA SECTION (Modular Grid Section) -->
 <section class="py-12 px-4 max-w-[1140px] mx-auto z-10 relative" id="sub-acara">
-    <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 gap-4 text-center md:text-left px-4">
-        <div>
-            <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
-                Rangkaian Acara
-            </span>
-            <h2 class="font-display font-bold text-[26px] sm:text-[32px] md:text-[40px] mt-4 text-ink uppercase tracking-tight">Rangkaian Sub Acara</h2>
-        </div>
-        <p class="text-ink-soft max-w-[40ch] text-[14px] leading-relaxed">
-            Rangkaian sub acara terstruktur yang saling menopang secara jadwal maupun kolaborasi.
-        </p>
+    <div class="mb-8 text-left">
+        <h2 class="font-display font-bold text-[26px] sm:text-[32px] text-ink uppercase tracking-tight">
+            Sub Acara PARTI {{ session('active_year', config('parti.active_year', 2026)) }}
+        </h2>
     </div>
 
-    <!-- iOS style cards grid -->
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+    <!-- Minimalist Cards Grid -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7">
         @forelse($subEvents as $subEvent)
         <a href="{{ route('sub-event.show', $subEvent->slug) }}" 
-           class="w-full group flex flex-col ios-glass rounded-[24px] p-6 sm:p-7 md:p-8 relative overflow-hidden text-left transition-premium hover:-translate-y-1 hover:shadow-lg">
+           class="w-full group flex flex-col ios-glass rounded-[24px] p-6 sm:p-7 relative text-left transition-all duration-300 hover:-translate-y-1">
             
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
-                <span class="font-mono text-[10px] text-ember bg-orange-500/10 border border-orange-500/20 px-3.5 py-1 rounded-full font-bold whitespace-nowrap">
+            <!-- Top Bar: Date & Status -->
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[11px] text-ink-soft">
                     @if($subEvent->date_start)
                         @if($subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
                             {{ $subEvent->date_start->translatedFormat('j') }} - {{ $subEvent->date_end->translatedFormat('j M Y') }}
@@ -174,15 +140,14 @@
                     @endif
                 </span>
 
-                <!-- LED status badges -->
-                <span class="font-mono text-[9px] tracking-[0.05em] uppercase px-3 py-1 rounded-full font-bold flex items-center gap-1.5 whitespace-nowrap border
-                        @if($subEvent->registration_button_state === 'open') bg-emerald-500/10 text-emerald-500 border-emerald-500/20 dark:bg-emerald-500/5
-                        @elseif($subEvent->registration_button_state === 'closed') bg-rose-500/10 text-rose-500 border-rose-500/25 dark:bg-rose-500/5
-                        @else bg-amber-500/10 text-amber-500 border-amber-500/20 dark:bg-amber-500/5 @endif">
+                <span class="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5 font-medium
+                        @if($subEvent->registration_button_state === 'open') text-emerald-400
+                        @elseif($subEvent->registration_button_state === 'closed') text-rose-400
+                        @else text-amber-400 @endif">
                     <span class="w-1.5 h-1.5 rounded-full inline-block
-                            @if($subEvent->registration_button_state === 'open') bg-emerald-500 glowing-beacon
-                            @elseif($subEvent->registration_button_state === 'closed') bg-rose-500
-                            @else bg-amber-500 glowing-beacon @endif"></span>
+                            @if($subEvent->registration_button_state === 'open') bg-emerald-400
+                            @elseif($subEvent->registration_button_state === 'closed') bg-rose-400
+                            @else bg-amber-400 @endif"></span>
                     @if($subEvent->registration_button_state === 'open')
                         Pendaftaran Buka
                     @elseif($subEvent->registration_button_state === 'closed')
@@ -193,23 +158,24 @@
                 </span>
             </div>
 
-            <span class="text-[11px] tracking-widest text-gold font-bold uppercase mb-2 block font-mono">{{ $subEvent->tagline }}</span>
-            <h3 class="font-display text-[18px] sm:text-[21px] mb-3 leading-snug text-ink group-hover:text-ember transition-colors duration-300 uppercase font-bold">{{ $subEvent->name }}</h3>
-            <p class="text-[13.5px] sm:text-[14px] text-ink-soft leading-relaxed mb-6">{{ Str::limit($subEvent->description, 130) }}</p>
+            <!-- Title & Description -->
+            <h3 class="font-display text-[19px] sm:text-[21px] mb-2 font-bold text-ink group-hover:text-ember transition-colors duration-200 uppercase tracking-tight">
+                {{ $subEvent->name }}
+            </h3>
+            <p class="text-[13.5px] sm:text-[14px] text-ink-soft/90 leading-relaxed mb-6 font-normal">
+                {{ Str::limit($subEvent->description, 130) }}
+            </p>
 
-            <div class="font-mono text-[10px] tracking-wide text-ink-soft/80 border-t border-line pt-4 mt-auto flex flex-col gap-1.5">
-                <div>
-                    <span class="text-gold font-bold">FORMAT</span> · {{ $subEvent->type }}
-                </div>
+            <!-- Minimalist Clean Footer -->
+            <div class="pt-4 border-t border-line/40 mt-auto flex items-center justify-between text-[11.5px] font-mono text-ink-soft/80">
+                <span>{{ $subEvent->type }}</span>
                 @if($subEvent->location)
-                <div>
-                    <span class="text-gold font-bold">LOKASI</span> · {{ $subEvent->location }}
-                </div>
+                <span>{{ $subEvent->location }}</span>
                 @endif
             </div>
         </a>
         @empty
-        <div class="col-span-full py-16 text-center border border-line rounded-[24px] bg-white/60 dark:bg-white/[0.02] backdrop-blur-md">
+        <div class="col-span-full py-16 text-center ios-glass rounded-[24px]">
             <p class="font-mono text-ink-soft uppercase text-[12px] tracking-wider">Acara PARTI {{ session('active_year', config('parti.active_year', 2026)) }} sedang disiapkan.</p>
         </div>
         @endforelse
@@ -219,10 +185,11 @@
 <!-- TIMELINE SECTION (macOS Floating Pane) -->
 <section class="py-6 px-4 max-w-[1140px] mx-auto z-10 relative mb-12" id="timeline">
     <div class="ios-glass rounded-[32px] p-8 md:p-14">
-        <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
-            Alur Waktu
-        </span>
-        <h2 class="font-display font-bold text-[26px] sm:text-[32px] md:text-[40px] mt-4 mb-12 md:mb-16 text-ink uppercase tracking-tight">Timeline PARTI {{ session('active_year', config('parti.active_year', 2026)) }}</h2>
+        <div class="mb-12 md:mb-16">
+            <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
+                TIMELINE PARTI {{ session('active_year', config('parti.active_year', 2026)) }}
+            </span>
+        </div>
 
         <div class="relative grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-0 pl-4 md:pl-0">
             <!-- Line across desktop nodes -->

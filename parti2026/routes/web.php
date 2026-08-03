@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // === Halaman Publik ===
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/tentang', [HomeController::class, 'about'])->name('about');
 Route::get('/acara/{slug}', [PublicSubEventController::class, 'show'])->name('sub-event.show');
 Route::get('/dokumen/{document}/download', [PublicSubEventController::class, 'download'])->name('document.download');
 

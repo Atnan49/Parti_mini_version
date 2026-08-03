@@ -4,20 +4,20 @@
 
 /* Variabel CSS untuk Pengaturan Tema Warna (Light Mode & Dark Mode) */
 :root {
-    /* Palet Warna Mode Terang (Parchment Cream & Bronze Sepia) */
-    --color-paper: #F4EEDD;       /* Latar Belakang Utama (Cream Warm) */
-    --color-paper-warm: #FAF7EF;  /* Kartu & Panel Melayang */
-    --color-ink: #2C2219;         /* Warna Teks Utama */
-    --color-ink-soft: #6A5C4E;    /* Warna Teks Sekunder */
-    --color-ember: #C87D20;       /* Warna Aksen Bronze Ember */
-    --color-ember-dark: #965410;  /* Aksen Bronze Gelap */
-    --color-gold: #DDA821;        /* Warna Emas Vintage */
-    --color-gold-soft: #EED894;   /* Emas Halus */
-    --color-line: rgba(130, 100, 60, 0.1); /* Garis Pembatas Halus */
+    /* Palet Warna Mode Terang (Warm Luxury Ivory & Soft Gold Elevation) */
+    --color-paper: #F6F1E5;       /* Warm Rich Ivory/Champagne Background */
+    --color-paper-warm: #FFFFFF;  /* Pure Floating White Glass Card */
+    --color-ink: #1C1917;         /* Deep Warm Espresso Charcoal Text */
+    --color-ink-soft: #57534E;    /* Rich Stone Grey Muted Text */
+    --color-ember: #E65100;       /* Rich Warm Amber Accent */
+    --color-ember-dark: #B73E00;  /* Deep Warm Ember Accent */
+    --color-gold: #D97706;        /* Warm Polish Gold Accent */
+    --color-gold-soft: #FDE68A;   /* Soft Amber Highlight */
+    --color-line: rgba(180, 120, 50, 0.14); /* Warm Golden Line Border */
     
-    /* Warna Efek Pendaran Cahaya (Glow Format RGB) */
-    --radial-glow-1: 221, 168, 33;  /* Glow Emas */
-    --radial-glow-2: 200, 125, 32;  /* Glow Amber */
+    /* Radial Glow Light (Rich Warm Sunburst Ambient Glow RGB) */
+    --radial-glow-1: 245, 158, 11;  /* Glow Warm Amber */
+    --radial-glow-2: 234, 88, 12;   /* Glow Warm Ember */
 }
 
 /* Palet Warna Mode Gelap (Pure OLED Black & Sharp Contrast) */
@@ -87,9 +87,9 @@
 .mac-aurora-bg {
     background-color: var(--color-paper);
     background-image: 
-        radial-gradient(circle at 15% 15%, rgba(var(--radial-glow-2), 0.08), transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(var(--radial-glow-1), 0.15), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(var(--radial-glow-2), 0.04), transparent 40%);
+        radial-gradient(circle at 15% 15%, rgba(var(--radial-glow-2), 0.12), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(var(--radial-glow-1), 0.16), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(var(--radial-glow-2), 0.08), transparent 40%);
     background-size: 100% 100%;
     transition: background-color 0.5s ease, background-image 0.5s ease;
 }
@@ -105,31 +105,31 @@
 
 /* iOS Glassmorphism Card Style */
 .ios-glass {
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background-color: rgba(255, 255, 255, 0.92); /* Clean bright off-white glass like user screenshot 1 */
-    border: 1px solid rgba(130, 100, 60, 0.12);   /* Subtle warm border */
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    background-color: rgba(255, 255, 255, 0.90); /* Pure floating white glass card */
+    border: 1px solid rgba(180, 120, 50, 0.14);   /* Warm golden-bronze border */
+    box-shadow: 0 14px 35px -10px rgba(180, 100, 30, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .ios-glass {
-    background-color: rgba(12, 12, 15, 0.88); /* Deep pitch black glass plate */
-    border: 1px solid rgba(255, 255, 255, 0.20); /* High contrast sharp white border */
-    box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.04);
+    background-color: rgba(255, 255, 255, 0.04); /* Frosted dark glass plate matching sub-event detail cards */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* High contrast subtle border */
+    box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
 .ios-glass:hover {
     transform: translateY(-4px);
-    background-color: #FFFFFF; /* High contrast solid surface on hover */
-    border-color: rgba(200, 125, 32, 0.35); /* Subtle amber highlight */
-    box-shadow: 0 20px 40px -12px rgba(200, 125, 32, 0.12), 0 4px 12px -5px rgba(70, 50, 30, 0.05);
+    background-color: #FFFFFF; /* High contrast brilliant white surface on hover */
+    border-color: rgba(230, 81, 0, 0.35); /* Subtle warm ember highlight */
+    box-shadow: 0 20px 40px -12px rgba(230, 81, 0, 0.14), 0 4px 12px -5px rgba(180, 100, 30, 0.08);
 }
 
 .dark .ios-glass:hover {
-    background-color: rgba(20, 20, 25, 0.95);
-    border-color: rgba(255, 255, 255, 0.50); /* Ultra sharp glowing white border on hover */
-    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.08); /* Glowing frosted glass highlight on hover */
+    border-color: rgba(255, 255, 255, 0.35); /* Sharp white border on hover */
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
 /* macOS start screen reveal logo transitions */
@@ -195,7 +195,7 @@
 }
 
 .animate-logoloop-left-fast {
-    animation: logoloop-scroll-left 105s linear infinite;
+    animation: logoloop-scroll-left 22s linear infinite;
     will-change: transform;
 }
 
@@ -217,10 +217,10 @@
 
 @media (max-width: 640px) {
     .animate-logoloop-left {
-        animation-duration: 55s;
+        animation-duration: 35s;
     }
     .animate-logoloop-left-fast {
-        animation-duration: 70s;
+        animation-duration: 16s;
     }
     .logoloop-fade-mask {
         mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);

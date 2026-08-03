@@ -169,10 +169,10 @@ class SponsorSeeder extends Seeder
     private function generateSvgLogo(string $name, string $tier, int $index): string
     {
         $palettes = [
-            Sponsor::TIER_PLATINUM => ['#F5C842', '#FF851B', '#121215', '#FFFFFF'],
-            Sponsor::TIER_GOLD => ['#DDA821', '#C87D20', '#1A1815', '#F5C842'],
-            Sponsor::TIER_SILVER => ['#94A3B8', '#64748B', '#0F172A', '#E2E8F0'],
-            Sponsor::TIER_BRONZE => ['#CD7F32', '#A0522D', '#1C1917', '#F59E0B'],
+            Sponsor::TIER_PLATINUM => ['#EA580C', '#C2410C', '#121215', '#0F172A'],
+            Sponsor::TIER_GOLD => ['#D97706', '#B45309', '#1A1815', '#1E293B'],
+            Sponsor::TIER_SILVER => ['#475569', '#334155', '#0F172A', '#1E293B'],
+            Sponsor::TIER_BRONZE => ['#CD7F32', '#A0522D', '#1C1917', '#1E293B'],
         ];
 
         $scheme = $palettes[$tier] ?? $palettes[Sponsor::TIER_SILVER];
@@ -199,7 +199,7 @@ class SponsorSeeder extends Seeder
     </linearGradient>
   </defs>
   <rect x="2" y="2" width="46" height="46" rx="12" fill="url(#grad-{$index})" />
-  <text x="25" y="31" font-family="'Space Grotesk', system-ui, sans-serif" font-size="16" font-weight="800" fill="#000000" text-anchor="middle">{$initials}</text>
+  <text x="25" y="31" font-family="'Space Grotesk', system-ui, sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle">{$initials}</text>
   <text x="60" y="30" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="13" font-weight="700" fill="{$cText}">{$escapedName}</text>
 </svg>
 SVG;

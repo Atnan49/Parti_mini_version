@@ -18,15 +18,20 @@
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-                <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ember flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
+                <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink flex items-center gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
                     Sub Acara
                 </span>
                 <h1 class="font-display font-bold text-[28px] sm:text-[34px] md:text-[46px] mt-4 mb-2 text-ink uppercase tracking-tight leading-tight">
                     {{ $subEvent->name }}
                 </h1>
+                @if($subEvent->tagline)
                 <p class="font-display text-[15px] sm:text-[16px] italic text-ink-soft border-l-2 border-gold pl-4 mt-2">
                     {{ $subEvent->tagline }}
                 </p>
+                @endif
+                <div class="text-ink-soft leading-relaxed text-[14px] sm:text-[14.5px] mt-4 pt-4 border-t border-line/50 max-w-[75ch]">
+                    {!! nl2br(e($subEvent->description)) !!}
+                </div>
             </div>
 
             <!-- LED Registration status badge -->
@@ -86,7 +91,7 @@
             </div>
 
             <!-- Event Details Checklist -->
-            <div class="bg-white/80 dark:bg-white/[0.03] backdrop-blur-md border border-line rounded-[24px] p-6 sm:p-8 space-y-6 shadow-sm">
+            <div class="ios-glass rounded-[24px] p-6 sm:p-8 space-y-6 shadow-sm">
                 <div>
                     <h5 class="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-soft font-bold mb-1.5">Pelaksanaan</h5>
                     <p class="font-semibold text-[14px] sm:text-[14.5px] text-ink">
@@ -141,8 +146,8 @@
             </div>
 
             <!-- Share Event Card (Zero Purple) -->
-            <div class="bg-white/80 dark:bg-white/[0.03] backdrop-blur-md border border-line rounded-[24px] p-6 space-y-4 shadow-sm">
-                <h5 class="font-mono text-[10px] tracking-[0.12em] uppercase text-ember font-bold">Bagikan Acara</h5>
+            <div class="ios-glass rounded-[24px] p-6 space-y-4 shadow-sm">
+                <h5 class="font-mono text-[10px] tracking-[0.12em] uppercase text-ink font-bold">Bagikan Acara</h5>
                 <p class="text-[13px] text-ink-soft leading-relaxed">
                     Ajak rekan satu tim-mu untuk mendaftar dengan membagikan tautan acara ini.
                 </p>
@@ -196,22 +201,16 @@
         <!-- Left Column: Details (Appears second on mobile) -->
         <div class="order-2 md:order-1 space-y-8">
             @if($subEvent->poster_path)
-                <div class="overflow-hidden rounded-[24px] border border-line shadow-sm bg-white/80 dark:bg-white/[0.04] backdrop-blur-md p-4 transition-transform duration-500 hover:scale-[1.01]">
+                <div class="ios-glass overflow-hidden rounded-[24px] p-4 transition-transform duration-500 hover:scale-[1.01]">
                     <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="w-full h-auto object-contain max-h-[600px] rounded-[16px] mx-auto" />
                 </div>
             @endif
 
-            <!-- Description Sheet -->
-            <div class="rounded-[24px] border border-line bg-white/80 dark:bg-white/[0.03] backdrop-blur-md p-6 sm:p-8 shadow-sm">
-                <h3 class="font-mono text-[11px] tracking-[0.15em] uppercase text-ember font-bold mb-4 block">Deskripsi Acara</h3>
-                <div class="text-ink-soft leading-relaxed text-[14.5px] sm:text-[15.5px] space-y-6">
-                    {!! nl2br(e($subEvent->description)) !!}
-                </div>
-            </div>
+            {{-- ponytail: merged event description into top hero card and deleted separate sheet --}}
 
             <!-- Downloadable Documents Section as iOS Card -->
             @if($subEvent->documents->isNotEmpty())
-                <div class="border border-line rounded-[24px] p-6 sm:p-8 bg-white/80 dark:bg-white/[0.03] backdrop-blur-md text-left relative shadow-sm">
+                <div class="ios-glass rounded-[24px] p-6 sm:p-8 text-left relative shadow-sm">
                     <h4 class="font-display font-semibold text-[17px] sm:text-[18px] text-ink mb-4 flex items-center gap-2 uppercase tracking-wide">
                         📄 Unduh Berkas Panduan
                     </h4>
@@ -220,7 +219,7 @@
                     </p>
                     <div class="space-y-3.5">
                         @foreach($subEvent->documents as $doc)
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white/90 dark:bg-paper border border-line p-4 rounded-[12px] gap-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-black/[0.03] dark:bg-white/[0.03] border border-line p-4 rounded-[12px] gap-4">
                                 <div class="flex items-start sm:items-center gap-3">
                                     <span class="font-mono text-[9px] bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 px-2.5 py-0.5 rounded-full font-bold uppercase whitespace-nowrap">
                                         {{ $doc->file_type }}
