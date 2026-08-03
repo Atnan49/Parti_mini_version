@@ -19,12 +19,12 @@ find /var/www/html/bootstrap/cache -type d -exec chmod 755 {} +
 # Ensure web server user (www-data) owns storage, public, and bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/public /var/www/html/bootstrap/cache
 
-# Run database migrations in production
-if [ -n "$DB_HOST" ]; then
-    echo "Running migrations..."
-    php artisan migrate --force
-fi
+# Run database migrations & clear view cache automatically on every Docker deployment
+echo "Running automatic database migrations..."
+php artisan migrate --force
+
+echo "Clearing view cache..."
+php artisan view:clear
 
 # Start Apache in the foreground
 exec apache2-foreground
-
