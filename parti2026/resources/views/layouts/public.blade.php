@@ -30,10 +30,32 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
       x-data="{ 
-          darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          darkMode: localStorage.getItem('darkMode') === 'true' || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+          canInstallPwa: false,
+          deferredPrompt: null,
+          initPwa() {
+              window.addEventListener('beforeinstallprompt', (e) => {
+                  e.preventDefault();
+                  this.deferredPrompt = e;
+                  this.canInstallPwa = true;
+              });
+              window.addEventListener('appinstalled', () => {
+                  this.deferredPrompt = null;
+                  this.canInstallPwa = false;
+              });
+          },
+          async installPwa() {
+              if (!this.deferredPrompt) return;
+              this.deferredPrompt.prompt();
+              const { outcome } = await this.deferredPrompt.userChoice;
+              if (outcome === 'accepted') {
+                  this.canInstallPwa = false;
+              }
+              this.deferredPrompt = null;
+          }
       }"
       :class="{ 'dark': darkMode }"
-      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))">
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val)); initPwa();">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -218,6 +240,18 @@
                 </div>
 
                 <div class="hidden md:flex items-center gap-4">
+                    <!-- Install PWA App Button (Desktop) -->
+                    <button x-show="canInstallPwa"
+                            x-cloak
+                            @click="installPwa()"
+                            class="font-mono text-[11px] font-bold tracking-wide uppercase bg-ember text-white px-[14px] py-[7px] rounded-full transition-all duration-300 hover:brightness-110 shadow-sm flex items-center gap-1.5 cursor-pointer animate-pulse"
+                            title="Install PARTI 2026 App">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Install App
+                    </button>
+
                     <!-- Theme Toggle Switch -->
                     <button @click="darkMode = !darkMode" class="p-2 rounded-full border border-line text-ink hover:bg-paper-warm hover:text-ember transition-all cursor-pointer" aria-label="Toggle Theme">
                         <!-- Sun icon (shown in dark mode) -->
@@ -245,6 +279,17 @@
 
                 <!-- Mobile Navbar Controls -->
                 <div class="flex items-center gap-3.5 md:hidden">
+                    <!-- Install PWA App Button (Mobile Icon Pill) -->
+                    <button x-show="canInstallPwa"
+                            x-cloak
+                            @click="installPwa()"
+                            class="p-2 rounded-full bg-ember text-white hover:brightness-110 transition-all cursor-pointer shadow-sm animate-pulse flex items-center justify-center"
+                            aria-label="Install App">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                    </button>
+
                     <!-- Theme Toggle for Mobile -->
                     <button @click="darkMode = !darkMode" class="p-2 rounded-full border border-line text-ink hover:bg-paper-warm hover:text-ember transition-all cursor-pointer" aria-label="Toggle Theme">
                         <svg x-show="darkMode" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
@@ -287,7 +332,19 @@
                     <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Timeline</a>
-                    <a class="font-mono text-[11px] tracking-wide uppercase bg-ink text-paper px-[20px] py-[10px] rounded-full text-center mt-2 hover:opacity-90 transition-all duration-300 shadow-sm" href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false">
+                    
+                    <!-- Install App Button inside Mobile Menu -->
+                    <button x-show="canInstallPwa"
+                            x-cloak
+                            @click="installPwa(); mobileMenuOpen = false;"
+                            class="font-mono text-[11px] font-bold tracking-wide uppercase bg-ember text-white px-[20px] py-[10px] rounded-full text-center mt-2 hover:brightness-110 transition-all duration-300 shadow-sm flex items-center justify-center gap-2 cursor-pointer w-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Install App PARTI 2026
+                    </button>
+
+                    <a class="font-mono text-[11px] tracking-wide uppercase bg-ink text-paper px-[20px] py-[10px] rounded-full text-center mt-1 hover:opacity-90 transition-all duration-300 shadow-sm" href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false">
                         Jelajahi Acara
                     </a>
                 </div>
