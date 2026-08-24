@@ -237,6 +237,7 @@
                     <a href="{{ route('about') }}" class="hover:text-ember transition-colors py-1">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" class="hover:text-ember transition-colors py-1">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" class="hover:text-ember transition-colors py-1">Timeline</a>
+                    <a href="{{ route('faq') }}" class="hover:text-ember transition-colors py-1">Q&A</a>
                 </div>
 
                 <div class="hidden md:flex items-center gap-4">
@@ -332,6 +333,7 @@
                     <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Timeline</a>
+                    <a href="{{ route('faq') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Q&A</a>
                     
                     <!-- Install App Button inside Mobile Menu -->
                     <button x-show="canInstallPwa"

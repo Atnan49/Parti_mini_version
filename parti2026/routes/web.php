@@ -10,12 +10,16 @@ use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\TimelineController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SponsorController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\AuditLogController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Public\FaqController as PublicFaqController;
 
 // === Halaman Publik ===
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tentang', [HomeController::class, 'about'])->name('about');
+Route::get('/faq', [PublicFaqController::class, 'index'])->name('faq');
 Route::get('/acara/{slug}', [PublicSubEventController::class, 'show'])->name('sub-event.show');
 Route::get('/dokumen/{document}/download', [PublicSubEventController::class, 'download'])->name('document.download');
 
@@ -66,6 +70,9 @@ Route::middleware(['auth', 'force.password.change'])
 
             // Kelola Data Sponsor
             Route::resource('sponsors', SponsorController::class)->except(['show']);
+
+            // Kelola FAQ
+            Route::resource('faqs', FaqController::class);
 
             // Log Aktivitas Sistem
             Route::get('audit-log', [AuditLogController::class, 'index'])->name('audit-log.index');

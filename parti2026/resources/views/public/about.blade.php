@@ -43,40 +43,6 @@
     </div>
 </section>
 
-<!-- PILAR UTAMA & VALUE EVENT -->
-<section class="py-6 px-4 max-w-[1140px] mx-auto z-10 relative">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-        <div class="ios-glass rounded-[24px] p-7 text-left space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-ember font-mono text-[20px] font-bold">
-                01
-            </div>
-            <h3 class="font-display font-bold text-[18px] text-ink uppercase tracking-tight">Inovasi Teknologi</h3>
-            <p class="text-[14px] text-ink-soft leading-relaxed">
-                Mendorong pengembangan solusi teknologi tepat guna, kompetisi pengkodean, serta literasi digital yang relevan dengan perkembangan industri global.
-            </p>
-        </div>
-
-        <div class="ios-glass rounded-[24px] p-7 text-left space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-gold font-mono text-[20px] font-bold">
-                02
-            </div>
-            <h3 class="font-display font-bold text-[18px] text-ink uppercase tracking-tight">Kolaborasi Inklusif</h3>
-            <p class="text-[14px] text-ink-soft leading-relaxed">
-                Membangun jejaring sinergi antara mahasiswa, akademisi, praktisi industri, sekolah, dan masyarakat luas melalui rangkaian webinar dan lomba.
-            </p>
-        </div>
-
-        <div class="ios-glass rounded-[24px] p-7 text-left space-y-4">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 font-mono text-[20px] font-bold">
-                03
-            </div>
-            <h3 class="font-display font-bold text-[18px] text-ink uppercase tracking-tight">Dampak Sosial</h3>
-            <p class="text-[14px] text-ink-soft leading-relaxed">
-                Menyebarkan kebermanfaatan nyata bagi sesama melalui aksi kepedulian sosial dan penyaluran donasi kegiatan bakti sosial.
-            </p>
-        </div>
-    </div>
-</section>
 
 <!-- SECTION SPONSOR & MITRA -->
 <x-sponsor-section :sponsors="$sponsors" />
