@@ -6,6 +6,36 @@
 @section('og_description', $subEvent->tagline ?? Str::limit($subEvent->description, 150))
 @section('og_image', $subEvent->poster_url ?? asset('logo.png'))
 
+@section('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": {!! json_encode($subEvent->name) !!},
+  "description": {!! json_encode($subEvent->tagline ?? Str::limit(strip_tags($subEvent->description ?? ''), 200)) !!},
+  "image": "{{ $subEvent->poster_url ?? asset('logo.png') }}",
+  "url": "{{ request()->url() }}",
+  "organizer": {
+    "@type": "Organization",
+    "name": "HIMATIF UMS",
+    "url": "https://himatifums.org/"
+  },
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": "Universitas Muhammadiyah Surakarta",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Surakarta",
+      "addressRegion": "Jawa Tengah",
+      "addressCountry": "ID"
+    }
+  }
+}
+</script>
+@endsection
+
 @section('content')
 <!-- DETAIL PAGE HEADER (macOS Floating Pane) -->
 <section class="relative py-8 px-4 max-w-[1140px] mx-auto z-10">

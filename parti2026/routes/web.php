@@ -159,5 +159,63 @@ Route::get('/clear-cache', function () {
     }
 });
 
+// === Dynamic SEO Sitemap & Robots.txt ===
+Route::get('/sitemap.xml', function () {
+    $activeYear = session('active_year', config('parti.active_year', 2026));
+    $subEvents = \App\Models\SubEvent::where('year', $activeYear)
+        ->where('is_active', true)
+        ->get();
+
+    $urls = [
+        ['loc' => route('home'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '1.0'],
+        ['loc' => route('about'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'weekly', 'priority' => '0.8'],
+        ['loc' => route('faq'), 'lastmod' => now()->toAtomString(), 'changefreq' => 'daily', 'priority' => '0.9'],
+    ];
+
+    foreach ($subEvents as $sub) {
+        $urls[] = [
+            'loc' => route('sub-event.show', $sub->slug),
+            'lastmod' => $sub->updated_at ? $sub->updated_at->toAtomString() : now()->toAtomString(),
+            'changefreq' => 'weekly',
+            'priority' => '0.9',
+        ];
+    }
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    foreach ($urls as $url) {
+        $xml .= '<url>';
+        $xml .= '<loc>' . htmlspecialchars($url['loc']) . '</loc>';
+        $xml .= '<lastmod>' . $url['lastmod'] . '</lastmod>';
+        $xml .= '<changefreq>' . $url['changefreq'] . '</changefreq>';
+        $xml .= '<priority>' . $url['priority'] . '</priority>';
+        $xml .= '</url>';
+    }
+    $xml .= '</urlset>';
+
+    return response($xml, 200, [
+        'Content-Type' => 'application/xml',
+        'Cache-Control' => 'public, max-age=86400',
+    ]);
+});
+
+Route::get('/robots.txt', function () {
+    $robots = "User-agent: *\n";
+    $robots .= "Allow: /\n";
+    $robots .= "Disallow: /admin/\n";
+    $robots .= "Disallow: /dashboard\n";
+    $robots .= "Disallow: /login\n\n";
+    $robots .= "# AI Crawlers allowed for GEO (Generative Engine Optimization)\n";
+    $robots .= "User-agent: GPTBot\nAllow: /\n\n";
+    $robots .= "User-agent: PerplexityBot\nAllow: /\n\n";
+    $robots .= "User-agent: ClaudeBot\nAllow: /\n\n";
+    $robots .= "Sitemap: " . url('/sitemap.xml') . "\n";
+
+    return response($robots, 200, [
+        'Content-Type' => 'text/plain',
+        'Cache-Control' => 'public, max-age=86400',
+    ]);
+});
+
 
 

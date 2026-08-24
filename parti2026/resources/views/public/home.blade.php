@@ -1,6 +1,35 @@
 @extends('layouts.public')
 
-@section('title', 'PARTI Himatif UMS')
+@section('title', 'PARTI ' . session('active_year', config('parti.active_year', 2026)) . ' | Parade Teknik Informatika HIMATIF UMS')
+@section('meta_description', 'Website resmi PARTI (Parade Teknik Informatika) HIMATIF Universitas Muhammadiyah Surakarta. Platform informasi dan pendaftaran kompetisi, workshop, serta festival IT.')
+
+@section('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EventSeries",
+  "name": "PARTI {{ session('active_year', config('parti.active_year', 2026)) }}",
+  "description": "Parade Teknik Informatika HIMATIF Universitas Muhammadiyah Surakarta",
+  "url": "{{ url('/') }}",
+  "organizer": {
+    "@type": "EducationalOrganization",
+    "name": "HIMATIF UMS",
+    "url": "https://himatifums.org/"
+  },
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Universitas Muhammadiyah Surakarta",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Surakarta",
+      "addressRegion": "Jawa Tengah",
+      "addressCountry": "ID"
+    }
+  }
+}
+</script>
+@endsection
 
 @section('content')
 @php

@@ -64,6 +64,13 @@
     <title>@yield('title', 'PARTI Himatif UMS')</title>
     <meta name="description" content="@yield('meta_description', 'Website PARTI Himatif UMS, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
 
+    <!-- Canonical Link -->
+    <link rel="canonical" href="{{ request()->url() }}">
+
+    <!-- DNS Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
@@ -78,9 +85,8 @@
     <meta property="twitter:title" content="@yield('og_title', 'PARTI Himatif UMS')">
     <meta property="twitter:description" content="@yield('og_description', 'Website PARTI Himatif UMS, platform informasi dan pendaftaran rangkaian acara HIMATIF UMS.')">
     <meta property="twitter:image" content="@yield('og_image', asset('logo.png'))">
-    @if(config('parti.seo.twitter_handle'))
-    <meta property="twitter:site" content="{{ config('parti.seo.twitter_handle') }}">
-    <meta property="twitter:creator" content="{{ config('parti.seo.twitter_handle') }}">
+    @if(config('parti.socials.parti.instagram'))
+    <meta property="twitter:site" content="{{ config('parti.socials.parti.instagram') }}">
     @endif
 
     <!-- PWA Meta Tags -->
@@ -91,6 +97,39 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PARTI 2026">
     <link rel="apple-touch-icon" href="{{ asset('icon-192.png') }}">
+
+    <!-- AEO & GEO Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "EducationalOrganization",
+          "@id": "{{ url('/') }}#organization",
+          "name": "HIMATIF UMS",
+          "alternateName": "Himpunan Mahasiswa Teknik Informatika UMS",
+          "url": "https://himatifums.org/",
+          "logo": "{{ asset('images/logo-himatif.png') }}",
+          "sameAs": [
+            "https://www.ums.ac.id/",
+            "https://teknikinformatika.ums.ac.id/"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{ url('/') }}#website",
+          "url": "{{ url('/') }}",
+          "name": "PARTI {{ session('active_year', config('parti.active_year', 2026)) }}",
+          "description": "Parade Teknik Informatika HIMATIF Universitas Muhammadiyah Surakarta",
+          "publisher": {
+            "@id": "{{ url('/') }}#organization"
+          },
+          "inLanguage": "id-ID"
+        }
+      ]
+    }
+    </script>
+    @yield('structured_data')
 
     <!-- Styles and Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

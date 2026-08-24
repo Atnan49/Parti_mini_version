@@ -3,6 +3,27 @@
 @section('title', 'Pertanyaan Sering Diajukan (FAQ) | PARTI HIMATIF UMS')
 @section('meta_description', 'Pusat bantuan dan FAQ seputar pendaftaran, sub-acara, dan alur kegiatan PARTI HIMATIF UMS.')
 
+@section('structured_data')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    @foreach($faqs->flatten() as $faq)
+    {
+      "@type": "Question",
+      "name": {!! json_encode($faq->question) !!},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {!! json_encode($faq->answer) !!}
+      }
+    }@if(!$loop->last),@endif
+    @endforeach
+  ]
+}
+</script>
+@endsection
+
 @section('content')
 <section class="relative py-10 px-4 max-w-[1000px] mx-auto z-10" 
          x-data="{
