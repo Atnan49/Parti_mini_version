@@ -131,9 +131,6 @@
                                         class="w-full flex items-center justify-between p-4 sm:p-5 text-left focus:outline-none cursor-pointer group">
                                     
                                     <div class="flex items-center gap-3 pr-3">
-                                        <span class="font-mono text-[10px] font-bold text-ember bg-ember/10 border border-ember/20 px-2 py-0.5 rounded">
-                                            {{ sprintf('%02d', $globalCounter) }}
-                                        </span>
                                         <span class="font-display font-bold text-[14px] sm:text-[16px] text-ink group-hover:text-ember transition-colors leading-snug">
                                             {{ $faq->question }}
                                         </span>
