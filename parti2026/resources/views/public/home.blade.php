@@ -220,21 +220,9 @@ $menuItems = collect([
                     @endif
                 </span>
 
-                <span class="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5 font-medium
-                        @if($subEvent->registration_button_state === 'open') text-emerald-400
-                        @elseif($subEvent->registration_button_state === 'closed') text-rose-400
-                        @else text-amber-400 @endif">
-                    <span class="w-1.5 h-1.5 rounded-full inline-block
-                            @if($subEvent->registration_button_state === 'open') bg-emerald-400
-                            @elseif($subEvent->registration_button_state === 'closed') bg-rose-400
-                            @else bg-amber-400 @endif"></span>
-                    @if($subEvent->registration_button_state === 'open')
-                    Pendaftaran Buka
-                    @elseif($subEvent->registration_button_state === 'closed')
-                    Pendaftaran Tutup
-                    @else
-                    Segera Dibuka
-                    @endif
+                <span class="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5 font-medium {{ $subEvent->registration_button_state === 'open' ? 'text-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'text-rose-400' : 'text-amber-400') }}">
+                    <span class="w-1.5 h-1.5 rounded-full inline-block {{ $subEvent->registration_button_state === 'open' ? 'bg-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'bg-rose-400' : 'bg-amber-400') }}"></span>
+                    {{ $subEvent->registration_button_state === 'open' ? 'Pendaftaran Buka' : ($subEvent->registration_button_state === 'closed' ? 'Pendaftaran Tutup' : 'Segera Dibuka') }}
                 </span>
             </div>
 
