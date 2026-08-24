@@ -237,7 +237,7 @@
                     <a href="{{ route('about') }}" class="hover:text-ember transition-colors py-1">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" class="hover:text-ember transition-colors py-1">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" class="hover:text-ember transition-colors py-1">Timeline</a>
-                    <a href="{{ route('faq') }}" class="hover:text-ember transition-colors py-1">Q&A</a>
+                    <a href="{{ route('faq') }}" class="hover:text-ember transition-colors py-1 {{ request()->routeIs('faq') ? 'text-ember font-semibold' : '' }}">Pertanyaan</a>
                 </div>
 
                 <div class="hidden md:flex items-center gap-4">
@@ -333,7 +333,7 @@
                     <a href="{{ route('about') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Tentang</a>
                     <a href="{{ route('home') }}#sub-acara" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Sub Acara</a>
                     <a href="{{ route('home') }}#timeline" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Timeline</a>
-                    <a href="{{ route('faq') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors">Q&A</a>
+                    <a href="{{ route('faq') }}" @click="mobileMenuOpen = false" class="hover:text-ember py-2 border-b border-line/30 transition-colors {{ request()->routeIs('faq') ? 'text-ember font-semibold' : '' }}">Pertanyaan</a>
                     
                     <!-- Install App Button inside Mobile Menu -->
                     <button x-show="canInstallPwa"
@@ -401,6 +401,7 @@
                     <div class="text-left">
                         <h5 class="font-mono text-[10px] tracking-[0.15em] uppercase text-ember font-bold mb-4">Jelajah</h5>
                         <a href="{{ route('about') }}" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Tentang</a>
+                        <a href="{{ route('faq') }}" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Pertanyaan</a>
                         <a href="{{ route('home') }}#timeline" class="block text-[13px] text-ink-soft mb-2.5 hover:text-ember transition-colors">Timeline</a>
                     </div>
                     <div class="text-left">

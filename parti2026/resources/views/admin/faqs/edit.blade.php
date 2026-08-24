@@ -1,57 +1,85 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit FAQ')
+@section('title', 'Edit FAQ | PARTI ' . (session('active_year', config('parti.active_year', 2026))))
 
 @section('content')
-<div class="mb-6 flex justify-between items-center">
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Edit FAQ</h2>
-    <a href="{{ route('admin.faqs.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-        Kembali
-    </a>
-</div>
+<div class="space-y-6 text-left max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+            <h1 class="font-display font-bold text-2xl text-ink uppercase tracking-wide">Edit FAQ</h1>
+            <p class="text-ink-soft text-sm mt-1">Ubah data Q&A yang sudah ada.</p>
+        </div>
+        <a href="{{ route('admin.faqs.index') }}" class="font-mono text-[11px] text-ink-soft hover:text-ink font-bold uppercase tracking-wider flex items-center gap-1.5 border border-line hover:border-ink/30 px-3 py-1.5 rounded-[2px] transition-all bg-white">
+            ← Kembali ke Daftar
+        </a>
+    </div>
 
-<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 md:p-8">
-    <form action="{{ route('admin.faqs.update', $faq) }}" method="POST" class="space-y-6">
-        @csrf
-        @method('PUT')
+    <!-- Form Card -->
+    <div class="bg-white border border-line rounded-[6px] shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-line">
+            <h3 class="font-display font-bold text-base text-ink uppercase tracking-wide">Formulir Update FAQ</h3>
+        </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Kategori</label>
-                <input type="text" name="category" value="{{ old('category', $faq->category) }}" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#27C93F] focus:border-transparent outline-none transition-all" required placeholder="Contoh: Umum, Pendaftaran, Futsal">
-                @error('category') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        <form action="{{ route('admin.faqs.update', $faq->id) }}" method="POST" class="p-6 md:p-8 space-y-8">
+            @csrf
+            @method('PUT')
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Kategori -->
+                <div class="space-y-1.5">
+                    <label for="category" class="block font-mono text-[10px] tracking-widest uppercase text-ink-soft/75 font-bold">Kategori FAQ</label>
+                    <input type="text" id="category" name="category" value="{{ old('category', $faq->category) }}" 
+                           class="w-full bg-paper-warm border border-line rounded-[2px] px-4 py-2.5 text-sm text-ink focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" 
+                           placeholder="Umum, Lomba, Pendaftaran" required>
+                    @error('category') <p class="text-xs text-rose-500 mt-1 font-mono">{{ $message }}</p> @enderror
+                </div>
+                
+                <!-- Order -->
+                <div class="space-y-1.5">
+                    <label for="order" class="block font-mono text-[10px] tracking-widest uppercase text-ink-soft/75 font-bold">Urutan Tampil</label>
+                    <input type="number" id="order" name="order" value="{{ old('order', $faq->order) }}" 
+                           class="w-full bg-paper-warm border border-line rounded-[2px] px-4 py-2.5 text-sm text-ink focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" 
+                           placeholder="1" min="1" required>
+                    <p class="text-[11px] text-ink-soft/60 mt-1">Angka terkecil akan tampil paling atas.</p>
+                    @error('order') <p class="text-xs text-rose-500 mt-1 font-mono">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
+            <!-- Pertanyaan -->
+            <div class="space-y-1.5">
+                <label for="question" class="block font-mono text-[10px] tracking-widest uppercase text-ink-soft/75 font-bold">Pertanyaan</label>
+                <input type="text" id="question" name="question" value="{{ old('question', $faq->question) }}" 
+                       class="w-full bg-paper-warm border border-line rounded-[2px] px-4 py-2.5 text-sm text-ink focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" 
+                       placeholder="Masukkan pertanyaan yang sering diajukan..." required>
+                @error('question') <p class="text-xs text-rose-500 mt-1 font-mono">{{ $message }}</p> @enderror
+            </div>
+
+            <!-- Jawaban -->
+            <div class="space-y-1.5">
+                <label for="answer" class="block font-mono text-[10px] tracking-widest uppercase text-ink-soft/75 font-bold">Jawaban</label>
+                <textarea id="answer" name="answer" rows="6" 
+                          class="w-full bg-paper-warm border border-line rounded-[2px] px-4 py-3 text-sm text-ink focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" 
+                          placeholder="Masukkan jawaban yang lengkap..." required>{{ old('answer', $faq->answer) }}</textarea>
+                @error('answer') <p class="text-xs text-rose-500 mt-1 font-mono">{{ $message }}</p> @enderror
             </div>
             
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Urutan Tampil</label>
-                <input type="number" name="order" value="{{ old('order', $faq->order) }}" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#27C93F] focus:border-transparent outline-none transition-all" required min="1">
-                <p class="text-xs text-gray-500 mt-1">Angka terkecil akan tampil paling atas.</p>
-                @error('order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <!-- Status Aktif -->
+            <div class="space-y-1.5">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" name="is_active" value="1" {{ old('is_active', $faq->is_active) ? 'checked' : '' }} class="sr-only peer">
+                    <div class="w-10 h-5 bg-line/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-ember relative"></div>
+                    <span class="font-mono text-xs tracking-wide text-ink font-bold uppercase group-hover:text-ember transition-colors">Tampilkan FAQ di Website</span>
+                </label>
             </div>
-        </div>
 
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Pertanyaan</label>
-            <input type="text" name="question" value="{{ old('question', $faq->question) }}" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#27C93F] focus:border-transparent outline-none transition-all" required placeholder="Tuliskan pertanyaan...">
-            @error('question') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
-
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Jawaban</label>
-            <textarea name="answer" rows="5" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-[#27C93F] focus:border-transparent outline-none transition-all" required placeholder="Tuliskan jawaban yang informatif...">{{ old('answer', $faq->answer) }}</textarea>
-            @error('answer') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
-
-        <div class="flex items-center gap-3 mt-4">
-            <input type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $faq->is_active) ? 'checked' : '' }} class="w-5 h-5 text-[#27C93F] rounded border-gray-300 focus:ring-[#27C93F]">
-            <label for="is_active" class="text-sm font-semibold text-gray-700 dark:text-gray-300">Tampilkan FAQ ini (Aktif)</label>
-        </div>
-
-        <div class="pt-4 flex justify-end">
-            <button type="submit" class="px-6 py-3 bg-[#27C93F] text-black font-bold rounded-xl shadow-lg hover:bg-[#1fa032] transition-colors">
-                Update FAQ
-            </button>
-        </div>
-    </form>
+            <!-- Submit Button -->
+            <div class="pt-4 border-t border-line/50 flex justify-end">
+                <button type="submit" class="bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-xs px-8 py-3 rounded-[2px] transition-premium hover:shadow-[0_10px_20px_-5px_rgba(226,101,11,0.4)]">
+                    UPDATE FAQ
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection

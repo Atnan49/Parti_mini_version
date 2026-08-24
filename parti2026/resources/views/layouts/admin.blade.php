@@ -75,6 +75,9 @@
                 <a href="{{ route('admin.sponsors.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-[2px] text-sm font-medium transition-colors {{ request()->routeIs('admin.sponsors.*') ? 'bg-ember/10 text-ember font-semibold' : 'text-ink-soft hover:bg-paper-warm hover:text-ink' }}">
                     <span class="text-[16px]">🤝</span> Sponsor
                 </a>
+                <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-[2px] text-sm font-medium transition-colors {{ request()->routeIs('admin.faqs.*') ? 'bg-ember/10 text-ember font-semibold' : 'text-ink-soft hover:bg-paper-warm hover:text-ink' }}">
+                    <span class="text-[16px]">❓</span> Manajemen FAQ
+                </a>
                 <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-[2px] text-sm font-medium transition-colors {{ request()->routeIs('admin.users.*') ? 'bg-ember/10 text-ember font-semibold' : 'text-ink-soft hover:bg-paper-warm hover:text-ink' }}">
                     <span class="text-[16px]">👤</span> Kesekretariatan
                 </a>
