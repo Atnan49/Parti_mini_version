@@ -46,6 +46,7 @@ class SubEvent extends Model
             'date_end' => 'date',
             'pj_names' => 'array',
             'htm_tiers' => 'array',
+            'gform_link' => 'array',
             'gform_updated_at' => 'datetime',
             'order' => 'integer',
             'is_deleted' => 'boolean',

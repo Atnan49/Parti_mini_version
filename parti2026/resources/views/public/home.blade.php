@@ -35,25 +35,7 @@ $menuItems = collect([
 
 <!-- HERO SECTION -->
 <section class="relative min-h-[80vh] flex items-center py-12 md:py-24 overflow-hidden">
-    <!-- WebGL InfiniteMenu in background (hidden on mobile to prevent clutter and save CPU) -->
-    <div x-data="{
-        items: {{ $menuItems->toJson() }},
-        activeItem: null,
-        isMoving: false,
-        init() {
-            if (this.items && this.items.length > 0) {
-                window.initInfiniteMenu(
-                    this.$refs.canvas, 
-                    this.items, 
-                    (item) => { this.activeItem = item; }, 
-                    (moving) => { this.isMoving = moving; },
-                    0.85
-                );
-            }
-        }
-    }" class="hidden md:block absolute inset-y-0 right-0 w-1/2 z-0 overflow-hidden pointer-events-auto animate-fade-in">
-        <canvas x-ref="canvas" id="infinite-grid-menu-canvas" class="w-full h-[450px] absolute top-1/2 -translate-y-1/2 left-0 opacity-95 dark:opacity-90 transition-opacity duration-500"></canvas>
-    </div>
+    <!-- WebGL Background Removed in favor of Interactive Retro Terminal -->
 
     <!-- Main Content -->
     <div class="w-full max-w-[1140px] mx-auto px-6 md:px-8 relative z-10 pointer-events-none my-auto">
@@ -101,8 +83,77 @@ $menuItems = collect([
                 </div>
             </div>
 
-            <!-- Empty space for WebGL Menu placement on desktop -->
-            <div class="hidden md:block h-[400px] pointer-events-none"></div>
+            <!-- Retro Terminal (Desktop Only) -->
+            <div class="hidden md:block pointer-events-auto text-left w-full h-[400px] rounded-[20px] bg-[#0c0c0c] border border-gray-800 shadow-[0_0_40px_rgba(39,201,63,0.1)] overflow-hidden font-mono text-[13px] flex flex-col relative"
+                x-data="{
+                    input: '',
+                    output: [
+                        'Welcome to PARTI 2026 Interactive Shell v1.0',
+                        'Type \'help\' to see available commands.',
+                        ''
+                    ],
+                    commands: {
+                        'help': 'Available commands: help, about, date, clear, sudo',
+                        'about': 'PARTI (Parade Teknik Informatika) is the biggest annual event by HIMATIF UMS. It is a hub for innovation, creativity, and technology collaboration.',
+                        'date': new Date().toLocaleString(),
+                        'sudo': 'Nice try, human. Access denied.'
+                    },
+                    execute() {
+                        const cmd = this.input.trim().toLowerCase();
+                        this.output.push('> ' + this.input);
+                        this.input = '';
+                        
+                        if (cmd === '') return;
+                        if (cmd === 'clear') {
+                            this.output = [];
+                            return;
+                        }
+                        if (this.commands[cmd]) {
+                            this.output.push(this.commands[cmd]);
+                        } else {
+                            this.output.push('Command not found: ' + cmd);
+                        }
+                        
+                        // Auto scroll to bottom
+                        this.$nextTick(() => {
+                            const term = this.$refs.terminalBody;
+                            term.scrollTop = term.scrollHeight;
+                        });
+                    }
+                }"
+                @click="$refs.cmdInput.focus()"
+            >
+                <!-- Top Bar -->
+                <div class="bg-[#1a1a1a] px-4 py-3 border-b border-gray-800 flex items-center justify-between">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                        <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                        <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                    </div>
+                    <div class="text-gray-400 text-[10px] tracking-widest font-bold">GUEST@PARTI2026:~</div>
+                    <div class="w-10"></div>
+                </div>
+                
+                <!-- Terminal Body -->
+                <div x-ref="terminalBody" class="p-5 flex-1 overflow-y-auto text-[#27C93F] font-mono flex flex-col gap-1 scrollbar-hide shadow-inner">
+                    <template x-for="(line, index) in output" :key="index">
+                        <div class="whitespace-pre-wrap break-words" x-html="line"></div>
+                    </template>
+                    <div class="flex items-center mt-1">
+                        <span class="text-[#27C93F] mr-2">></span>
+                        <input 
+                            x-ref="cmdInput"
+                            type="text" 
+                            x-model="input" 
+                            @keydown.enter="execute"
+                            class="bg-transparent border-none outline-none text-[#27C93F] flex-1 font-mono focus:ring-0 p-0 shadow-none"
+                            autofocus
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

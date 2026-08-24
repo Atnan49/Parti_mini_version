@@ -19,10 +19,10 @@ class RegistrationLinkController extends Controller
 
     public function update(GformLinkRequest $request, SubEvent $subEvent)
     {
-        $oldLink = $subEvent->gform_link;
+        $links = $request->gform_links ?? [];
         
         $subEvent->update([
-            'gform_link' => $request->gform_link,
+            'gform_link' => empty($links) ? null : $links,
             'gform_updated_by' => \Illuminate\Support\Facades\Auth::id(),
             'gform_updated_at' => now(),
         ]);
@@ -30,7 +30,7 @@ class RegistrationLinkController extends Controller
         // Audit Log
         AuditLog::create([
             'user_id' => \Illuminate\Support\Facades\Auth::id(),
-            'action' => 'Memperbarui tautan Google Form sub acara "' . $subEvent->name . '" dari "' . ($oldLink ?? 'Segera Dibuka') . '" menjadi "' . ($request->gform_link ?? 'Segera Dibuka') . '"',
+            'action' => 'Memperbarui tautan Google Form sub acara "' . $subEvent->name . '" menjadi ' . count($links) . ' tautan',
             'entity_type' => 'SubEvent',
             'entity_id' => $subEvent->id,
         ]);

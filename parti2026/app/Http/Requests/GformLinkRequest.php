@@ -22,8 +22,10 @@ class GformLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gform_link' => [
-                'nullable',
+            'gform_links' => 'nullable|array',
+            'gform_links.*.label' => 'required_with:gform_links|string|max:100',
+            'gform_links.*.url' => [
+                'required_with:gform_links',
                 'url',
                 function ($attribute, $value, $fail) {
                     $parsed = parse_url($value);
@@ -38,7 +40,7 @@ class GformLinkRequest extends FormRequest
                     }
 
                     if (!$isValid) {
-                        $fail('Tautan pendaftaran harus merupakan domain Google Form yang valid (docs.google.com/forms atau forms.gle).');
+                        $fail('Tautan harus berupa domain Google Form yang valid (docs.google.com/forms atau forms.gle).');
                     }
                 },
             ],

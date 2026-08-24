@@ -74,10 +74,14 @@
                 
                 <h4 class="font-display font-bold text-[16px] text-ink uppercase tracking-wider mb-5">Pendaftaran Peserta</h4>
                 
-                @if($subEvent->registration_button_state === 'open')
-                    <a href="{{ $subEvent->gform_link }}" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-[13px] px-[24px] py-[13px] rounded-full inline-flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(255,107,0,0.4)] hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-wider font-mono shadow-sm">
-                        Daftar (Google Form)
-                    </a>
+                @if($subEvent->registration_button_state === 'open' && is_array($subEvent->gform_link))
+                    <div class="space-y-3">
+                        @foreach($subEvent->gform_link as $link)
+                            <a href="{{ $link['url'] ?? '#' }}" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-[13px] px-[24px] py-[13px] rounded-full inline-flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(255,107,0,0.4)] hover:-translate-y-0.5 active:translate-y-0 uppercase tracking-wider font-mono shadow-sm">
+                                {{ $link['label'] ?? 'Daftar' }}
+                            </a>
+                        @endforeach
+                    </div>
                 @elseif($subEvent->registration_button_state === 'closed')
                     <button disabled class="w-full text-center bg-black/10 dark:bg-white/10 text-ink-soft/40 font-semibold text-[13px] px-[24px] py-[13px] rounded-full inline-flex items-center justify-center cursor-not-allowed border border-line uppercase tracking-wider font-mono">
                         Pendaftaran Ditutup
@@ -254,7 +258,7 @@
   "location": {
     "@@type": "{{ $subEvent->type === 'ONLINE' ? 'VirtualLocation' : 'Place' }}",
     @if($subEvent->type === 'ONLINE')
-    "url": "{{ $subEvent->gform_link ?? request()->url() }}"
+    "url": "{{ (is_array($subEvent->gform_link) && count($subEvent->gform_link) > 0) ? ($subEvent->gform_link[0]['url'] ?? request()->url()) : request()->url() }}"
     @else
     "name": "{{ $subEvent->location ?? 'Universitas Muhammadiyah Surakarta' }}",
     "address": {
