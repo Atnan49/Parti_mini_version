@@ -1,177 +1,68 @@
-# Panduan Instalasi Website PARTI 2026 UMS
+# PARTI HIMATIF UMS 2026 — Official Event Platform
 
-Selamat datang di repositori resmi **Website PARTI 2026 UMS — Vanguard of Tech**. Dokumen ini dibuat khusus sebagai panduan langkah demi langkah bagi rekan-rekan mahasiswa (khususnya angkatan/semester 4) untuk menjalankan proyek ini di perangkat lokal masing-masing.
+[![Laravel](https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Alpine.js](https://img.shields.io/badge/Alpine.js-3.x-8BC0D0?style=for-the-badge&logo=alpine.js&logoColor=white)](https://alpinejs.dev)
+[![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 
-Anda dapat menjalankan proyek ini menggunakan **Docker** (Sangat Direkomendasikan) atau secara **Manual (Tanpa Docker)**. Silakan pilih salah satu metode di bawah ini.
+Platform web resmi **PARTI (Parade Teknik Informatika) 2026** yang diselenggarakan oleh **Himpunan Mahasiswa Teknik Informatika (HIMATIF) Universitas Muhammadiyah Surakarta**.
 
----
-
-## 🛠️ Prasyarat Sebelum Memulai (Prerequisites)
-
-Sebelum mulai melakukan instalasi, pastikan Anda sudah memasang perangkat lunak berikut:
-1. **Git** (Untuk clone repositori)
-2. **Web Browser** (Chrome / Edge / Firefox)
-3. **VS Code** (Atau text editor pilihan Anda)
+Aplikasi web ini dibangun dengan arsitektur modern berstandar industri (*macOS / iOS Glassmorphism Design System*), mengintegrasikan portal publik interaktif, manajemen multi-tahun (*multi-year switching*), manajemen sponsor bertingkat, sistem Q&A dinamis, serta optimasi SEO, AEO (Schema.org JSON-LD), dan GEO (Generative Engine Optimization).
 
 ---
 
-## 🐳 Cara 1: Menjalankan Menggunakan Docker (Sangat Direkomendasikan)
+## 🌟 Fitur Utama (Core Features)
 
-Metode ini sangat mudah karena Anda tidak perlu menginstal PHP, MySQL, Composer, atau Node.js secara lokal di laptop Anda. Semua dependensi sudah otomatis terbungkus di dalam kontainer Docker.
+### 🎨 Portal Publik (Public Portal)
+- **Interactive Retro Shell**: Terminal WebGL/Interactive Shell di Hero Section untuk pengalaman pengguna bertema teknologi.
+- **Dynamic Sub-Events**: Katalog sub-acara kompetisi & festival dengan indikator status pendaftaran real-time.
+- **Dynamic FAQ Hub**: Pusat bantuan interaktif dengan pencarian cepat (*live search*), filter kategori pill, dan Schema `FAQPage` JSON-LD.
+- **Timeline Acara**: Visualisasi alur waktu kegiatan bertema node interaktif.
+- **PWA Service Worker**: Dukungan instalasi aplikasi seluler/desktop dan halaman cadangan offline.
 
-### Langkah-Langkah:
-
-1. **Clone Repositori**:
-   Buka terminal/command prompt, jalankan perintah berikut untuk mengunduh proyek:
-   ```bash
-   git clone https://github.com/Atnan49/Parti_mini_version.git
-   cd Parti_mini_version
-   ```
-
-2. **Salin File Environment**:
-   Salin file `.env.example` menjadi `.env` di dalam folder `parti2026/`:
-   * **Windows (Command Prompt)**:
-     ```cmd
-     copy parti2026\.env.example parti2026\.env
-     ```
-   * **Windows (PowerShell) / Linux / macOS**:
-     ```bash
-     cp parti2026/.env.example parti2026/.env
-     ```
-
-3. **Ubah Konfigurasi Database di `.env`**:
-   Buka file `parti2026/.env` menggunakan VS Code, cari baris database (sekitar baris 23) dan ubah nilainya agar terhubung ke kontainer MySQL Docker:
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=db
-   DB_PORT=3306
-   DB_DATABASE=parti2026
-   DB_USERNAME=parti_user
-   DB_PASSWORD=parti_password
-   ```
-
-4. **Jalankan Container Docker**:
-   Buka terminal di dalam folder `parti2026/` (folder yang berisi file `docker-compose.yml`), lalu jalankan perintah:
-   ```bash
-   cd parti2026
-   docker-compose up -d --build
-   ```
-   *(Tunggu beberapa menit hingga proses download image dan build selesai. Tanda `-d` berarti container berjalan di latar belakang).*
-
-5. **Instal Dependensi Laravel (Composer) di Dalam Container**:
-   Jalankan perintah ini untuk mengunduh paket-paket PHP Laravel yang dibutuhkan:
-   ```bash
-   docker-compose exec web composer install
-   ```
-
-6. **Generate Application Key**:
-   Jalankan perintah ini untuk membuat kunci keamanan Laravel:
-   ```bash
-   docker-compose exec web php artisan key:generate
-   ```
-
-7. **Migrasi Database & Data Awal (Seeding)**:
-   Jalankan perintah ini untuk membuat tabel database dan mengisinya dengan data awal (seperti daftar sub-acara & timeline):
-   ```bash
-   docker-compose exec web php artisan migrate --seed
-   ```
-
-8. **Selesai! Buka Website**:
-   Buka browser Anda dan akses alamat:  
-   👉 **[http://localhost:8000](http://localhost:8000)**
+### 🛡️ Panel Administrasi (Admin Panel)
+- **Single Sign-On Masking**: URL autentikasi terisolasi (`/auth`) untuk proteksi keamanan dari serangan brute-force.
+- **Multi-Year Switcher**: Manajemen arsip event lintas tahun (2025 – 2030) dalam satu portal admin terpusat.
+- **Manajemen Sub-Acara & Timeline**: Kontrol status pendaftaran, jadwal, deskripsi, dan tautan pendaftaran.
+- **Manajemen Sponsor Bertingkat**: Pengelompokan sponsor berbasis tier (*Platinum, Gold, Silver, Bronze*) dengan running marquee animasi logoloop.
+- **Manajemen FAQ (Q&A)**: Pengelolaan penuh data pertanyaan publik tanpa perlu menyunting kode.
+- **Audit Logs & Keamanan**: Pencatatan riwayat aktivitas pengguna untuk transparansi data kepanitiaan.
 
 ---
 
-## 💻 Cara 2: Menjalankan Secara Manual (Tanpa Docker)
+## 🛠️ Spesifikasi Teknologi (Tech Stack)
 
-Jika Anda tidak menggunakan Docker, Anda harus menginstal PHP, MySQL, Composer, dan Node.js langsung di sistem operasi laptop Anda.
-
-### Prasyarat Tambahan:
-* **PHP 8.2 ke atas**
-* **Composer** (Package manager PHP)
-* **Node.js & NPM** (Untuk menjalankan/compile aset Vite CSS & JS)
-* **MySQL/MariaDB Server** (XAMPP / Laragon)
-
-### Langkah-Langkah:
-
-1. **Clone Repositori**:
-   ```bash
-   git clone https://github.com/Atnan49/Parti_mini_version.git
-   cd Parti_mini_version
-   ```
-
-2. **Salin File Environment**:
-   Salin file `.env.example` menjadi `.env` di dalam folder `parti2026/`:
-   * **Windows (Command Prompt)**:
-     ```cmd
-     copy parti2026\.env.example parti2026\.env
-     ```
-   * **Windows (PowerShell) / Linux / macOS**:
-     ```bash
-     cp parti2026/.env.example parti2026/.env
-     ```
-
-3. **Ubah Konfigurasi Database di `.env`**:
-   Buka file `parti2026/.env` menggunakan VS Code. Nyalakan server MySQL lokal Anda (misal lewat XAMPP), buat database baru bernama `parti2026` via phpMyAdmin, lalu sesuaikan pengaturan database di `.env`:
-   ```env
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=parti2026
-   DB_USERNAME=root
-   DB_PASSWORD=   # kosongkan jika tidak ada password di XAMPP
-   ```
-
-4. **Masuk ke Direktori Proyek & Instal PHP Dependensi**:
-   Buka terminal, arahkan ke folder `parti2026/`, lalu jalankan:
-   ```bash
-   cd parti2026
-   composer install
-   ```
-
-5. **Generate Application Key**:
-   ```bash
-   php artisan key:generate
-   ```
-
-6. **Migrasi Database & Data Awal (Seeding)**:
-   Jalankan perintah berikut untuk mengisi database Anda dengan data acara:
-   ```bash
-   php artisan migrate --seed
-   ```
-
-7. **Aset CSS & JS (Vite)**:
-   Aset css dan js produksi sudah di-build sebelumnya di repositori ini. Namun, jika ingin melakukan perubahan kode pada CSS, Anda perlu menginstal Node modules dan menjalankan server development:
-   ```bash
-   npm install
-   npm run dev
-   ```
-
-8. **Nyalakan Server Lokal**:
-   Jalankan server PHP bawaan Laravel:
-   ```bash
-   php artisan serve
-   ```
-
-9. **Selesai! Buka Website**:
-   Buka browser Anda dan akses alamat:  
-   👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
+- **Backend**: Laravel 13.x, PHP 8.4
+- **Frontend**: Blade Templating, Tailwind CSS v3, Alpine.js 3.x
+- **Database**: MySQL / PostgreSQL (Production Compatible)
+- **Asset Bundler**: Vite 8.x
+- **Optimization**: JSON-LD Structured Data (Schema.org), OpenGraph, Twitter Cards, Dynamic XML Sitemap, Dynamic Robots.txt, PWA Service Worker
 
 ---
 
-## 📝 Perintah Docker yang Sering Digunakan (Cheat Sheet)
+## 📖 Dokumentasi Pengembangan & Deployment
 
-* **Mematikan Container**:
-  ```bash
-  docker-compose down
-  ```
-* **Melihat Log / Error Docker**:
-  ```bash
-  docker-compose logs -f web
-  ```
-* **Masuk ke dalam terminal bash Container**:
-  ```bash
-  docker-compose exec web bash
-  ```
+Untuk menjaga kerapihan repositori, panduan teknis dipisahkan berdasarkan kebutuhan:
 
-Jika Anda mengalami kendala saat melakukan instalasi, silakan tanyakan di grup kolaborasi atau hubungi PJ Humas HIMATIF UMS. Selamat mencoba! 🚀
+- 💻 **Instalasi Pengembangan Lokal (Docker & Manual)**: 
+  Silakan baca berkas **[INSTALL_GUIDE.md](./INSTALL_GUIDE.md)** untuk petunjuk langkah demi langkah menjalankan proyek di komputer lokal.
+
+- ☁️ **Panduan Deployment Produksi**:
+  - **Render.com (Docker Container)**: Menggunakan `Dockerfile` di folder `parti2026`, sesuaikan `APP_KEY`, `DB_CONNECTION=pgsql`, dan jalankan `/run-migration` serta `/run-seed`.
+  - **Hostinger / Shared Hosting**: Pastikan Git terhubung ke branch `atnan-dev`, ubah root direktori ke `parti2026/public`, dan jalankan `/create-symlink` untuk storage.
+
+---
+
+## 🔑 Akses Default Admin (Development)
+
+- **URL Login**: `http://localhost:8000/auth`
+- **Email**: `admin@parti2026.com`
+- **Password**: `changeme123`
+- **Role**: `SUPERADMIN`
+
+---
+
+## 🤝 Kontribusi & Lisensi
+
+Dikembangkan oleh Tim Pengembang **HIMATIF Universitas Muhammadiyah Surakarta**. Hak Cipta Dilindungi Undang-Undang.
