@@ -1,0 +1,5 @@
+.agent/
+.agents/
+.vscode/
+graphify-out/
+.phpunit.result.cache
