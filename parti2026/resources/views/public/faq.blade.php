@@ -174,7 +174,7 @@
     </div>
 
     <!-- CONTACT HELP BANNER (Generous spacing & sleek compact design) -->
-    <div class="mt-20 mb-10 max-w-3xl mx-auto ios-glass rounded-[24px] p-6 sm:p-8 text-center relative overflow-hidden border border-line/80 shadow-sm">
+    <div style="margin-top: 70px; margin-bottom: 40px;" class="mt-16 sm:mt-20 mb-10 max-w-3xl mx-auto ios-glass rounded-[24px] p-6 sm:p-8 text-center relative overflow-hidden border border-line/80 shadow-sm">
         <div class="max-w-xl mx-auto">
             <span class="font-mono text-[9px] tracking-[0.2em] uppercase text-ember font-bold block mb-1.5">MASIH PERLU BANTUAN?</span>
             <h3 class="font-display font-bold text-lg sm:text-xl text-ink uppercase mb-2">HUBUNGI PANITIA PARTI</h3>
