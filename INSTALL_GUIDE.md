@@ -100,14 +100,9 @@ Pilih salah satu metode pengembangan di bawah ini:
 
 ---
 
-## 🔑 Kredensial Admin Default
+## 🔐 Kredensial & Autentikasi Pengembang
 
-Setelah menjalankan seeder (`--seed`), akun administrator bawaan siap digunakan:
-
-- **URL Login Admin**: `http://localhost:8000/auth` *(Masking dari /login)*
-- **Email**: `admin@parti2026.com`
-- **Password**: `changeme123`
-- **Role**: `SUPERADMIN`
+Informasi kredensial administrator awal dan rute autentikasi diatur di dalam file seeder `database/seeders/DatabaseSeeder.php` & `routes/web.php`. Untuk alasan keamanan sistem, detail akun admin tidak dipublikasikan secara terbuka di dalam dokumentasi publik.
 
 ---
 

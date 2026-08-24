@@ -22,7 +22,7 @@ Aplikasi web ini dibangun dengan arsitektur modern berstandar industri (*macOS /
 - **PWA Service Worker**: Dukungan instalasi aplikasi seluler/desktop dan halaman cadangan offline.
 
 ### 🛡️ Panel Administrasi (Admin Panel)
-- **Single Sign-On Masking**: URL autentikasi terisolasi (`/auth`) untuk proteksi keamanan dari serangan brute-force.
+- **Authentication Masking**: Proteksi URL autentikasi terisolasi untuk mengamankan sistem dari serangan otomatis.
 - **Multi-Year Switcher**: Manajemen arsip event lintas tahun (2025 – 2030) dalam satu portal admin terpusat.
 - **Manajemen Sub-Acara & Timeline**: Kontrol status pendaftaran, jadwal, deskripsi, dan tautan pendaftaran.
 - **Manajemen Sponsor Bertingkat**: Pengelompokan sponsor berbasis tier (*Platinum, Gold, Silver, Bronze*) dengan running marquee animasi logoloop.
@@ -51,15 +51,6 @@ Untuk menjaga kerapihan repositori, panduan teknis dipisahkan berdasarkan kebutu
 - ☁️ **Panduan Deployment Produksi**:
   - **Render.com (Docker Container)**: Menggunakan `Dockerfile` di folder `parti2026`, sesuaikan `APP_KEY`, `DB_CONNECTION=pgsql`, dan jalankan `/run-migration` serta `/run-seed`.
   - **Hostinger / Shared Hosting**: Pastikan Git terhubung ke branch `atnan-dev`, ubah root direktori ke `parti2026/public`, dan jalankan `/create-symlink` untuk storage.
-
----
-
-## 🔑 Akses Default Admin (Development)
-
-- **URL Login**: `http://localhost:8000/auth`
-- **Email**: `admin@parti2026.com`
-- **Password**: `changeme123`
-- **Role**: `SUPERADMIN`
 
 ---
 
