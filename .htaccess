@@ -1,0 +1,36 @@
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Block direct access to sensitive files
+    <FilesMatch "^\.(env|git|htaccess|config|json|lock|xml|yml|yaml)">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+    # Serve static assets if exists in parti2026/public or parti2026
+    RewriteCond %{DOCUMENT_ROOT}/parti2026/public/$1 -f
+    RewriteRule ^(.*)$ parti2026/public/$1 [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/parti2026/$1 -f
+    RewriteRule ^(.*)$ parti2026/$1 [L]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

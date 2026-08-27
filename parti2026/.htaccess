@@ -1,12 +1,29 @@
+DirectoryIndex index.php
+
 <IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
     RewriteEngine On
 
-    # 1. Block direct access to sensitive files (Security Hardening)
-    # ponytail: protect credential theft on shared hosting environments
-    RedirectMatch 403 /\.(env|git|htaccess|config|json|lock|xml|yml|yaml)$
-    RedirectMatch 403 /(app|bootstrap|config|database|resources|routes|storage|tests|vendor)/
+    # Block direct access to sensitive files
+    <Files .env>
+        Order allow,deny
+        Deny from all
+    </Files>
 
-    # 2. Rewrite all public requests into Laravel's public directory
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(.*)$ public/$1 [L]
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>

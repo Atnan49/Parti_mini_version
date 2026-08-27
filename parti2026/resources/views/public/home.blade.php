@@ -209,12 +209,10 @@ $menuItems = collect([
             <!-- Top Bar: Date & Status -->
             <div class="flex items-center justify-between mb-4">
                 <span class="font-mono text-[11px] text-ink-soft">
-                    @if($subEvent->date_start)
-                    @if($subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
+                    @if($subEvent->date_start && $subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
                     {{ $subEvent->date_start->translatedFormat('j') }} - {{ $subEvent->date_end->translatedFormat('j M Y') }}
-                    @else
+                    @elseif($subEvent->date_start)
                     {{ $subEvent->date_start->translatedFormat('j M Y') }}
-                    @endif
                     @else
                     TBD
                     @endif
