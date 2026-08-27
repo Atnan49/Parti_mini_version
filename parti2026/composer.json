@@ -10,27 +10,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^13.8",
-        "laravel/tinker": "^3.0",
-        "symfony/console": "^7.4",
-        "symfony/error-handler": "^7.4",
-        "symfony/finder": "^7.4",
-        "symfony/http-foundation": "^7.4",
-        "symfony/http-kernel": "^7.4",
-        "symfony/mailer": "^7.4",
-        "symfony/mime": "^7.4",
-        "symfony/process": "^7.4.5",
-        "symfony/routing": "^7.4"
+        "laravel/framework": "^11.0|^12.0|^13.0",
+        "laravel/tinker": "^2.9|^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/breeze": "^2.4",
-        "laravel/pail": "^1.2.5",
-        "laravel/pao": "^1.0.6",
-        "laravel/pint": "^1.27",
+        "laravel/breeze": "^2.0",
+        "laravel/pint": "^1.24",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^12.5.12"
+        "nunomaduro/collision": "^8.0",
+        "phpunit/phpunit": "^11.0|^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -86,14 +75,16 @@
         }
     },
     "config": {
+        "platform": {
+            "php": "8.3.0"
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        },
-        "platform-check": false
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
