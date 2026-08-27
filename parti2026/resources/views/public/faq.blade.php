@@ -5,22 +5,20 @@
 
 @section('structured_data')
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    @foreach($faqs->flatten() as $faq)
-    {
-      "@type": "Question",
-      "name": {!! json_encode($faq->question) !!},
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": {!! json_encode($faq->answer) !!}
-      }
-    }@if(!$loop->last),@endif
-    @endforeach
-  ]
-}
+{!! json_encode([
+  '@context' => 'https://schema.org',
+  '@type' => 'FAQPage',
+  'mainEntity' => $faqs->flatten()->map(function($faq) {
+    return [
+      '@type' => 'Question',
+      'name' => $faq->question,
+      'acceptedAnswer' => [
+        '@type' => 'Answer',
+        'text' => $faq->answer
+      ]
+    ];
+  })->values()->all()
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endsection
 

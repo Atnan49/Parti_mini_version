@@ -100,34 +100,34 @@
 
     <!-- AEO & GEO Structured Data (JSON-LD) -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "EducationalOrganization",
-          "@id": "{{ url('/') }}#organization",
-          "name": "HIMATIF UMS",
-          "alternateName": "Himpunan Mahasiswa Teknik Informatika UMS",
-          "url": "https://himatifums.org/",
-          "logo": "{{ asset('images/logo-himatif.png') }}",
-          "sameAs": [
-            "https://www.ums.ac.id/",
-            "https://teknikinformatika.ums.ac.id/"
+    {!! json_encode([
+      '@context' => 'https://schema.org',
+      '@graph' => [
+        [
+          '@type' => 'EducationalOrganization',
+          '@id' => url('/') . '#organization',
+          'name' => 'HIMATIF UMS',
+          'alternateName' => 'Himpunan Mahasiswa Teknik Informatika UMS',
+          'url' => 'https://himatifums.org/',
+          'logo' => asset('images/logo-himatif.png'),
+          'sameAs' => [
+            'https://www.ums.ac.id/',
+            'https://teknikinformatika.ums.ac.id/'
           ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": "{{ url('/') }}#website",
-          "url": "{{ url('/') }}",
-          "name": "PARTI {{ session('active_year', config('parti.active_year', 2026)) }}",
-          "description": "Parade Teknik Informatika HIMATIF Universitas Muhammadiyah Surakarta",
-          "publisher": {
-            "@id": "{{ url('/') }}#organization"
-          },
-          "inLanguage": "id-ID"
-        }
+        ],
+        [
+          '@type' => 'WebSite',
+          '@id' => url('/') . '#website',
+          'url' => url('/'),
+          'name' => 'PARTI ' . session('active_year', config('parti.active_year', 2026)),
+          'description' => 'Parade Teknik Informatika HIMATIF Universitas Muhammadiyah Surakarta',
+          'publisher' => [
+            '@id' => url('/') . '#organization'
+          ],
+          'inLanguage' => 'id-ID'
+        ]
       ]
-    }
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
     </script>
     @yield('structured_data')
 

@@ -1,12 +1,13 @@
-@extends('layouts.public')
+<?php $__env->startSection('title', 'PARTI ' . session('active_year', config('parti.active_year', 2026)) . ' | Parade Teknik Informatika HIMATIF UMS'); ?>
+<?php $__env->startSection('meta_description', 'Website resmi PARTI (Parade Teknik Informatika) HIMATIF Universitas Muhammadiyah Surakarta. Platform informasi dan pendaftaran kompetisi, workshop, serta festival IT.'); ?>
 
-@section('title', 'PARTI ' . session('active_year', config('parti.active_year', 2026)) . ' | Parade Teknik Informatika HIMATIF UMS')
-@section('meta_description', 'Website resmi PARTI (Parade Teknik Informatika) HIMATIF Universitas Muhammadiyah Surakarta. Platform informasi dan pendaftaran kompetisi, workshop, serta festival IT.')
-
-@section('structured_data')
+<?php $__env->startSection('structured_data'); ?>
 <script type="application/ld+json">
-{!! json_encode([
-  '@context' => 'https://schema.org',
+<?php echo json_encode([
+  '<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>' => 'https://schema.org',
   '@type' => 'EventSeries',
   'name' => 'PARTI ' . session('active_year', config('parti.active_year', 2026)),
   'description' => 'Parade Teknik Informatika HIMATIF Universitas Muhammadiyah Surakarta',
@@ -27,12 +28,13 @@
       'addressCountry' => 'ID'
     ]
   ]
-], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-</script>
-@endsection
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); ?>
 
-@section('content')
-@php
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php
 // Data galeri momen PARTI periode sebelumnya untuk tampilan animasi canvas 3D
 $menuItems = collect([
 [
@@ -60,7 +62,7 @@ $menuItems = collect([
 'description' => 'Kilas Balik PARTI'
 ]
 ]);
-@endphp
+?>
 
 <!-- HERO SECTION -->
 <section class="relative min-h-[80vh] flex items-center py-12 md:py-24 overflow-hidden">
@@ -105,7 +107,7 @@ $menuItems = collect([
                         <a href="#sub-acara" class="w-full sm:w-auto bg-gradient-to-r from-ember to-ember-dark text-white font-semibold text-[13px] px-[28px] py-[13px] rounded-full inline-flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(255,107,0,0.4)] hover:-translate-y-0.5 active:translate-y-0 text-center uppercase tracking-wider font-mono shadow-sm">
                             Jelajahi Acara ↓
                         </a>
-                        <a href="{{ route('about') }}" class="w-full sm:w-auto font-mono text-[11px] text-ink-soft hover:text-ember transition-colors text-center py-2 relative group font-bold">
+                        <a href="<?php echo e(route('about')); ?>" class="w-full sm:w-auto font-mono text-[11px] text-ink-soft hover:text-ember transition-colors text-center py-2 relative group font-bold">
                             [ Tentang PARTI ]
                         </a>
                     </div>
@@ -188,63 +190,88 @@ $menuItems = collect([
 </section>
 
 <!-- SECTION SPONSOR LOGOLOOP (Ditempatkan Tepat Di Bawah Section Hero) -->
-<x-sponsor-section :sponsors="$sponsors" />
+<?php if (isset($component)) { $__componentOriginale434533603bc8cbc5edc44080d9f4dd7 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginale434533603bc8cbc5edc44080d9f4dd7 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.sponsor-section','data' => ['sponsors' => $sponsors]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('sponsor-section'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['sponsors' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($sponsors)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginale434533603bc8cbc5edc44080d9f4dd7)): ?>
+<?php $attributes = $__attributesOriginale434533603bc8cbc5edc44080d9f4dd7; ?>
+<?php unset($__attributesOriginale434533603bc8cbc5edc44080d9f4dd7); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginale434533603bc8cbc5edc44080d9f4dd7)): ?>
+<?php $component = $__componentOriginale434533603bc8cbc5edc44080d9f4dd7; ?>
+<?php unset($__componentOriginale434533603bc8cbc5edc44080d9f4dd7); ?>
+<?php endif; ?>
 
-{{-- ponytail: removed inline tentang section in favor of dedicated /tentang route --}}
+
 
 <!-- SUB ACARA SECTION (Modular Grid Section) -->
 <section class="py-12 px-4 max-w-[1140px] mx-auto z-10 relative" id="sub-acara">
     <div class="mb-8 text-left">
         <h2 class="font-display font-bold text-[26px] sm:text-[32px] text-ink uppercase tracking-tight">
-            Sub Acara PARTI {{ session('active_year', config('parti.active_year', 2026)) }}
+            Sub Acara PARTI <?php echo e(session('active_year', config('parti.active_year', 2026))); ?>
+
         </h2>
     </div>
 
     <!-- Minimalist Cards Grid -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7">
-        @forelse($subEvents as $subEvent)
-        <a href="{{ route('sub-event.show', $subEvent->slug) }}"
+        <?php $__empty_1 = true; $__currentLoopData = $subEvents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subEvent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+        <a href="<?php echo e(route('sub-event.show', $subEvent->slug)); ?>"
             class="w-full group flex flex-col ios-glass rounded-[24px] p-6 sm:p-7 relative text-left transition-all duration-300 hover:-translate-y-1">
 
             <!-- Top Bar: Date & Status -->
             <div class="flex items-center justify-between mb-4">
                 <span class="font-mono text-[11px] text-ink-soft">
-                    @if($subEvent->date_start && $subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
-                    {{ $subEvent->date_start->translatedFormat('j') }} - {{ $subEvent->date_end->translatedFormat('j M Y') }}
-                    @elseif($subEvent->date_start)
-                    {{ $subEvent->date_start->translatedFormat('j M Y') }}
-                    @else
+                    <?php if($subEvent->date_start && $subEvent->date_end && $subEvent->date_start != $subEvent->date_end): ?>
+                    <?php echo e($subEvent->date_start->translatedFormat('j')); ?> - <?php echo e($subEvent->date_end->translatedFormat('j M Y')); ?>
+
+                    <?php elseif($subEvent->date_start): ?>
+                    <?php echo e($subEvent->date_start->translatedFormat('j M Y')); ?>
+
+                    <?php else: ?>
                     TBD
-                    @endif
+                    <?php endif; ?>
                 </span>
 
-                <span class="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5 font-medium {{ $subEvent->registration_button_state === 'open' ? 'text-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'text-rose-400' : 'text-amber-400') }}">
-                    <span class="w-1.5 h-1.5 rounded-full inline-block {{ $subEvent->registration_button_state === 'open' ? 'bg-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'bg-rose-400' : 'bg-amber-400') }}"></span>
-                    {{ $subEvent->registration_button_state === 'open' ? 'Pendaftaran Buka' : ($subEvent->registration_button_state === 'closed' ? 'Pendaftaran Tutup' : 'Segera Dibuka') }}
+                <span class="font-mono text-[10px] tracking-wider uppercase flex items-center gap-1.5 font-medium <?php echo e($subEvent->registration_button_state === 'open' ? 'text-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'text-rose-400' : 'text-amber-400')); ?>">
+                    <span class="w-1.5 h-1.5 rounded-full inline-block <?php echo e($subEvent->registration_button_state === 'open' ? 'bg-emerald-400' : ($subEvent->registration_button_state === 'closed' ? 'bg-rose-400' : 'bg-amber-400')); ?>"></span>
+                    <?php echo e($subEvent->registration_button_state === 'open' ? 'Pendaftaran Buka' : ($subEvent->registration_button_state === 'closed' ? 'Pendaftaran Tutup' : 'Segera Dibuka')); ?>
+
                 </span>
             </div>
 
             <!-- Title & Description -->
             <h3 class="font-display text-[19px] sm:text-[21px] mb-2 font-bold text-ink group-hover:text-ember transition-colors duration-200 uppercase tracking-tight">
-                {{ $subEvent->name }}
+                <?php echo e($subEvent->name); ?>
+
             </h3>
             <p class="text-[13.5px] sm:text-[14px] text-ink-soft/90 leading-relaxed mb-6 font-normal">
-                {{ Str::limit($subEvent->description, 130) }}
+                <?php echo e(Str::limit($subEvent->description, 130)); ?>
+
             </p>
 
             <!-- Minimalist Clean Footer -->
             <div class="pt-4 border-t border-line/40 mt-auto flex items-center justify-between text-[11.5px] font-mono text-ink-soft/80">
-                <span>{{ $subEvent->type }}</span>
-                @if($subEvent->location)
-                <span>{{ $subEvent->location }}</span>
-                @endif
+                <span><?php echo e($subEvent->type); ?></span>
+                <?php if($subEvent->location): ?>
+                <span><?php echo e($subEvent->location); ?></span>
+                <?php endif; ?>
             </div>
         </a>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <div class="col-span-full py-16 text-center ios-glass rounded-[24px]">
-            <p class="font-mono text-ink-soft uppercase text-[12px] tracking-wider">Acara PARTI {{ session('active_year', config('parti.active_year', 2026)) }} sedang disiapkan.</p>
+            <p class="font-mono text-ink-soft uppercase text-[12px] tracking-wider">Acara PARTI <?php echo e(session('active_year', config('parti.active_year', 2026))); ?> sedang disiapkan.</p>
         </div>
-        @endforelse
+        <?php endif; ?>
     </div>
 </section>
 
@@ -253,7 +280,8 @@ $menuItems = collect([
     <div class="ios-glass rounded-[32px] p-8 md:p-14">
         <div class="mb-12 md:mb-16">
             <span class="font-mono text-[11px] tracking-[0.2em] uppercase text-ink flex items-center justify-center md:justify-start gap-2.5 before:content-[''] before:w-[20px] before:h-[1px] before:bg-ember font-bold">
-                TIMELINE PARTI {{ session('active_year', config('parti.active_year', 2026)) }}
+                TIMELINE PARTI <?php echo e(session('active_year', config('parti.active_year', 2026))); ?>
+
             </span>
         </div>
 
@@ -263,23 +291,25 @@ $menuItems = collect([
             <!-- Line down mobile nodes -->
             <div class="block md:hidden absolute top-[10px] bottom-[10px] left-[9px] w-[2px] bg-black/10 dark:bg-white/10 z-0"></div>
 
-            @forelse($timeline as $item)
+            <?php $__empty_1 = true; $__currentLoopData = $timeline; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="group relative pl-8 md:pl-0 pr-5 z-10 flex flex-col items-start text-left">
                 <!-- Apple-style bullet point -->
                 <div class="absolute left-0 top-[3px] md:relative md:top-auto md:left-auto w-4.5 h-4.5 rounded-full bg-paper border-2 border-ember md:mb-6 z-20 transition-all duration-300 group-hover:bg-ember group-hover:scale-110 shadow-sm"></div>
 
                 <span class="font-mono text-[10px] text-orange-600 dark:text-orange-400 bg-orange-500/10 border border-orange-500/20 px-2.5 py-0.5 rounded-full font-bold tracking-wider mb-3.5 inline-block">
-                    {{ $item->date ? $item->date->translatedFormat('d M') : 'TBD' }}
+                    <?php echo e($item->date ? $item->date->translatedFormat('d M') : 'TBD'); ?>
+
                 </span>
-                <h4 class="font-display text-[15px] sm:text-[16px] mb-2 text-ink group-hover:text-ember transition-colors duration-300 font-bold uppercase tracking-wide leading-snug">{{ $item->title }}</h4>
-                <p class="text-[13px] text-ink-soft leading-relaxed pr-2">{{ $item->description }}</p>
+                <h4 class="font-display text-[15px] sm:text-[16px] mb-2 text-ink group-hover:text-ember transition-colors duration-300 font-bold uppercase tracking-wide leading-snug"><?php echo e($item->title); ?></h4>
+                <p class="text-[13px] text-ink-soft leading-relaxed pr-2"><?php echo e($item->description); ?></p>
             </div>
-            @empty
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <div class="col-span-full text-center py-8">
                 <p class="font-mono text-ink-soft uppercase text-[11px] tracking-widest">Timeline belum diumumkan.</p>
             </div>
-            @endforelse
+            <?php endif; ?>
         </div>
     </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.public', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\Projek-web\Himatif_2026\Parti_Version compecx\parti2026\resources\views/public/home.blade.php ENDPATH**/ ?>

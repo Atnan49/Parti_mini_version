@@ -8,31 +8,36 @@
 
 @section('structured_data')
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": {!! json_encode($subEvent->name) !!},
-  "description": {!! json_encode($subEvent->tagline ?? Str::limit(strip_tags($subEvent->description ?? ''), 200)) !!},
-  "image": "{{ $subEvent->poster_url ?? asset('logo.png') }}",
-  "url": "{{ request()->url() }}",
-  "organizer": {
-    "@type": "Organization",
-    "name": "HIMATIF UMS",
-    "url": "https://himatifums.org/"
-  },
-  "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-  "location": {
-    "@type": "Place",
-    "name": "Universitas Muhammadiyah Surakarta",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Surakarta",
-      "addressRegion": "Jawa Tengah",
-      "addressCountry": "ID"
-    }
-  }
-}
+{!! json_encode([
+  '@context' => 'https://schema.org',
+  '@type' => 'Event',
+  'name' => $subEvent->name,
+  'description' => $subEvent->tagline ?? Str::limit(strip_tags($subEvent->description ?? ''), 200),
+  'image' => $subEvent->poster_url ?? asset('logo.png'),
+  'url' => request()->url(),
+  'startDate' => $subEvent->date_start ? $subEvent->date_start->toIso8601String() : null,
+  'endDate' => $subEvent->date_end ? $subEvent->date_end->toIso8601String() : ($subEvent->date_start ? $subEvent->date_start->toIso8601String() : null),
+  'eventAttendanceMode' => 'https://schema.org/' . ($subEvent->type === 'ONLINE' ? 'OnlineEventAttendanceMode' : ($subEvent->type === 'OFFLINE' ? 'OfflineEventAttendanceMode' : 'MixedEventAttendanceMode')),
+  'eventStatus' => 'https://schema.org/EventScheduled',
+  'location' => $subEvent->type === 'ONLINE' ? [
+    '@type' => 'VirtualLocation',
+    'url' => (is_array($subEvent->gform_link) && count($subEvent->gform_link) > 0) ? ($subEvent->gform_link[0]['url'] ?? request()->url()) : request()->url()
+  ] : [
+    '@type' => 'Place',
+    'name' => $subEvent->location ?? 'Universitas Muhammadiyah Surakarta',
+    'address' => [
+      '@type' => 'PostalAddress',
+      'addressLocality' => 'Surakarta',
+      'addressRegion' => 'Jawa Tengah',
+      'addressCountry' => 'ID'
+    ]
+  ],
+  'organizer' => [
+    '@type' => 'Organization',
+    'name' => 'HIMATIF UMS',
+    'url' => 'https://himatifums.org/'
+  ]
+], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endsection
 
@@ -275,39 +280,4 @@
     </div>
 </section>
 
-<!-- Structured Data for Google Event Rich Snippets -->
-<script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@@type": "Event",
-  "name": "{{ $subEvent->name }}",
-  "startDate": "{{ $subEvent->date_start ? $subEvent->date_start->toIso8601String() : '' }}",
-  "endDate": "{{ $subEvent->date_end ? $subEvent->date_end->toIso8601String() : ($subEvent->date_start ? $subEvent->date_start->toIso8601String() : '') }}",
-  "eventAttendanceMode": "https://schema.org/{{ $subEvent->type === 'ONLINE' ? 'OnlineEventAttendanceMode' : ($subEvent->type === 'OFFLINE' ? 'OfflineEventAttendanceMode' : 'MixedEventAttendanceMode') }}",
-  "eventStatus": "https://schema.org/EventScheduled",
-  "location": {
-    "@@type": "{{ $subEvent->type === 'ONLINE' ? 'VirtualLocation' : 'Place' }}",
-    @if($subEvent->type === 'ONLINE')
-    "url": "{{ (is_array($subEvent->gform_link) && count($subEvent->gform_link) > 0) ? ($subEvent->gform_link[0]['url'] ?? request()->url()) : request()->url() }}"
-    @else
-    "name": "{{ $subEvent->location ?? 'Universitas Muhammadiyah Surakarta' }}",
-    "address": {
-      "@@type": "PostalAddress",
-      "addressLocality": "Surakarta",
-      "addressRegion": "Jawa Tengah",
-      "addressCountry": "ID"
-    }
-    @endif
-  },
-  "image": [
-    "logo.png"
-  ],
-  "description": "{{ Str::limit(strip_tags($subEvent->description), 160) }}",
-  "organizer": {
-    "@@type": "Organization",
-    "name": "HIMATIF UMS",
-    "url": "https://www.instagram.com/himatifums/"
-  }
-}
-</script>
 @endsection
