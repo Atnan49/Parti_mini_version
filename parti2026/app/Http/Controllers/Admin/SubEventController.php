@@ -35,12 +35,27 @@ class SubEventController extends Controller
             'htm_tiers' => [
                 'nullable',
                 'string',
+                // ponytail: validate label:price, label:price:HABIS, or label:HABIS
                 function ($attribute, $value, $fail) {
                     $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $value))));
                     foreach ($lines as $line) {
-                        $parts = explode(':', $line, 2);
-                        if (count($parts) < 2 || trim($parts[0]) === '' || !is_numeric(trim($parts[1]))) {
-                            $fail('Format HTM Tiket harus berupa "NamaKategori:Harga" per baris (contoh: Presale:20000).');
+                        $parts = array_map('trim', explode(':', $line));
+                        if (count($parts) === 2) {
+                            $isNum = is_numeric($parts[1]);
+                            $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[1])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
+                            if (empty($parts[0]) || (!$isNum && !$isSold)) {
+                                $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
+                                return;
+                            }
+                        } elseif (count($parts) === 3) {
+                            $isNum = is_numeric($parts[1]);
+                            $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[2])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
+                            if (empty($parts[0]) || !$isNum || !$isSold) {
+                                $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
+                                return;
+                            }
+                        } else {
+                            $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
                             return;
                         }
                     }
@@ -60,16 +75,25 @@ class SubEventController extends Controller
             $pjNames = array_filter(array_map('trim', explode(',', $validated['pj_names'])));
         }
 
-        // Parse HTM Tiers (label:price per line)
+        // Parse HTM Tiers (label:price or label:price:HABIS per line)
+        // ponytail: parse HTM tiers supporting HABIS/SOLDOUT status
         $htmTiers = [];
         if (!empty($validated['htm_tiers'])) {
-            $lines = explode("\n", str_replace("\r", "", $validated['htm_tiers']));
+            $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $validated['htm_tiers']))));
             foreach ($lines as $line) {
-                $parts = explode(':', $line, 2);
+                $parts = array_map('trim', explode(':', $line));
                 if (count($parts) === 2) {
+                    $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[1])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
                     $htmTiers[] = [
-                        'label' => trim($parts[0]),
-                        'price' => (int) trim($parts[1]),
+                        'label' => $parts[0],
+                        'price' => $isSold ? 0 : (int) $parts[1],
+                        'is_sold_out' => $isSold,
+                    ];
+                } elseif (count($parts) === 3) {
+                    $htmTiers[] = [
+                        'label' => $parts[0],
+                        'price' => (int) $parts[1],
+                        'is_sold_out' => true,
                     ];
                 }
             }
@@ -113,11 +137,19 @@ class SubEventController extends Controller
         // Format arrays back to strings for form editing
         $pjNamesString = $subEvent->pj_names ? implode(', ', $subEvent->pj_names) : '';
         
+        // ponytail: format HTM back to string with :HABIS flag if sold out
         $htmTiersString = '';
         if ($subEvent->htm_tiers) {
             $tierLines = [];
             foreach ($subEvent->htm_tiers as $tier) {
-                $tierLines[] = $tier['label'] . ':' . $tier['price'];
+                $isSold = !empty($tier['is_sold_out']) || (isset($tier['price']) && is_string($tier['price']) && in_array(strtoupper(str_replace([' ', '_', '-'], '', $tier['price'])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']));
+                $price = is_numeric($tier['price'] ?? null) ? (int) $tier['price'] : 0;
+
+                if ($isSold) {
+                    $tierLines[] = $price > 0 ? "{$tier['label']}:{$price}:HABIS" : "{$tier['label']}:HABIS";
+                } else {
+                    $tierLines[] = "{$tier['label']}:{$price}";
+                }
             }
             $htmTiersString = implode("\n", $tierLines);
         }
@@ -137,12 +169,27 @@ class SubEventController extends Controller
             'htm_tiers' => [
                 'nullable',
                 'string',
+                // ponytail: validate label:price, label:price:HABIS, or label:HABIS
                 function ($attribute, $value, $fail) {
                     $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $value))));
                     foreach ($lines as $line) {
-                        $parts = explode(':', $line, 2);
-                        if (count($parts) < 2 || trim($parts[0]) === '' || !is_numeric(trim($parts[1]))) {
-                            $fail('Format HTM Tiket harus berupa "NamaKategori:Harga" per baris (contoh: Presale:20000).');
+                        $parts = array_map('trim', explode(':', $line));
+                        if (count($parts) === 2) {
+                            $isNum = is_numeric($parts[1]);
+                            $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[1])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
+                            if (empty($parts[0]) || (!$isNum && !$isSold)) {
+                                $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
+                                return;
+                            }
+                        } elseif (count($parts) === 3) {
+                            $isNum = is_numeric($parts[1]);
+                            $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[2])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
+                            if (empty($parts[0]) || !$isNum || !$isSold) {
+                                $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
+                                return;
+                            }
+                        } else {
+                            $fail('Format HTM per baris harus berupa "Kategori:Harga" (contoh: Umum:35000), "Kategori:Harga:HABIS", atau "Kategori:HABIS".');
                             return;
                         }
                     }
@@ -160,16 +207,25 @@ class SubEventController extends Controller
             $pjNames = array_filter(array_map('trim', explode(',', $validated['pj_names'])));
         }
 
-        // Parse HTM Tiers (label:price per line)
+        // Parse HTM Tiers (label:price or label:price:HABIS per line)
+        // ponytail: parse HTM tiers supporting HABIS/SOLDOUT status
         $htmTiers = [];
         if (!empty($validated['htm_tiers'])) {
-            $lines = explode("\n", str_replace("\r", "", $validated['htm_tiers']));
+            $lines = array_filter(array_map('trim', explode("\n", str_replace("\r", "", $validated['htm_tiers']))));
             foreach ($lines as $line) {
-                $parts = explode(':', $line, 2);
+                $parts = array_map('trim', explode(':', $line));
                 if (count($parts) === 2) {
+                    $isSold = in_array(strtoupper(str_replace([' ', '_', '-'], '', $parts[1])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']);
                     $htmTiers[] = [
-                        'label' => trim($parts[0]),
-                        'price' => (int) trim($parts[1]),
+                        'label' => $parts[0],
+                        'price' => $isSold ? 0 : (int) $parts[1],
+                        'is_sold_out' => $isSold,
+                    ];
+                } elseif (count($parts) === 3) {
+                    $htmTiers[] = [
+                        'label' => $parts[0],
+                        'price' => (int) $parts[1],
+                        'is_sold_out' => true,
                     ];
                 }
             }

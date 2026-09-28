@@ -79,8 +79,8 @@
                 <!-- HTM Tiers -->
                 <div class="md:col-span-2">
                     <label for="htm_tiers" class="block font-mono text-[11px] tracking-wider uppercase text-ink-soft mb-1.5 font-bold">Kategori HTM (Tiket Masuk)</label>
-                    <textarea id="htm_tiers" name="htm_tiers" rows="3" class="block w-full border border-line rounded-[2px] px-3.5 py-2.5 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" placeholder="Format: NamaKategori:Harga (satu per baris)&#10;Contoh:&#10;Umum:50000&#10;VIP:100000">{{ old('htm_tiers') }}</textarea>
-                    <p class="text-[10px] text-ink-soft/60 mt-1">Kosongkan jika acara gratis. Gunakan format yang tepat agar harga tampil di halaman detail publik.</p>
+                    <textarea id="htm_tiers" name="htm_tiers" rows="3" class="block w-full border border-line rounded-[2px] px-3.5 py-2.5 text-sm bg-paper-warm/20 focus:outline-none focus:border-ember focus:ring-1 focus:ring-ember transition-colors" placeholder="Format: NamaKategori:Harga (satu per baris)&#10;Contoh:&#10;Presale:25000:HABIS&#10;Umum:35000&#10;VIP:50000">{{ old('htm_tiers') }}</textarea>
+                    <p class="text-[10px] text-ink-soft/60 mt-1">Kosongkan jika acara gratis. Untuk menandai tiket habis/sold out, tambahkan <code>:HABIS</code> (contoh: <code>Presale:25000:HABIS</code> atau <code>Presale:HABIS</code>).</p>
                     <x-input-error :messages="$errors->get('htm_tiers')" class="mt-2 text-rose-600 text-xs" />
                 </div>
 

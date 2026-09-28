@@ -150,13 +150,25 @@
                         <h5 class="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-soft font-bold mb-2">Harga Tiket Masuk (HTM)</h5>
                         <div class="space-y-2">
                             @foreach($subEvent->htm_tiers as $tier)
+                                @php
+                                    // ponytail: detect sold out status from boolean flag or price string
+                                    $isSold = !empty($tier['is_sold_out']) || (isset($tier['price']) && is_string($tier['price']) && in_array(strtoupper(str_replace([' ', '_', '-'], '', $tier['price'])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']));
+                                    $price = is_numeric($tier['price'] ?? null) ? (int) $tier['price'] : 0;
+                                @endphp
                                 <div class="flex justify-between items-center text-[13.5px] border-b border-line pb-1.5 last:border-0 last:pb-0">
-                                    <span class="text-ink-soft font-mono">{{ $tier['label'] }}</span>
-                                    <span class="font-semibold text-ink">
-                                        @if(empty($tier['price']) || $tier['price'] == 0)
+                                    <span class="text-ink-soft font-mono {{ $isSold ? 'opacity-60' : '' }}">{{ $tier['label'] }}</span>
+                                    <span class="font-semibold text-ink flex items-center gap-2">
+                                        @if($isSold)
+                                            @if($price > 0)
+                                                <span class="line-through text-ink-soft/40 text-xs">Rp {{ number_format($price, 0, ',', '.') }}</span>
+                                            @endif
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                                                Habis
+                                            </span>
+                                        @elseif(empty($price) || $price == 0)
                                             Gratis
                                         @else
-                                            Rp {{ number_format($tier['price'], 0, ',', '.') }}
+                                            Rp {{ number_format($price, 0, ',', '.') }}
                                         @endif
                                     </span>
                                 </div>
