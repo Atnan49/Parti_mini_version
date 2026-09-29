@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
 @section('title', $subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026)))
-@section('meta_description', $subEvent->tagline ?? $subEvent->name)
+@section('meta_description', $subEvent->tagline ?? Str::limit(strip_tags($subEvent->description ?? $subEvent->name), 155))
+@section('meta_keywords', $subEvent->name . ', ' . ($subEvent->tagline ? $subEvent->tagline . ', ' : '') . 'PARTI 2026, HIMATIF UMS, lomba IT, kompetisi ' . $subEvent->type)
 @section('og_title', $subEvent->name . ' | PARTI ' . session('active_year', config('parti.active_year', 2026)))
 @section('og_description', $subEvent->tagline ?? Str::limit(strip_tags($subEvent->description ?? ''), 150))
 @section('og_image', $subEvent->og_image_url)
@@ -40,7 +41,36 @@
     'name' => 'HIMATIF UMS',
     'url' => 'https://himatifums.org/'
   ]
-], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endsection
+
+@section('breadcrumb_data')
+<script type="application/ld+json">
+{!! json_encode([
+  '@context' => 'https://schema.org',
+  '@type' => 'BreadcrumbList',
+  'itemListElement' => [
+    [
+      '@type' => 'ListItem',
+      'position' => 1,
+      'name' => 'Beranda',
+      'item' => route('home')
+    ],
+    [
+      '@type' => 'ListItem',
+      'position' => 2,
+      'name' => 'Sub Acara',
+      'item' => route('home') . '#sub-acara'
+    ],
+    [
+      '@type' => 'ListItem',
+      'position' => 3,
+      'name' => $subEvent->name,
+      'item' => request()->url()
+    ]
+  ]
+], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endsection
 
@@ -50,7 +80,7 @@
     <div class="ios-glass rounded-[32px] p-8 md:p-12 relative overflow-hidden">
         <div class="flex items-center gap-3.5 mb-6">
             <a href="{{ route('home') }}" class="font-mono text-[11px] text-ink-soft hover:text-ember transition-colors flex items-center gap-2 font-bold uppercase tracking-wider">
-                ← Kembali ke Beranda
+                ΓåÉ Kembali ke Beranda
             </a>
         </div>
 
@@ -67,28 +97,54 @@
                     {{ $subEvent->tagline }}
                 </p>
                 @endif
-                <div class="text-ink-soft leading-relaxed text-[14px] sm:text-[14.5px] mt-4 pt-4 border-t border-line/50 max-w-[75ch]">
-                    {!! nl2br(e($subEvent->description)) !!}
+                @php
+                    $desc = trim($subEvent->description ?? '');
+                    $isLongDesc = mb_strlen($desc) > 160;
+                @endphp
+                @if($subEvent->description)
+                <div x-data="{ expanded: false }" class="text-ink-soft leading-relaxed text-[14px] sm:text-[14.5px] mt-4 pt-4 border-t border-line/50 max-w-[75ch]">
+                    @if($isLongDesc)
+                        <div :style="expanded ? '' : 'display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;'">
+                            {!! nl2br(e($subEvent->description)) !!}
+                        </div>
+                        <button type="button"
+                            @click="expanded = !expanded"
+                            class="inline-flex items-center gap-1.5 text-[12px] font-mono text-ember hover:text-ember-dark font-semibold mt-2.5 transition-colors focus:outline-none cursor-pointer">
+                            <span x-text="expanded ? 'Tutup ringkasan Γåæ' : 'Baca lengkap Γåô'"></span>
+                        </button>
+                    @else
+                        <div>
+                            {!! nl2br(e($subEvent->description)) !!}
+                        </div>
+                    @endif
                 </div>
+                @endif
             </div>
 
+            @php
+                $statusColors = match($subEvent->registration_button_state) {
+                    'open' => [
+                        'badge' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+                        'dot' => 'bg-emerald-500 glowing-beacon',
+                        'label' => 'Pendaftaran Buka',
+                    ],
+                    'closed' => [
+                        'badge' => 'bg-rose-500/10 text-rose-500 border-rose-500/20',
+                        'dot' => 'bg-rose-500',
+                        'label' => 'Pendaftaran Tutup',
+                    ],
+                    default => [
+                        'badge' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+                        'dot' => 'bg-amber-500 glowing-beacon',
+                        'label' => 'Segera Dibuka',
+                    ],
+                };
+            @endphp
             <!-- LED Registration status badge -->
             <div class="flex items-center gap-4 bg-paper/80 dark:bg-paper-warm/80 border border-line px-5 py-3 rounded-full shadow-sm">
-                <span class="font-mono text-[9px] tracking-[0.05em] uppercase px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 whitespace-nowrap border
-                    @if($subEvent->registration_button_state === 'open') bg-emerald-500/10 text-emerald-500 border-emerald-500/20
-                    @elseif($subEvent->registration_button_state === 'closed') bg-rose-500/10 text-rose-500 border-rose-500/20
-                    @else bg-amber-500/10 text-amber-500 border-amber-500/20 @endif">
-                    <span class="w-1.5 h-1.5 rounded-full inline-block 
-                        @if($subEvent->registration_button_state === 'open') bg-emerald-500 glowing-beacon
-                        @elseif($subEvent->registration_button_state === 'closed') bg-rose-500
-                        @else bg-amber-500 glowing-beacon @endif"></span>
-                    @if($subEvent->registration_button_state === 'open')
-                        Pendaftaran Buka
-                    @elseif($subEvent->registration_button_state === 'closed')
-                        Pendaftaran Tutup
-                    @else
-                        Segera Dibuka
-                    @endif
+                <span class="font-mono text-[9px] tracking-[0.05em] uppercase px-3.5 py-1 rounded-full font-bold flex items-center gap-1.5 whitespace-nowrap border {{ $statusColors['badge'] }}">
+                    <span class="w-1.5 h-1.5 rounded-full inline-block {{ $statusColors['dot'] }}"></span>
+                    {{ $statusColors['label'] }}
                 </span>
             </div>
         </div>
@@ -134,7 +190,7 @@
             <!-- Event Details Checklist -->
             <div class="ios-glass rounded-[24px] p-6 sm:p-8 space-y-6 shadow-sm">
                 <div>
-                    <h5 class="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-soft font-bold mb-1.5">Pelaksanaan</h5>
+                    <h5 class="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-soft font-bold mb-1.5">Periode Pendaftaran</h5>
                     <p class="font-semibold text-[14px] sm:text-[14.5px] text-ink">
                         @if($subEvent->date_start)
                             @if($subEvent->date_end && $subEvent->date_start != $subEvent->date_end)
@@ -154,24 +210,30 @@
                         <div class="space-y-2">
                             @foreach($subEvent->htm_tiers as $tier)
                                 @php
-                                    // ponytail: detect sold out status from boolean flag or price string
-                                    $isSold = !empty($tier['is_sold_out']) || (isset($tier['price']) && is_string($tier['price']) && in_array(strtoupper(str_replace([' ', '_', '-'], '', $tier['price'])), ['HABIS', 'SOLDOUT', 'TUTUP', 'CLOSED']));
-                                    $price = is_numeric($tier['price'] ?? null) ? (int) $tier['price'] : 0;
+                                    $rawPrice = $tier['price'] ?? '';
+                                    $lowerPrice = strtolower(trim((string)$rawPrice));
+                                    $normalizedPrice = str_replace([' ', '_', '-'], '', $lowerPrice);
+                                    $isSold = !empty($tier['is_sold_out']) || in_array($normalizedPrice, ['habis', 'soldout', 'soltout', 'tutup', 'closed']);
+                                    $isComingSoon = in_array($normalizedPrice, ['comingsoon', 'tbd', 'tba', 'segerahadir']);
+                                    $isFree = empty($rawPrice) || $rawPrice === 0 || $rawPrice === '0' || in_array($normalizedPrice, ['gratis', 'free']);
+                                    $cleanNum = (float)preg_replace('/[^0-9]/', '', (string)$rawPrice);
                                 @endphp
                                 <div class="flex justify-between items-center text-[13.5px] border-b border-line pb-1.5 last:border-0 last:pb-0">
                                     <span class="text-ink-soft font-mono {{ $isSold ? 'opacity-60' : '' }}">{{ $tier['label'] }}</span>
                                     <span class="font-semibold text-ink flex items-center gap-2">
                                         @if($isSold)
-                                            @if($price > 0)
-                                                <span class="line-through text-ink-soft/40 text-xs">Rp {{ number_format($price, 0, ',', '.') }}</span>
+                                            @if($cleanNum > 0)
+                                                <span class="line-through text-ink-soft/40 text-xs">Rp {{ number_format($cleanNum, 0, ',', '.') }}</span>
                                             @endif
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-rose-500/10 text-rose-500 border border-rose-500/20">
                                                 Habis
                                             </span>
-                                        @elseif(empty($price) || $price == 0)
+                                        @elseif($isComingSoon)
+                                            <span class="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20">Coming Soon</span>
+                                        @elseif($isFree)
                                             Gratis
                                         @else
-                                            Rp {{ number_format($price, 0, ',', '.') }}
+                                            Rp {{ number_format($cleanNum, 0, ',', '.') }}
                                         @endif
                                     </span>
                                 </div>
@@ -191,7 +253,7 @@
                         <div>
                             <h5 class="font-mono text-[9px] tracking-[0.1em] uppercase text-ink-soft font-bold mb-1">Lokasi / Ruang</h5>
                             <p class="font-semibold text-[14px] text-ink flex items-center gap-1">
-                                📍 {{ $subEvent->location }}
+                                ≡ƒôì {{ $subEvent->location }}
                             </p>
                         </div>
                     @endif
@@ -200,14 +262,7 @@
 
             <!-- Share Event Card (Zero Purple) -->
             <div class="ios-glass rounded-[24px] p-6 space-y-4 shadow-sm" x-data="{ copied: false }">
-                <div class="flex items-center justify-between">
-                    <h5 class="font-mono text-[10px] tracking-[0.12em] uppercase text-ink font-bold">Bagikan Acara</h5>
-                    @if($subEvent->poster_path)
-                    <a href="{{ $subEvent->poster_url }}" download="Pamflet-{{ Str::slug($subEvent->name) }}" class="font-mono text-[10px] text-ember hover:underline font-bold flex items-center gap-1">
-                        ↓ Unduh Pamflet
-                    </a>
-                    @endif
-                </div>
+                <h5 class="font-mono text-[10px] tracking-[0.12em] uppercase text-ink font-bold">Bagikan Acara</h5>
                 <p class="text-[13px] text-ink-soft leading-relaxed">
                     Ajak rekan satu tim-mu untuk mendaftar dengan membagikan tautan acara ini.
                 </p>
@@ -271,26 +326,48 @@
             @if($subEvent->poster_path)
                 <div class="ios-glass overflow-hidden rounded-[24px] p-4 transition-transform duration-500 hover:scale-[1.01]">
                     <img src="{{ $subEvent->poster_url }}" alt="Poster {{ $subEvent->name }}" class="w-full h-auto object-contain max-h-[600px] rounded-[16px] mx-auto" />
-                    <div class="mt-3 pt-3 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 px-1">
-                        <span class="font-mono text-[11px] text-ink-soft">Pamflet Resmi Acara</span>
-                        <a href="{{ $subEvent->poster_url }}" download="Pamflet-{{ Str::slug($subEvent->name) }}" 
-                           class="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold text-ember hover:text-ember-dark transition-colors py-1 px-2.5 rounded-lg bg-ember/10 hover:bg-ember/20">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                            </svg>
-                            Unduh Pamflet (Story IG / WA)
-                        </a>
-                    </div>
                 </div>
             @endif
 
-            {{-- ponytail: merged event description into top hero card and deleted separate sheet --}}
+            <!-- Sub-Event Timeline Section -->
+            @if($subEvent->timelineItems->isNotEmpty())
+                <div class="ios-glass rounded-[24px] p-6 sm:p-8 text-left relative shadow-sm">
+                    <h4 class="font-display font-bold text-[16px] text-ink uppercase tracking-wider mb-6">
+                        Timeline
+                    </h4>
+
+                    <div class="space-y-5">
+                        @foreach($subEvent->timelineItems as $item)
+                            <div class="flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-6 {{ !$loop->last ? 'border-b border-line/40 pb-5' : '' }}">
+                                <!-- Date -->
+                                <div class="sm:w-32 shrink-0">
+                                    <span class="font-mono text-[12px] text-orange-600 dark:text-orange-400 font-semibold tracking-wider">
+                                        {{ $item->date ? $item->date->translatedFormat('d M Y') : 'TBD' }}
+                                    </span>
+                                </div>
+
+                                <!-- Title & Description -->
+                                <div class="flex-1">
+                                    <h5 class="font-display text-[15px] sm:text-[15.5px] font-bold text-ink leading-snug">
+                                        {{ $item->title }}
+                                    </h5>
+                                    @if($item->description)
+                                        <p class="text-[13px] text-ink-soft/90 leading-relaxed mt-1 font-normal">
+                                            {{ $item->description }}
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
 
             <!-- Downloadable Documents Section as iOS Card -->
             @if($subEvent->documents->isNotEmpty())
                 <div class="ios-glass rounded-[24px] p-6 sm:p-8 text-left relative shadow-sm">
                     <h4 class="font-display font-semibold text-[17px] sm:text-[18px] text-ink mb-4 flex items-center gap-2 uppercase tracking-wide">
-                        📄 Unduh Berkas Panduan
+                        ≡ƒôä Unduh Berkas Panduan
                     </h4>
                     <p class="text-[13.5px] text-ink-soft mb-6 leading-relaxed">
                         Harap unduh dan lengkapi berkas panduan di bawah ini sebelum melanjutkan ke pendaftaran Google Form.
@@ -308,7 +385,7 @@
                                     </div>
                                 </div>
                                 <a href="{{ route('document.download', $doc->id) }}" class="font-mono text-[11px] text-ember hover:text-ember-dark font-bold border-b border-ember hover:border-ember-dark pb-0.5 self-start sm:self-auto whitespace-nowrap">
-                                    Unduh Berkas ↓
+                                    Unduh Berkas Γåô
                                 </a>
                             </div>
                         @endforeach
